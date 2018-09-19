@@ -91,7 +91,8 @@
 
     <!-- Page Content -->
     <div class="container" id="big-card">
-        <div class="jumbotron">
+        <!-- <div class="jumbotron"> -->
+            <h5 class="heading-list">Berita Terbaru</h5><div class="hr-heading-list"></div>
             <?php 
             foreach ($grid->result() as $key) {
                 ?>
@@ -105,54 +106,12 @@
                 <?php
             }
             ?>
-        </div>
-       <marquee behavior="scroll" bgcolor="#3e30ff" width="100%" height="40px" style="color: #fff; font-size:16pt;" direction="left">
-       <?php foreach ($marquee as $a) { ?>
-       <?php echo $a->judulKegiatan ?>&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo $a->tanggal ?>&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo $a->tempat ?>&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo $a->peserta ?>&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo $a->tamuVIP ?>&nbsp;&nbsp;/&nbsp;&nbsp;<?php echo $a->pjKegiatan ?>&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;
-       <?php } ?>
-       </marquee>
+        <!-- </div> -->
+        
        
-        <div class="row no-gutter">
-        	
-            <div class="col-lg-6 left-padding">
-            	<?php foreach ($presiden as $p) { ?>
-                <div class="side-featured " style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$p->gambar;?>); width: 530px; height: 500px;" alt="...">
-                    <a href="<?php echo base_url().'Portal/detailBerita/'.$p->idBerita;?>" class="anchor-block"></a>
-                    <div class="bottom-align-text">
-                        <a href="#" class="cat">Presiden</a>
-                        <a href="#" class="featured"><h3><?php echo $p->judulBerita; ?></h3></a>
-                    </div>
-                </div>
-                
-                <?php } ?>
-            </div>
-            <div class="col-lg-5 " >
-                <div class="row">
-                	<?php foreach ($menteri as $m) { ?>
-                <div class="side-featured" style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$m->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
-                    <a href="<?php echo base_url().'Portal/detailBerita/'.$m->idBerita;?>" class="anchor-block"></a>
-                    <div class="bottom-align-text2">
-                        <a href="#" class="cat">Menteri</a>
-                        <a href="#" class="featured"><h5><?php echo $m->judulBerita; ?></h5></a>
-                    </div>
-                </div>
-                    <?php } 
-                    	foreach ($gubernur as $g) { ?>
-                <div class="side-featured" style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$g->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
-                    <a href="<?php echo base_url().'Portal/detailBerita/'.$g->idBerita;?>" class="anchor-block"></a>
-                    <div class="bottom-align-text3">
-                        <a href="#" class="cat">Gubernur</a>
-                        <a href="#" class="featured"><h5><?php echo $g->judulBerita; ?></h5></a>
-                    </div>
-                </div>
-                <?php } ?>
-                </div>
-            </div>
-            
-        </div>        
-
+        
         <div class="row" id="content-list">
-        	<div class="col-md-3" id="left-side">
+        	<!-- <div class="col-md-3" id="left-side">
         		<h5 class="heading-list1">Berita Mingguan</h5><div class="hr-heading-list1"></div>
                 <ul class="media-list comment-list">
                 	<?php foreach ($mingguan as $m) { ?>
@@ -164,8 +123,9 @@
                   <hr>
                   <?php } ?>
                 </ul>
-        	</div>
-            <div class="col-md-5 nopadding" id="left-side">
+        	</div> -->
+
+            <div class="col-md-8 nopadding" id="left-side">
 
                 <h5 class="heading-list">Berita Terbaru</h5><div class="hr-heading-list"></div>
                 <div class="col-xs-12  no-gutter nopadding">
@@ -200,34 +160,19 @@
             <div class="col-md-4" id="right-side">
 
                 <h5 class="heading-list2">Serambi BBP2TP</h5><div class="hr-heading-list2"></div>
-                <ul class="media-list comment-list">
-                <?php foreach ($serambi->result() as $s) { ?>
-                  <li class="media">
-                    <div class="media-body">
-                      <a href="<?php echo base_url().'Portal/detailBerita/'.$s->idBerita;?>" class="media-heading"><?php echo $s->judulBerita; ?></a>
-                    </div>
-                  </li>
-                  <hr>
+                <ul class="list-group">
+                    <?php foreach ($serambi->result() as $s) { ?>
+                   <li class="list-group-item"><a href="<?php echo base_url().'Portal/detailBerita/'.$s->idBerita;?>" class="media-heading"><?php echo $s->judulBerita; ?></a></li>
+                    
+                  <!-- <hr> -->
                 <?php } ?>
                 </ul>
-
-                <h5 class="heading-list2">Agenda</h5><div class="hr-heading-list2"></div>
-                <?php foreach ($agenda as $a) { ?>
-                
-                <ul class="media-list news-item">
-                  <li class="media">
-                    <div class="media-left">
-                        <img class="media-object" src="<?php echo base_url().'assets/upload/agenda/'.$a->foto;?>" style="width: 120px; height: 80px;" alt="..."> <!-- 120x80 -->
-                    </div>
-                    <div class="media-body">
-                      <a href="<?php echo base_url().'Portal/detailAgenda/'.$a->idAgenda;?>" class="media-heading"><?php echo $a->judulKegiatan; ?></a>
-                      <p><?php echo $a->tanggal; ?></p>
-                    </div>
-                  </li>
-                </ul>
-                <hr>
-                <?php } ?>
-
+                <h5 class="heading-list2">Video BBP2TP</h5><div class="hr-heading-list2"></div>
+                <!-- 16:9 aspect ratio -->
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" src="https://www.youtube.com/watch?v=ZANoDd5IcRA&t=11s"></iframe>
+                  <iframe class="embed-responsive-item"" src="https://www.youtube.com/embed/ZANoDd5IcRA?controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
                 <!-- <h5 class="heading-list">Statistik Pengunjung</h5><div class="hr-heading-list"></div>
                 <ul class="media-list comment-list">
                   <li class="media">
@@ -237,6 +182,48 @@
                   </li>
                 </ul>
                 <hr> -->
+
+            </div>
+            <div class="col-md-12" id="right-side">
+                <h5 class="heading-list2">Beria Penting Lain</h5><div class="hr-heading-list2"></div>
+                <div class="row no-gutter">
+            
+            <div class="col-lg-6 left-padding">
+                <?php foreach ($presiden as $p) { ?>
+                <div class="side-featured " style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$p->gambar;?>); width: 530px; height: 500px;" alt="...">
+                    <a href="<?php echo base_url().'Portal/detailBerita/'.$p->idBerita;?>" class="anchor-block"></a>
+                    <div class="bottom-align-text">
+                        <a href="#" class="cat">Presiden</a>
+                        <a href="#" class="featured"><h3><?php echo $p->judulBerita; ?></h3></a>
+                    </div>
+                </div>
+                
+                <?php } ?>
+            </div>
+            <div class="col-lg-5 " >
+                <div class="row">
+                    <?php foreach ($menteri as $m) { ?>
+                <div class="side-featured" style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$m->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
+                    <a href="<?php echo base_url().'Portal/detailBerita/'.$m->idBerita;?>" class="anchor-block"></a>
+                    <div class="bottom-align-text2">
+                        <a href="#" class="cat">Menteri</a>
+                        <a href="#" class="featured"><h5><?php echo $m->judulBerita; ?></h5></a>
+                    </div>
+                </div>
+                    <?php } 
+                        foreach ($gubernur as $g) { ?>
+                <div class="side-featured" style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$g->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
+                    <a href="<?php echo base_url().'Portal/detailBerita/'.$g->idBerita;?>" class="anchor-block"></a>
+                    <div class="bottom-align-text3">
+                        <a href="#" class="cat">Gubernur</a>
+                        <a href="#" class="featured"><h5><?php echo $g->judulBerita; ?></h5></a>
+                    </div>
+                </div>
+                <?php } ?>
+                </div>
+            </div>
+            
+        </div>        
 
             </div>
         </div>
