@@ -191,8 +191,11 @@
                                         </thead>
                                         <tbody>
                                            <?php
-                                            $no=1;
+                                            $no=1;$namaKomoditas ='';
                                             foreach ($berita->result_array() as $b) :
+                                            $d = $this->Crud_m->getKomo_berita($b['idBerita']);
+                                            // print_r($d);die();
+                                            $namaKomoditas = implode(', ', $d);
                                             $idBerita=$b['idBerita'];
                                             $tanggal=$b['tanggal'];
                                             $idProvinsi = $b['idProvinsi'];
@@ -201,8 +204,8 @@
                                             $namaSubsektor=$b['namaSubsektor'];
                                             $vub=$b['vub'];
                                             $varSpeklok=$b['varSpeklok'];
-                                            $idKomoditas=$b['idKomoditas'];
-                                            $namaKomoditas=$b['namaKomoditas'];
+                                            // $idKomoditas=$b['idKomoditas'];
+                                            // $namaKomoditas=$b['namaKomoditas'];
                                             $idKegiatan=$b['idKegiatan'];
                                             $namaKegiatan=$b['namaKegiatan'];
                                             $idPrioritas=$b['idPrioritas'];
@@ -228,9 +231,9 @@
                                                 <td><?php echo $sumber;?></td>
                                                 <td><?php echo $nama;?></td>
                                                 <td>
-                                                    <?php if($idAdmin == '1'){ ?>
+                                                    <?php //if($idAdmin == '1'){ ?>
                                                     <a href="<?php echo site_url('dashboard/aksiUpdateBerita/'.$idBerita) ?>" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                                                    <?php }
+                                                    <?php //}
                                                     if($status == '0'){ ?>
                                                     <a href="<?php echo site_url('dashboard/aksiAccBerita/'.$idBerita) ?>" type="button" class="btn btn-success" onclick="return confirm('Yakin ingin menampilkan berita ini?')"><i class="glyphicon glyphicon-ok"></i></a>
                                                     <?php } 

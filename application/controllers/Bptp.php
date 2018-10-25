@@ -13,13 +13,17 @@ class Bptp extends CI_Controller {
     {
 				parent::__construct();
 				$this->load->model('login_m');
+                $this->load->model('crud_m');
     }
 
     public function index(){
 		$where = array(
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
+        // print_r($where);die();
 		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
+        
+        // print_r($data);die();
 		$this->load->view('bptp/bptp_v',$data);
 	}
     
@@ -28,7 +32,7 @@ class Bptp extends CI_Controller {
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
 		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
-        
+        $data['city'] = $this->crud_m->getAllCity($this->session->userdata("idProvinsi"));
         $data['cmbsubs']=$this->login_m->getSubsektor();
         $data['cmbKegiatan']=$this->login_m->ambilSemua($this->tabelKegiatan);
         $data['cmbPrioritas']=$this->login_m->ambilSemua($this->tabelPrioritas);
@@ -52,11 +56,12 @@ class Bptp extends CI_Controller {
         //$data['berita'] = $this->login_m->ambilData($this->tabelBerita,$where);
         //$data['berita'] = $this->login_m->getAllBeritaAceh();
 		$where = array(
-						'idAdmin' => $this->session->userdata("idAdmin")
+						'idProvinsi' => $this->session->userdata("idProvinsi")
 						);
-		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
-		$data['berita']=$this->login_m->ambilData($this->tabelBerita,$where);
-		$data['subsektor']=$this->login_m->ambilSemua($this->tabelSub);
+		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,array('idAdmin'=>$this->session->userdata("idAdmin")));
+        $data['berita']=$this->login_m->ambilData($this->tabelBerita,$where);
+		// echo json_encode($data['berita']->result());die();
+        $data['subsektor']=$this->login_m->ambilSemua($this->tabelSub);
         $data['komoditas'] = $this->login_m->ambilSemua($this->tabelKomoditas);
         $data['kegiatan'] = $this->login_m->ambilSemua($this->tabelKegiatan);
         $data['prioritas'] = $this->login_m->ambilSemua($this->tabelPrioritas);
@@ -89,24 +94,24 @@ class Bptp extends CI_Controller {
                 }
             }else{
 			$filefoto = '';}
-			 if(!empty($_FILES['fileberkas']['name'])){
-                $config['upload_path'] = './assets/upload/berita/berkas/';
-                $config['allowed_types'] = 'pdf|doc|docx';
-                $config['file_name'] = $_FILES['fileberkas']['name'];
+			 // if(!empty($_FILES['fileberkas']['name'])){
+    //             $config['upload_path'] = './assets/upload/berita/berkas/';
+    //             $config['allowed_types'] = 'pdf|doc|docx';
+    //             $config['file_name'] = $_FILES['fileberkas']['name'];
                 
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
+    //             //Load upload library and initialize configuration
+    //             $this->load->library('upload',$config);
+    //             $this->upload->initialize($config);
                 
-                if($this->upload->do_upload('fileberkas')){
-                    $uploadData = $this->upload->data();
-                    $fileberkas = $uploadData['file_name'];
-                }else{
-                    $fileberkas = '';
-                }
-            }else{
-                $fileberkas = '';
-            }
+    //             if($this->upload->do_upload('fileberkas')){
+    //                 $uploadData = $this->upload->data();
+    //                 $fileberkas = $uploadData['file_name'];
+    //             }else{
+    //                 $fileberkas = '';
+    //             }
+    //         }else{
+    //             $fileberkas = '';
+    //         }
 			
 		 $idSubsektor= $this->input->post('cmbSubsektor');
 		 $vub= $this->input->post('fvub');
@@ -123,6 +128,8 @@ class Bptp extends CI_Controller {
         $data= array(
 			   "idSubsektor"=>$idSubsektor,
 			   "vub"=>$vub,
+               "idProvinsi"=>$this->session->userdata("idProvinsi"),
+               "idCity"=>$this->input->post("kota"),
                "tanggal"=>$tanggal,
 			   "varSpeklok"=>$varSpeklok,
 			   "idKomoditas"=>$idKomoditas,
@@ -132,11 +139,11 @@ class Bptp extends CI_Controller {
 			   "isiBerita"=>$isiBerita,
 			   "sumber"=>$sumber,
                "gambar"=>$filefoto,
-               "berkas"=>$fileberkas,
-			   "idAdmin"=>$idAdmin
+			   "idAdmin"=>$idAdmin,
+               "baseUrl"=>base_url()        
 		   );
 
-
+        // print_r($data);die();
 			$this->login_m->insertData($this->tabelBerita,$data);
         
         redirect('bptp/tabelBerita');
@@ -154,6 +161,7 @@ class Bptp extends CI_Controller {
             "idBerita" => $row->idBerita,
 			"idSubsektor" => $row->idSubsektor,
 			"vub" => $row->vub,
+            "idCity"=>$row->idCity,
             "tanggal" => $row->tanggal,
 			"varSpeklok" => $row->varSpeklok,
 			"idKomoditas" => $row->idKomoditas,
@@ -165,14 +173,16 @@ class Bptp extends CI_Controller {
 			"berkas" => $row->berkas,
 			"gambar" => $row->gambar,
 			"idAdmin" => $row->idAdmin,
+
         );
 
         
         $data['berita'] = $this->login_m->getAllBerita();
         $data['subsektor'] = $this->login_m->ambilSemua($this->tabelSub);
-        $data['komoditas'] = $this->login_m->ambilSemua($this->tabelKomoditas);
+        $data['komoditas'] = $this->crud_m->getKomoditasId($data['idSubsektor']);
         $data['kegiatan'] = $this->login_m->ambilSemua($this->tabelKegiatan);
         $data['prioritas'] = $this->login_m->ambilSemua($this->tabelPrioritas);
+        $data['city'] = $this->crud_m->getAllCity($this->session->userdata("idProvinsi"));
 		$where = array(
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
@@ -199,24 +209,7 @@ class Bptp extends CI_Controller {
                 }
             }else{
 			$filefoto = $this->input->post('oldfoto');}
-			 if(!empty($_FILES['fileberkas']['name'])){
-                $config['upload_path'] = './assets/upload/berita/berkas/';
-                $config['allowed_types'] = 'pdf|doc|docx';
-                $config['file_name'] = $_FILES['fileberkas']['name'];
-                
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                
-                if($this->upload->do_upload('fileberkas')){
-                    $uploadData = $this->upload->data();
-                    $fileberkas = $uploadData['file_name'];
-                }else{
-                    $fileberkas = '';
-                }
-            }else{
-                $fileberkas = $this->input->post('oldberkas');
-            }
+			 
 			
 		 $idSubsektor= $this->input->post('cmbSubsektor');
 		 $vub= $this->input->post('fvub');
@@ -226,13 +219,14 @@ class Bptp extends CI_Controller {
 		 $idKegiatan =$this->input->post('cmbKegiatan');
 		 $idPrioritas =$this->input->post('cmbPrioritas');
 		 $judulBerita =$this->input->post('fjudul');
-		 $isiBerita =$this->input->post('fisi');
+		 $isiBerita =$this->input->post('ckeditor');
 		 $sumber =$this->input->post('fsumber');
 		 $idAdmin =$this->input->post('idAdmin');
 		 $idBerita =$this->input->post('idBerita');
         
         $data = array(
 			   "idSubsektor"=>$idSubsektor,
+               "idCity"=>$this->input->post("kota"),
 			   "vub"=>$vub,
                "tanggal"=>$tanggal,
 			   "varSpeklok"=>$varSpeklok,

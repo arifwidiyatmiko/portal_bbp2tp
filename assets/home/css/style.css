@@ -14,11 +14,11 @@ ol.breadcrumb{
 }
 
 .head{
-    background: #fff;
-    background: -webkit-linear-gradient(right, #1e6180 35%, #00df58 75%);
+    background: green;
+    /*background: -webkit-linear-gradient(right, #1e6180 35%, #00df58 75%);
     background: -o-linear-gradient(right, #1e6180 35%, #00df58 75%);
-    background: linear-gradient(to left, #1e6180 35%, #00df58 75%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00df58', endColorstr='#1e6180', GradientType=1);
+    background: linear-gradient(to left, #1e6180 35%, #00df58 75%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00df58', endColorstr='#1e6180', GradientType=1);*/
 }
 
 .icon-bar

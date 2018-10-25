@@ -161,6 +161,18 @@
                                         <?php }?>
                                         <input type="hidden" name="idBerita" value="<?php echo($idBerita) ?>">
                                         <div class="form-group">
+                                            <label>Kota</label>
+                                            <select class="form-control" name="kota" id="kota">
+                                                <option value="" disabled>-- Pilih Kota --</option>
+                                                <?php 
+                                                // print_r($idCity);die();
+                                                foreach ($city as $val=>$key) {
+                                                        ?><option value="<?= $key['idCity']?>" <?php if($key['idCity'] == $idCity){echo "selected";} ?>><?= $key['cityName'] ?></option><?php 
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                                 <label>Tanggal</label>
                                                 <input type="text" class="form-control input-group date" name="ftanggal" data-date-format="yyyy-mm-dd" value="<?php echo $tanggal ?>" required/>
                                         </div>
@@ -176,18 +188,18 @@
                                         <div class="form-group">
                                             <label>Subsektor</label>
                                             <select class="form-control" name="cmbSubsektor" id="cmbSubsektor" required>
-                                                <option><?php echo $idSubsektor  ?></option>
+                                                <!-- <option><?php echo $idSubsektor  ?></option> -->
                                                 <?php foreach($subsektor->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idSubsektor; ?>">(<?php echo $perdata->idSubsektor; ?>) <?php echo $perdata->namaSubsektor; ?></option>
+                                                <option value="<?php echo $perdata->idSubsektor; ?>" <?php if($perdata->idSubsektor == $idSubsektor){ echo "selected";} ?> > <?php echo $perdata->namaSubsektor; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Komoditas</label>
                                             <select class="form-control" name="cmbKomoditas" id="cmbKomoditas" required>
-                                                <option><?php echo $idKomoditas  ?></option>
+                                                <!-- <option><?php echo $idKomoditas  ?></option> -->
                                                 <?php foreach($komoditas->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idKomoditas; ?>">(<?php echo $perdata->idSubsektor; ?>) - <?php echo $perdata->idKomoditas; ?>. <?php echo $perdata->namaKomoditas; ?></option>
+                                                <option value="<?php echo $perdata->idKomoditas; ?>" <?php if($perdata->idKomoditas == $idKomoditas){ echo "selected";} ?>> <?php echo $perdata->namaKomoditas; ?></option>
                                                 <?php } ?>
                                             </select>
                                             Pilih sesuai kode subsektor
@@ -195,18 +207,18 @@
                                         <div class="form-group">
                                             <label>Kegiatan</label>
                                             <select class="form-control" name="cmbKegiatan" id="cmbKegiatan" required>
-                                                <option><?php echo $idKegiatan  ?></option>
+                                                <!-- <option><?php echo $idKegiatan  ?></option> -->
                                                 <?php foreach($kegiatan->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idKegiatan; ?>">(<?php echo $perdata->idKegiatan; ?>) <?php echo $perdata->namaKegiatan; ?></option>
+                                                <option value="<?php echo $perdata->idKegiatan; ?>" <?php if($perdata->idKegiatan == $idKegiatan){ echo "selected";} ?>><?php echo $perdata->namaKegiatan; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Prioritas</label>
                                             <select class="form-control" name="cmbPrioritas" id="cmbPrioritas" required>
-                                                <option><?php echo $idPrioritas  ?></option>
+                                                <!-- <option><?php echo $idPrioritas  ?></option> -->
                                                 <?php foreach($prioritas->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idPrioritas; ?>">(<?php echo $perdata->idPrioritas; ?>) <?php echo $perdata->namaPrioritas; ?></option>
+                                                <option value="<?php echo $perdata->idPrioritas; ?>" <?php if($perdata->idPrioritas == $idPrioritas){ echo "selected";} ?> > <?php echo $perdata->namaPrioritas; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -220,22 +232,21 @@
                                             <input type="text" class="form-control" name="fvarspek" value="<?php echo $varSpeklok ?>" placeholder="Varietas Spesifik Lokasi" />
                                             *<i>Optional</i>
                                         </div>
+                                        
                                         <div class="form-group">
                                             <label>Sumber*</label>
                                             <input type="text" class="form-control" name="fsumber" value="<?php echo $sumber ?>" placeholder="Sumber"/>
                                             *<i>Optional</i>
                                         </div>
                                         <div class="form-group">
+                                            <img src="<?php echo $gambar ?>" style="max-width: 100%;">
+                                        </div>
+                                        <div class="form-group">
                                             <label>Unggah Gambar</label>
                                             <input type="file" name="filefoto"/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Unggah Berkas*</label>
-                                            <input type="file" name="fileberkas"/>
-                                            *<i>Optional</i> | .doc .docx .pdf | Maksimal 10MB
-                                        </div>
                                         <input type="hidden" id="old" name="oldfoto" value="<?php echo $gambar   ?>">
-                                        <input type="hidden" id="old" name="oldberkas" value="<?php echo $berkas   ?>">
+                                        <!-- <input type="hidden" id="old" name="oldberkas" value="<?php echo $berkas   ?>"> -->
                                         <button type="submit" class="btn btn-primary">Kirim</button>
                                         </form>
                                     </div>
@@ -279,15 +290,21 @@
             todayHighlight: true
         });
 
-        /*$(document).ready(function() {
-            $('#fisi').keyup(function(){
-                var len = this.value.length;
-                if (len >= 5000){
-                    this.value = this.value.substring(0,5000);
+        $(document).ready(function() {
+            $("#cmbSubsektor").change(function(){
+                var cmbSubsektor = $("#cmbSubsektor").val();
+                $.ajax({
+                    type : "POST",
+                    url : "<?php echo base_url(); ?>dashboard/getKom",
+                    data : "cmbSubsektor=" + cmbSubsektor,
+                    // contentType: 'application/json',
+                    success: function(data){
+                        console.log(data)
+                    $("#cmbKomoditas").html(data.dropdown);
                 }
-                $('#hitung').text(5000 - len);
+                });
             });
-        });*/
+        });
 
         $(function () {
         CKEDITOR.replace('ckeditor');

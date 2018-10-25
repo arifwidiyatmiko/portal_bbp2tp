@@ -21,17 +21,26 @@ class Login extends CI_Controller {
 		$where = array(
 			'namaPengguna' => $username,
 			'kataSandi' => $password
+			// 'baseUrl'=> base_url()
 			);
 
-		$hsl=$this->login_m->ceklogin($tbl,$where);
+		$hsl=$this->login_m->signin($where);
 		$cek = $this->db->get_where('admin',array('namaPengguna' => $username, 'kataSandi' => $password))->row();
 		$valid=false;
+		// print_r($hsl->result()[0]);die();
+		if (count($hsl->result()) > 0) {
+			if ($hsl->result()[0]->url == base_url()) {
+				$valid=true;
+			}
+		}
+		
 
 		foreach($hsl->result() as $h){
 			$this->session->set_userdata('idAdmin',$h->idAdmin);
 			$this->session->set_userdata('namaPengguna',$h->namaPengguna);
 			$this->session->set_userdata('nama',$h->nama);
 			$this->session->set_userdata('idProvinsi',$h->idProvinsi);
+			$this->session->set_userdata('url',$h->url);
 			$divreal;
 			if ($h->idProvinsi == 11)
 				$divreal = "Nanggroe Aceh Darussalam";
@@ -102,7 +111,7 @@ class Login extends CI_Controller {
 
 			$this->session->set_userdata('provinsi',$divreal);
 
-			$valid=true;
+			
 		}
 		if($valid){
 			if($cek->idTingkat == 1){
@@ -118,7 +127,8 @@ class Login extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('result_login', '<br>Username atau Password yang anda masukkan salah.');
-			$this->load->view('admin/login_v');
+			// $this->load->view('admin/login_v');
+			redirect('Login','refresh');
 		}
 	}
 

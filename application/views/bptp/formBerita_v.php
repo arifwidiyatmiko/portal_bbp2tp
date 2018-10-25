@@ -159,6 +159,18 @@
                                             <input type="hidden" class="form-control" name="idAdmin" value="<?php echo $key->idAdmin ?>" />
                                         </div>
                                         <?php }?>
+                                         <div class="form-group">
+                                            <label>Kota</label>
+                                            <select class="form-control" name="kota" id="kota">
+                                                <option value="" disabled selected>-- Pilih Kota --</option>
+                                                <?php 
+                                                // print_r($city);die();
+                                                foreach ($city as $val=>$key) {
+                                                        ?><option value="<?= $key['idCity']?>"><?= $key['cityName'] ?></option><?php 
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
                                         <div class="form-group">
                                                 <label>Tanggal</label>
                                                 <input type="text" class="form-control input-group date" name="ftanggal" data-date-format="yyyy-mm-dd" placeholder="Tanggal" required/>
@@ -225,11 +237,11 @@
                                             <input type="file" class="form-control" name="filefoto" required />
                                             .jpg .jpeg .png
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Unggah Berkas*</label>
                                             <input type="file" class="form-control" name="fileberkas" />
                                             *<i>Optional</i> | .doc .docx .pdf | Maksimal 10MB
-                                        </div>
+                                        </div> -->
                                         <button type="submit" class="btn btn-primary">Kirim</button>
                                         <!-- </form> -->
                                     </div>
@@ -294,8 +306,10 @@
                     type : "POST",
                     url : "<?php echo base_url(); ?>dashboard/getKom",
                     data : "cmbSubsektor=" + cmbSubsektor,
+                    // contentType: 'application/json',
                     success: function(data){
-                    $("#cmbKomoditas").html(data);
+                        console.log(data)
+                    $("#cmbKomoditas").html(data.dropdown);
                 }
                 });
             });

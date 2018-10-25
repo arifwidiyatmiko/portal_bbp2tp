@@ -11,6 +11,7 @@ class Crud_m extends CI_Model {
     
     public function marqueeAgenda(){
         $this->db->select('*');
+        $this->db->where('baseUrl', base_url());
         $this->db->order_by('idAgenda','DESC');
         $query = $this->db->get('agenda');
         return $query->result();
@@ -18,13 +19,14 @@ class Crud_m extends CI_Model {
 
     public function getAgenda(){
         $this->db->select('*');
+        $this->db->where('baseUrl', base_url());
         $this->db->order_by('idAgenda','DESC');
         $query = $this->db->get('agenda',2,0);
         return $query->result();
     }
     
     function getAllAgenda(){
-		$hsl=$this->db->query("SELECT * FROM agenda ORDER BY idAgenda DESC");
+		$hsl=$this->db->query("SELECT * FROM agenda WHERE baseUrl = '".base_url()."' ORDER BY idAgenda DESC");
 		return $hsl;
 	}
     public function getAllProvince($value='')
@@ -43,6 +45,13 @@ class Crud_m extends CI_Model {
             return array();
         }
     }
+
+    public function getKomoditasId($id)
+    {
+       $this->db->where('idSubsektor', $id);
+       return $this->db->get('komoditas');
+    }
+
     public function getPresiden(){
         $this->db->select('*');
         $this->db->where('idPrioritas', '1');
@@ -59,6 +68,16 @@ class Crud_m extends CI_Model {
         $this->db->order_by('idBerita','DESC');
         $query = $this->db->get('berita',1,0);
         return $query->result();
+    }
+    public function getKomo_berita($idBerita)
+    {
+        $sql = "SELECT * FROM `komoditas_berita` INNER JOIN `komoditas` on komoditas_berita.idKomoditas = komoditas.idKomoditas WHERE idBerita = '".$idBerita."'";
+        $data = $this->db->query($sql)->result();
+        // print_r($data);die();
+        foreach ($data as $key) {
+            $res[] = $key->namaKomoditas;
+        }
+        return $res;
     }
 
     public function getGubernur(){
@@ -85,7 +104,15 @@ class Crud_m extends CI_Model {
     }
 
     //  PAGINATION //
+    public function get_berita_count($uri='')
+    {
+        $this->db->where('baseUrl', base_url());
+        $this->db->where('status', '1');
+        return $this->db->get('berita')->num_rows();
+    }
+
     function get_berita_list($limit, $start){
+        $this->db->where('baseUrl', base_url());
         $this->db->where('status', '1');
         $this->db->order_by('idBerita','DESC');
         $query = $this->db->get('berita', $limit, $start);
@@ -122,7 +149,7 @@ class Crud_m extends CI_Model {
     }*/
     
     public function getSerambi(){
-        $query = $this->db->query("SELECT * FROM berita WHERE idAdmin='1' and status = '1' ORDER BY idBerita DESC LIMIT 7");
+        $query = $this->db->query("SELECT * FROM berita WHERE baseUrl = '".base_url()."' and status = '1' ORDER BY idBerita DESC LIMIT 7");
         return $query;
     }
     
@@ -172,10 +199,12 @@ class Crud_m extends CI_Model {
     }
 
     public function cariBerita($keyword){
-        /* $query = $this->db->query("SELECT * FROM berita WHERE status = '1' AND (judulBerita LIKE '$keyword' OR isiBerita LIKE '$keyword') ORDER BY idBerita DESC"); */
+        $query = $this->db->query("SELECT * FROM berita WHERE status = '1' AND baseUrl = '".base_url()."' AND (judulBerita LIKE '$keyword' OR isiBerita LIKE '$keyword') ORDER BY idBerita DESC"); 
+        // print_r($query);die();
         $this->db->select('*');
         $this->db->from('berita');
         $this->db->where('status', '1');
+        $this->db->where('baseUrl', base_url());
         $this->db->like('judulBerita',$keyword);
         $this->db->or_like('isiBerita',$keyword);
         $this->db->order_by('idBerita','DESC');

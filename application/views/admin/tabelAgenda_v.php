@@ -168,7 +168,7 @@
                             <h4 class="col-md-10">Tabel Agenda</h4>
                             <div class="panel-heading">
                                 <div class="form form-inline ">
-                                    <button type="button" name="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><a href="<?php echo base_url(); ?>dashboard/formAgenda" style="color: #fff;"><div class="glyphicon glyphicon-plus"></div> Tambah Agenda</a></button>
+                                    <a href="<?php echo base_url(); ?>dashboard/formAgenda" style="color: #fff;" class="btn btn-primary"><div class="glyphicon glyphicon-plus"></div> Tambah Agenda</a>
                                 </div>
                             </div>
                             <div class="panel-body">

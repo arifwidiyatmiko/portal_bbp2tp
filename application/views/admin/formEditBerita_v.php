@@ -184,7 +184,7 @@
                                         </div>
                                         <div class="form-group">
                                                 <label>Provinsi</label>
-                                                <select class="form-control" name="provinsi" id="provinsi" required="true">
+                                                <select class="form-control" name="provinsi" id="provinsi" required="true" disabled>
                                                     <option>Pilih Provinsi</option>
                                                     <?php 
                                                     foreach ($provinsi->result() as $x) {
@@ -195,7 +195,7 @@
                                         </div>
                                          <div class="form-group">
                                             <label>Kota</label>
-                                            <select class="form-control" name="kota" id="kota">
+                                            <select class="form-control" name="kota" id="kota" disabled>
                                                 <option value="" disabled selected>-- Pilih Kota Dahulu --</option>
                                                 <?php 
                                                     // print_r($kota);die();
@@ -352,18 +352,16 @@
                                         <div class="form-group">
                                             <label>Subsektor</label>
                                             <select class="form-control" name="cmbSubsektor" id="cmbSubsektor" required>
-                                                <option><?php echo $idSubsektor  ?></option>
                                                 <?php foreach($subsektor->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idSubsektor; ?>">(<?php echo $perdata->idSubsektor; ?>) <?php echo $perdata->namaSubsektor; ?></option>
+                                                <option value="<?php echo $perdata->idSubsektor; ?>" <?php if($perdata->idSubsektor == $idSubsektor){echo 'selected';} ?>><?php echo $perdata->namaSubsektor; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Komoditas</label>
                                             <select class="form-control" name="cmbKomoditas" id="cmbKomoditas" required>
-                                                <option><?php echo $idKomoditas  ?></option>
                                                 <?php foreach($komoditas->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idKomoditas; ?>">(<?php echo $perdata->idSubsektor; ?>) - <?php echo $perdata->idKomoditas; ?>. <?php echo $perdata->namaKomoditas; ?></option>
+                                                <option value="<?php echo $perdata->idKomoditas; ?>" <?php if($perdata->idKomoditas == $idKomoditas){echo 'selected';} ?>> <?php echo $perdata->namaKomoditas; ?></option>
                                                 <?php } ?>
                                             </select>
                                             Pilih sesuai kode subsektor
@@ -371,18 +369,16 @@
                                         <div class="form-group">
                                             <label>Kegiatan</label>
                                             <select class="form-control" name="cmbKegiatan" id="cmbKegiatan" required>
-                                                <option><?php echo $idKegiatan  ?></option>
                                                 <?php foreach($kegiatan->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idKegiatan; ?>">(<?php echo $perdata->idKegiatan; ?>) <?php echo $perdata->namaKegiatan; ?></option>
+                                                <option value="<?php echo $perdata->idKegiatan; ?>" <?php if($perdata->idKegiatan == $idKegiatan){echo 'selected';} ?>> <?php echo $perdata->namaKegiatan; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Prioritas</label>
                                             <select class="form-control" name="cmbPrioritas" id="cmbPrioritas" required>
-                                                <option><?php echo $idPrioritas  ?></option>
                                                 <?php foreach($prioritas->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idPrioritas; ?>">(<?php echo $perdata->idPrioritas; ?>) <?php echo $perdata->namaPrioritas; ?></option>
+                                                <option value="<?php echo $perdata->idPrioritas; ?>" <?php if($perdata->idPrioritas == $idPrioritas){echo 'selected';} ?>><?php echo $perdata->namaPrioritas; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -405,7 +401,7 @@
                                                 <label>Unggah Gambar</label>
                                                 <input type="file" name="filefoto" required />
                                             </div> -->
-                                        <img src="<?php echo base_url();?>assets/upload/berita/<?php echo $gambar;?>">
+                                        <img src="<?php echo $gambar;?>">
                                         <div class="form-group">
                                             <label>Unggah Gambar</label>
                                             <input type="file" name="filefoto"/>
@@ -416,7 +412,6 @@
                                             </div> -->
                                         
                                         <input type="hidden" id="old" name="oldfoto" value="<?php echo $gambar   ?>">
-                                        <input type="hidden" id="old" name="oldberkas" value="<?php echo $berkas   ?>">
                                         <button type="submit" class="btn btn-primary">Kirim</button>
                                         </form>
                                     </div>
@@ -484,16 +479,21 @@
             autoclose: true,
             todayHighlight: true
         });
-            
-           /*$(document).ready(function() {
-            $('#fisi').keyup(function(){
-                var len = this.value.length;
-                if (len >= 5000){
-                    this.value = this.value.substring(0,5000);
+       $(document).ready(function() {
+            $("#cmbSubsektor").change(function(){
+                var cmbSubsektor = $("#cmbSubsektor").val();
+                $.ajax({
+                    type : "POST",
+                    url : "<?php echo base_url(); ?>dashboard/getKom",
+                    data : "cmbSubsektor=" + cmbSubsektor,
+                    // contentType: 'application/json',
+                    success: function(data){
+                        console.log(data)
+                    $("#cmbKomoditas").html(data.dropdown);
                 }
-                $('#hitung').text(5000 - len);
+                });
             });
-        });*/
+        });
            
            $(function () {
 	    CKEDITOR.replace('ckeditor');

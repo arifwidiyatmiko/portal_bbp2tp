@@ -7,6 +7,12 @@ class Login_m extends CI_Model {
     public function ceklogin($tbl,$where){
       return $this->db->get_where($tbl,$where);
     }
+    public function signin($array)
+    {
+        $sql = "SELECT * FROM admin INNER JOIN provinsi on provinsi.idProvinsi = admin.idProvinsi WHERE admin.namaPengguna = '".$array['namaPengguna']."' AND admin.kataSandi = '".$array['kataSandi']."' ";
+        // echo $sql;die();
+        return $this->db->query($sql);
+    }
 
     public function ambilSemua($tbl)
     {
@@ -15,7 +21,10 @@ class Login_m extends CI_Model {
 
     public function insertData($tbl,$data)
     {
+        // echo json_encode($data);die();
         $this->db->insert($tbl, $data);
+        $insert_id = $this->db->insert_id();
+        return  $insert_id;
     }
 
     public function updateData($tbl, $data, $where)
@@ -41,8 +50,12 @@ class Login_m extends CI_Model {
 		return $hsl;
 	}
     
-    function getAllAgenda(){
-		$hsl=$this->db->query("SELECT * FROM agenda ORDER BY idAgenda DESC");
+    function getAllAgenda($where=''){
+		if ($where != '') {
+           $hsl=$this->db->query("SELECT * FROM agenda WHERE baseUrl = '".$where."' ORDER BY idAgenda DESC");
+        }else{
+            $hsl=$this->db->query("SELECT * FROM agenda ORDER BY idAgenda DESC");
+        }
 		return $hsl;
 	}
     
@@ -51,8 +64,12 @@ class Login_m extends CI_Model {
 		return $hsl;
 	}
     
-    function getAllBerita(){
-		$hsl=$this->db->query("SELECT * FROM berita as b INNER JOIN subsektor as s on b.idSubsektor = s.idSubsektor INNER JOIN komoditas as k ON b.idKomoditas = k.idKomoditas INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin ORDER BY idBerita DESC");
+    function getAllBerita($where = ''){
+        if ($where != '') {
+            $hsl=$this->db->query("SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin  WHERE b.baseUrl = '".$where."' ORDER BY b.idBerita DESC");
+        }else{
+		      $hsl=$this->db->query("SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin ORDER BY b.idBerita DESC");
+        }
 		return $hsl;
 	}
     
@@ -173,6 +190,12 @@ class Login_m extends CI_Model {
         }else{
             return array();
         }
+    }
+
+    public function getKomoditasAll()
+    {
+        $sql = "SELECT * FROM `komoditas` INNER JOIN `subsektor` on subsektor.idSubsektor = komoditas.idSubsektor ORDER BY subsektor.namaSubsektor";
+        return $this->db->query($sql)->result();
     }
     
     function getKomoditas($idSubsektor){

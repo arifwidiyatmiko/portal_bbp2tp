@@ -23,7 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/portal_bbp2tp';
+// $config['base_url'] = 'https://bptp-jkt.svipb.id/';
+$config['base_url'] = 'http://localhost/bptp/';
 
 /*
 |--------------------------------------------------------------------------

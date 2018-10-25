@@ -139,7 +139,7 @@
                     <ul class="media-list news-item">
                       <li class="media">
                         <div class="media-left">
-                            <img class="media-object" src="<?php echo base_url().'assets/upload/berita/'.$b->gambar;?>" style="width: 200px; height: 150px;" alt="...">
+                            <img class="media-object" src="<?php echo $b->gambar;?>" style="width: 200px; height: 150px;" alt="...">
                         </div>
                         <div class="media-body">
                           <a href="<?php echo base_url().'Portal/detailBerita/'.$b->idBerita;?>"><h5><?php echo $b->judulBerita; ?></h5></a>

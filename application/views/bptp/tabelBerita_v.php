@@ -176,6 +176,7 @@
                                         <tbody>
                                            <?php
                                             $no=1;
+                                            // print_r($subsektor->result());die();
                                             foreach ($berita->result() as $b) {
                                             /*    foreach ($subsektor->result() as $s) {
                                                     foreach ($komoditas->result() as $ko) {
@@ -200,16 +201,29 @@
                                             $gambar=$b->gambar;
                                             $idAdmin=$b->idAdmin;
                                             $status=$b->status;*/
+
+                                            foreach ($subsektor->result() as $s) {
+                                                    if($s->idSubsektor == $b->idSubsektor){$subsektord = $s->namaSubsektor;}
+                                                }
+                                                foreach ($komoditas->result() as $s) {
+                                                    if($s->idKomoditas == $b->idKomoditas){$komoditasd = $s->namaKomoditas;}
+                                                }
+                                                foreach ($kegiatan->result() as $s) {
+                                                    if($s->idKegiatan == $b->idKegiatan){$kegiatand = $s->namaKegiatan;}
+                                                }
+                                                foreach ($prioritas->result() as $s) {
+                                                    if($s->idPrioritas == $b->idPrioritas){$prioritasd = $s->namaPrioritas;}
+                                                }
                                             ?>
                                             <tr>
                                                 <td><?php echo $no;?></td>
                                                 <td><?php echo $b->tanggal;?></td>
                                                 <td><?php echo $b->judulBerita;?></td>
-                                                <td><?php echo $b->isiBerita;?></td>
-                                                <td><?php echo $b->idSubsektor;?></td>
-                                                <td><?php echo $b->idKomoditas;?></td>
-                                                <td><?php echo $b->idKegiatan;?></td>
-                                                <td><?php echo $b->idPrioritas;?></td>
+                                                <td><?php echo substr($b->isiBerita, 0,250);?></td>
+                                                <td><?php echo $subsektord;?></td>
+                                                <td><?php echo $komoditasd;?></td>
+                                                <td><?php echo $kegiatand;?></td>
+                                                <td><?php echo $prioritasd;?></td>
                                                 <td><?php echo $b->sumber;?></td>
                                                 <td>
                                                     <a href="<?php echo site_url('bptp/aksiUpdateBerita/'.$b->idBerita) ?>" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>

@@ -9,11 +9,14 @@ class Portal extends CI_Controller {
 		//$this->load->model('crud_m','',TRUE);
 		//$this->load->helper('url');
 		//$this->load->library('upload');
+        // echo base_url();die();
 	}
     public function index(){
         $data['agenda'] = $this->crud_m->getAgenda();
+        // print_r($data['agenda']);die();
         $data['grid'] = $this->crud_m->getAllProvince();
         $data['marquee'] = $this->crud_m->marqueeAgenda();
+        // echo json_encode($data['marquee']);die();
         $data['presiden'] = $this->crud_m->getPresiden();
         $data['menteri'] = $this->crud_m->getMenteri();
         $data['gubernur'] = $this->crud_m->getGubernur();
@@ -33,7 +36,7 @@ class Portal extends CI_Controller {
         // PAGINATION //
         //konfigurasi pagination
         $config['base_url'] = site_url('Portal/index'); //site url
-        $config['total_rows'] = $this->db->count_all('berita'); //total row
+        $config['total_rows'] = $this->crud_m->get_berita_count(base_url()) ;//total row
         $config['per_page'] = 5;  //show record per halaman
         $config["uri_segment"] = 3;  // uri parameter
         $choice = $config["total_rows"] / $config["per_page"];
@@ -66,8 +69,8 @@ class Portal extends CI_Controller {
         $data['berita'] = $this->crud_m->get_berita_list($config["per_page"], $data['page']);           
  
         $data['pagination'] = $this->pagination->create_links();
-
-        $this->load->view('portal_v',$data);
+        $this->load->view('header',$data);
+        $this->load->view('portal_bptp_v',$data);
     } 
 
 	public function bptp(){
@@ -126,7 +129,7 @@ class Portal extends CI_Controller {
         $data['berita'] = $this->crud_m->get_berita_list($config["per_page"], $data['page']);           
  
         $data['pagination'] = $this->pagination->create_links();
-
+        $this->load->view('header',$data);
 		$this->load->view('portal_bptp_v',$data);
 	}
 
@@ -150,10 +153,11 @@ class Portal extends CI_Controller {
 		$data['kategori4'] = $this->crud_m->getKategori4();
 		$kode=$this->uri->segment(3);
 		$data['detail']=$this->crud_m->getDetailBerita($kode);
+        $this->load->view('header',$data);
 		$this->load->view('detail_v',$data);
 	}
 
-	public function detailAgenda()
+	public function detailAgenda($kode='')
 	{
         $data['agenda'] = $this->crud_m->getAllAgenda();
         $data['serambi'] = $this->crud_m->getSerambi();
@@ -164,6 +168,7 @@ class Portal extends CI_Controller {
 		$data['kategori4'] = $this->crud_m->getKategori4();
 		$kode=$this->uri->segment(3);
 		$data['detail']=$this->crud_m->getDetailAgenda($kode);
+        $this->load->view('header',$data);
 		$this->load->view('detailAgenda_v',$data);
 	}
 
@@ -214,6 +219,7 @@ class Portal extends CI_Controller {
         $data['padi'] = $this->crud_m->getPadi($kode, $config["per_page"], $data['page']);           
  
         $data['pagination'] = $this->pagination->create_links();
+        $this->load->view('header',$data);
 		$this->load->view('kategori_v',$data);
 	}
     
@@ -264,6 +270,7 @@ class Portal extends CI_Controller {
         $data['padi'] = $this->crud_m->getPadi1($kode, $config["per_page"], $data['page']);           
  
         $data['pagination'] = $this->pagination->create_links();
+        $this->load->view('header',$data);
 		$this->load->view('kategoriK_v',$data);
 	}
 
@@ -277,6 +284,7 @@ class Portal extends CI_Controller {
 		$data['kategori4'] = $this->crud_m->getKategori4();
 		$keyword = $this->input->post('keyword');
 		$data['cari']=$this->crud_m->cariBerita($keyword);
+        $this->load->view('header',$data);
 		$this->load->view('pencarian_v',$data);
 	}
 

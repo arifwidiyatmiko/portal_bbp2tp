@@ -1,97 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>News Portal BBP2TP</title>
-
-    <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/home/img/logo-mini.png">
-
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url(); ?>assets/home/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="<?php echo base_url(); ?>assets/home/css/style.css" rel="stylesheet">
-
-</head>
-
-<body>
-    
-    <nav class="navbar head navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-                <a class="navbar-brand" id="color-me" href="<?php echo site_url('Portal/index'); ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/home/img/brandtext.png"></a>
-            </div>
-            
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#" id="color-me">Beranda <span class="sr-only">(current)</span></a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" id="color-me" data-toggle="dropdown" role="button" aria-expanded="false">Tanaman Pangan <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                           <?php foreach ($kategori->result() as $k) { ?>
-                            <li><a href="<?php echo base_url().'Portal/kategori/'.$k->idKomoditas;?>"><?php echo $k->namaKomoditas; ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" id="color-me" data-toggle="dropdown" role="button" aria-expanded="false">Peternakan <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($kategori1->result() as $k) { ?>
-                            <li><a href="<?php echo base_url().'Portal/kategori/'.$k->idKomoditas;?>"><?php echo $k->namaKomoditas; ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" id="color-me" data-toggle="dropdown" role="button" aria-expanded="false">Perkebunan <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($kategori2->result() as $k) { ?>
-                            <li><a href="<?php echo base_url().'Portal/kategori/'.$k->idKomoditas;?>"><?php echo $k->namaKomoditas; ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" id="color-me" data-toggle="dropdown" role="button" aria-expanded="false">Hortikultura <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($kategori3->result() as $k) { ?>
-                            <li><a href="<?php echo base_url().'Portal/kategori/'.$k->idKomoditas;?>"><?php echo $k->namaKomoditas; ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" id="color-me" data-toggle="dropdown" role="button" aria-expanded="false">Lain-Lain <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($kategori4->result() as $k) { ?>
-                            <li><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                </ul>
-                <form action="<?php echo site_url('Portal/pencarian');?>" method="POST" class="navbar-form navbar-left navbar-right" role="search">
-                    <div class="form-group">
-                        <input type="text" name="keyword" class="form-control" style="color: #fff;" placeholder="Pencarian...">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </nav>
 
 
     <!-- Page Content -->
     <div class="container" id="big-card">
-       <div class="col-md-12" id="right-side">
+      <marquee behavior="scroll" bgcolor="#3e30ff" width="100%" height="40px" style="color: #fff; font-size:16pt;" direction="left">
+            <?php 
+            foreach ($marquee as $key) {
+              ?><span><a style="underline:none;color:white;" href="<?= base_url()?>Portal/detailAgenda/<?= $key->idAgenda?>"><?= $key->judulKegiatan."/ ".$key->tanggal."/ Di ".$key->tempat."/ ".$key->judulKegiatan."/ "?></a></span><?php
+            }
+            ?>
+              </marquee>
+       <!-- <div class="col-md-12" id="right-side">
                 <h5 class="heading-list2">Beria Penting Lain</h5><div class="hr-heading-list2"></div>
                     <div class="row no-gutter">
             
@@ -133,7 +51,7 @@
                     </div>        
 
             </div>
-        
+         -->
        
         
         <div class="row" id="content-list">
@@ -154,7 +72,7 @@
             <div class="col-md-8 nopadding" id="left-side">
 
                 <h5 class="heading-list">Berita Terbaru</h5><div class="hr-heading-list"></div>
-                <div class="col-xs-12  no-gutter nopadding">
+                <div class="col-sm-12  no-gutter nopadding">
                 	<?php
                 	function limit_words($string, $word_limit){
 		                $words = explode(" ",$string);
@@ -164,10 +82,11 @@
                 	?>
                     <ul class="media-list news-item">
                       <li class="media">
-                        <div class="media-left">
-                            <img class="media-object" src="<?php echo base_url().'assets/upload/berita/'.$b->gambar;?>" style="width: 200px; height: 150px;" alt="...">
+                        <div class="col-sm-4">
+                            <!-- <img class="media-object" src="<?php echo base_url().'assets/upload/berita/'.$b->gambar;?>" style="width: 200px; height: 150px;" alt="..."> -->
+                            <img class="media-object" src="<?php echo $b->gambar;?>" style="width: 200px; height: 150px;" alt="...">
                         </div>
-                        <div class="media-body">
+                        <div class="col-sm-8">
                           <a href="<?php echo base_url().'Portal/detailBerita/'.$b->idBerita;?>"><h5><?php echo $b->judulBerita; ?></h5></a>
                           <p><?php echo limit_words($b->isiBerita,20); ?>...</p>
                         </div>
@@ -187,11 +106,13 @@
 
                 <h5 class="heading-list2">Serambi BBP2TP</h5><div class="hr-heading-list2"></div>
                 <ul class="list-group">
-                    <?php foreach ($serambi->result() as $s) { ?>
+                    <?php 
+                    $i=0;
+                    foreach ($serambi->result() as $s) { if($i<5){?>
                    <li class="list-group-item"><a href="<?php echo base_url().'Portal/detailBerita/'.$s->idBerita;?>" class="media-heading"><?php echo $s->judulBerita; ?></a></li>
                     
                   <!-- <hr> -->
-                <?php } ?>
+                <?php }$i++;} ?>
                 </ul>
                 <h5 class="heading-list2">Video BBP2TP</h5><div class="hr-heading-list2"></div>
                 <!-- 16:9 aspect ratio -->
@@ -210,7 +131,7 @@
                 <hr> -->
 
             </div>
-            <div class="col-md-12" id="right-side">
+            <<div class="col-md-12" id="right-side">
                 <h5 class="heading-list2">Link BPTP Lain</h5><div class="hr-heading-list2"></div>
                   <div class="row no-gutter">
                       <table class="table table-stripped">
@@ -222,11 +143,11 @@
                           <tbody>
                               <tr>
                                   <td>SUMATERA</td>
-                                  <td>Aceh, Sumatera Utara, Sumatera Barat, Bengkulu, Riau, Kep. Riau, Jambi, Sumatera Selatan,</td>
+                                  <td><a href="http://localhost/portal_bbp2tp/">Aceh</a>, <a href="http://localhost/portal_bbp2tp/">Sumatera Barat</a>, <a href="http://localhost/portal_bbp2tp/">Sumatera Utara</a>, <a href="http://localhost/portal_bbp2tp/">Riau</a>, <a href="http://localhost/portal_bbp2tp/">Jambi</a>, <a href="http://localhost/portal_bbp2tp/">Sumatera Selatan</a>, <a href="http://localhost/portal_bbp2tp/">Lampung</a></td>
                               </tr>
                               <tr>
                                   <td>JAWA</td>
-                                  <td>Aceh, Sumatera Utara, Sumatera Barat, Bengkulu, Riau, Kep. Riau, Jambi, Sumatera Selatan,</td>
+                                  <td><a href="http://localhost/portal_bbp2tp/">Banten</a>, <a href="http://localhost/portal_bbp2tp/">DKI Jakarta</a>, <a href="http://localhost/portal_bbp2tp/">Jawa Barat</a>, <a href="http://localhost/portal_bbp2tp/">Jawa Tengah</a>, <a href="http://localhost/portal_bbp2tp/">Jawa Timur</a>, <a href="http://localhost/portal_bbp2tp/">Madura</a>, <a href="http://localhost/portal_bbp2tp/">Bali</a></td>
                               </tr>
                               <tr>
                                   <td>Kalimantan</td>

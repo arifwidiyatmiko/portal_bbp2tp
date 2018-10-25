@@ -33,20 +33,25 @@ class Dashboard extends CI_Controller {
 		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
         
         $data['cmbsubs']=$this->login_m->getSubsektor();
+        $data['cmbKomoditas']=$this->login_m->getKomoditasAll();
         $data['cmbKegiatan']=$this->login_m->ambilSemua($this->tabelKegiatan);
         $data['cmbPrioritas']=$this->login_m->ambilSemua($this->tabelPrioritas);
         $data['provinsi'] = $this->Crud_m->getAllProvince();
+        $data['city'] = $this->Crud_m->getAllCity($this->session->userdata('idProvinsi'));
+        // print_r($data['city']);die();
 		$this->load->view('admin/formBerita_v',$data);
 	}
     
     public function getKom(){
         $idSubsektor = $this->input->post('cmbSubsektor');
         $kom = $this->login_m->getKomoditas($idSubsektor);
-        $data .= "<option value=''>-- Pilih Komoditas --</option>";
+        $data = "<option value=''>-- Pilih Komoditas --</option>";
         foreach ($kom as $k){
             $data .= "<option value='$k[idKomoditas]'>$k[namaKomoditas]</option>\n";
         }
-        echo $data;
+        $arr = array('dropdown' =>$data ,'datas'=>$kom );
+        header('Content-Type: application/json');
+        echo json_encode($arr);
     }
     
     public function formAgenda(){
@@ -58,16 +63,17 @@ class Dashboard extends CI_Controller {
 	}
     
     public function tabelBerita(){
-        $data['berita'] = $this->login_m->getAllBerita();
+        $data['berita'] = $this->login_m->getAllBerita(base_url());
 		$where = array(
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
 		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
+        // echo json_encode($data['admin']);die();
 		$this->load->view('admin/tabelBerita_v',$data);
 	}
     
     public function tabelAgenda(){
-        $data['agenda'] = $this->login_m->getAllAgenda();
+        $data['agenda'] = $this->login_m->getAllAgenda(base_url());
 		$where = array(
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
@@ -137,7 +143,7 @@ class Dashboard extends CI_Controller {
                 
                 if($this->upload->do_upload('filefoto')){
                     $uploadData = $this->upload->data();
-                     $filefoto = $uploadData['file_name'];
+                     $filefoto = base_url().'assets/upload/berita/'.$uploadData['file_name'];
                 }else{
                     $filefoto = '';
                 }
@@ -158,15 +164,18 @@ class Dashboard extends CI_Controller {
 			"peserta" => $peserta,
 			"tamuVIP" => $tVIP,
 			"pjKegiatan" => $pj,
-            "foto" => $filefoto
+            "foto" => $filefoto,
+            "baseUrl"=>base_url()
         );
-
+        // echo json_encode($data);die();
 			$this->login_m->insertData($this->tabelAgenda,$data);
         
         redirect('dashboard/tabelAgenda');
     }
     
     function simpanBerita(){
+        // print_r($this->input->post('cmbKomoditas'));die();
+        $idKomoditas = $this->input->post('cmbKomoditas');
 		if(!empty($_FILES['filefoto']['name'])){
                 $config['upload_path'] = './assets/upload/berita/';
                 $config['allowed_types'] = 'jpg|jpeg|png';
@@ -178,32 +187,32 @@ class Dashboard extends CI_Controller {
                 
                 if($this->upload->do_upload('filefoto')){
                     $uploadData = $this->upload->data();
-                     $filefoto = $uploadData['file_name'];
+                     $filefoto = base_url().'assets/upload/berita/'.$uploadData['file_name'];
                 }else{
                     $filefoto = '';
                 }
             }else{
 			$filefoto = '';}
             // echo $filefoto;die();
-			 // if(!empty($_FILES['fileberkas']['name'])){
-    //             $config['upload_path'] = './assets/upload/berita/berkas/';
-    //             $config['allowed_types'] = 'pdf|doc|docx';
-    //             $config['file_name'] = $_FILES['fileberkas']['name'];
+			 if(!empty($_FILES['fileberkas']['name'])){
+                $config['upload_path'] = './assets/upload/berita/berkas/';
+                $config['allowed_types'] = 'pdf|doc|docx';
+                $config['file_name'] = $_FILES['fileberkas']['name'];
                 
-    //             //Load upload library and initialize configuration
-    //             $this->load->library('upload',$config);
-    //             $this->upload->initialize($config);
+                //Load upload library and initialize configuration
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
                 
-    //             if($this->upload->do_upload('fileberkas')){
-    //                 $uploadData = $this->upload->data();
-    //                 $fileberkas = $uploadData['file_name'];
-    //             }else{
-    //                 $fileberkas = '';
-    //             }
-    //         }else{
-    //             $fileberkas = '';
-    //         }
-			
+                if($this->upload->do_upload('fileberkas')){
+                    $uploadData = $this->upload->data();
+                    $fileberkas = base_url().'assets/upload/berita/'.$uploadData['file_name'];
+                }else{
+                    $fileberkas = '';
+                }
+            }else{
+                $fileberkas = '';
+            }
+		// $fileberkas = '';$filefoto='';
 		 $idSubsektor= $this->input->post('cmbSubsektor');
 		 $vub= $this->input->post('fvub');
 		 $tanggal= $this->input->post('ftanggal');
@@ -217,25 +226,58 @@ class Dashboard extends CI_Controller {
 		 $idAdmin =$this->input->post('idAdmin');
         
         $data= array(
-			   "idSubsektor"=>$idSubsektor,
-			   "vub"=>$vub,
-               "idProvinsi"=>$this->input->post('provinsi'),
+			   // "idSubsektor"=>1,
+			   // "vub"=>$vub,
+               "idProvinsi"=>$this->session->userdata('idProvinsi'),
+               // "idProvinsi"=>$this->input->post('provinsi'),
                "idCity"=>$this->input->post('kota'),
-			   "tanggal"=>$tanggal,
-			   "varSpeklok"=>$varSpeklok,
-			   "idKomoditas"=>$idKomoditas,
-			   "idKegiatan"=>$idKegiatan,
+			   "tanggal"=>substr($tanggal, 6,4)."-".substr($tanggal, 3,2)."-".substr($tanggal, 0,2),
+			   // "varSpeklok"=>$varSpeklok,
+			   // "idKomoditas"=>0,
+			   // "idKegiatan"=>$idKegiatan,
 			   "idPrioritas"=>$idPrioritas,
 			   "judulBerita"=>$judulBerita,
 			   "isiBerita"=>$isiBerita,
 			   "sumber"=>$sumber,
                "gambar"=>$filefoto,
-               "berkas"=>'',
-			   "idAdmin"=>$idAdmin
+               "berkas"=>$fileberkas,
+			   "idAdmin"=>$idAdmin,
+               "baseUrl"=>base_url(),
 		   );
-
-
-			$this->login_m->insertData($this->tabelBerita,$data);
+        switch ($this->input->post('cmbKegiatan') ) {
+            case '1':
+                // echo "string";die();
+                $data['ftanam'] = $this->input->post('ftanam');
+                $data['fpanen'] = $this->input->post('fpanen');
+                $data['fproduktivitas'] = $this->input->post('fproduktivitas');
+                $data['fgabah'] = $this->input->post('fgabah');
+                $data['fpengendalian'] = $this->input->post('fpengendalian');
+                $data['fteknologi'] = $this->input->post('fteknologi');
+                break;
+            case '2':
+                $data['fvub'] = $this->input->post('fvub');
+                $data['fproduksi'] = $this->input->post('fproduksi');
+                $data['fdistribusi'] = $this->input->post('fdistribusi');
+                $data['fvarspek'] = $this->input->post('fvarspek');
+                $data['fvarspek_prod'] = $this->input->post('fvarspek_prod');
+                // $data['fteknologi'] = $this->input->post('fteknologi');
+                break;
+            default:
+                // echo $this->input->post('idKegiatan');die();
+                break;
+        }
+        // echo "sdas";
+        // print_r($data);die();
+        // $idBerita = 1;
+			$idBerita = $this->login_m->insertData($this->tabelBerita,$data);
+            $i = 0;
+            foreach ($idKomoditas as $key => $value) {
+                $komo_berita['idKomoditas'] = $value;
+                $komo_berita['idBerita'] = $idBerita;
+                $this->login_m->insertData('komoditas_berita',$komo_berita);
+                $i++;
+            }
+            // print_r($komo_berita);die();
         
         redirect('dashboard/tabelBerita');
 		 }
@@ -330,30 +372,12 @@ class Dashboard extends CI_Controller {
                 
                 if($this->upload->do_upload('filefoto')){
                     $uploadData = $this->upload->data();
-                     $filefoto = $uploadData['file_name'];
+                     $filefoto = base_url().'assets/upload/berita/'.$uploadData['file_name'];
                 }else{
                     $filefoto = '';
                 }
             }else{
 			$filefoto = $this->input->post('oldfoto');}
-			 if(!empty($_FILES['fileberkas']['name'])){
-                $config['upload_path'] = './assets/upload/berita/berkas/';
-                $config['allowed_types'] = 'pdf|doc|docx';
-                $config['file_name'] = $_FILES['fileberkas']['name'];
-                
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                
-                if($this->upload->do_upload('fileberkas')){
-                    $uploadData = $this->upload->data();
-                    $fileberkas = $uploadData['file_name'];
-                }else{
-                    $fileberkas = '';
-                }
-            }else{
-                $fileberkas = $this->input->post('oldberkas');
-            }
 			
 		 $idSubsektor= $this->input->post('cmbSubsektor');
 		 $vub= $this->input->post('fvub');
@@ -380,14 +404,14 @@ class Dashboard extends CI_Controller {
 			   "isiBerita"=>$isiBerita,
 			   "sumber"=>$sumber,
                "gambar"=>$filefoto,
-               "berkas"=>$fileberkas,
+               // "berkas"=>$fileberkas,
 			   "idAdmin"=>$idAdmin
 		   );
 
         $where = array(
 			'idBerita'=>$idBerita
 		);
-
+        // echo json_encode($data);die();
         $this->login_m->UpdateData($this->tabelBerita,$data,$where);
         redirect('dashboard/tabelBerita');
     }
@@ -654,10 +678,11 @@ class Dashboard extends CI_Controller {
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
 
 		$where = array(
-			'idBerita' => 1
+            'baseUrl'=>base_url()
 		);
 
     $berita = $this->login_m->getAllBerita('berita',$where);
+    echo json_encode($berita->result());die();
     $no = 1; // Untuk penomoran tabel, di awal set dengan 1
     $numrow = 5; // Set baris pertama untuk isi tabel adalah baris ke 4
     foreach($berita->result() as $data){ // Lakukan looping pada variabel siswa

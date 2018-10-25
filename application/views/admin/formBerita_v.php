@@ -17,6 +17,8 @@
     <link href="<?php echo base_url(); ?>assets/admin/assets/css/custom.css" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/assets/css/jquery-ui.css">
+
 </head>
 
 <body>
@@ -33,72 +35,104 @@
             </div>
             <?php foreach ($admin->result() as $key) {
             $divreal;
-            if ($key->idProvinsi == 11)
-                $divreal = "Nanggroe Aceh Darussalam";
-            elseif($key->idProvinsi == 12)
-                $divreal = "Sumatera Utara";
-            elseif($key->idProvinsi == 13)
-                $divreal = "Sumatera Barat";
-            elseif($key->idProvinsi == 14)
-                $divreal = "Riau";
-            elseif($key->idProvinsi == 15)
-                $divreal = "Jambi";
-            elseif($key->idProvinsi == 16)
-                $divreal = "Sumatera Selatan";
-            elseif($key->idProvinsi == 17)
-                $divreal = "Bengkulu";
-            elseif($key->idProvinsi == 18)
-                $divreal = "Lampung";
-            elseif($key->idProvinsi == 19)
+            if ($key->idProvinsi == 11){
+                $divreal = "Nanggroe Aceh Darussalam";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 12){
+                $divreal = "Sumatera Utara";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 13){
+                $divreal = "Sumatera Barat";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 14){
+                $divreal = "Riau";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 15){
+                $divreal = "Jambi";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 16){
+                $divreal = "Sumatera Selatan";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 17){
+                $divreal = "Bengkulu";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 18){
+                $divreal = "Lampung";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 19){
                 $divreal = "Kep. Bangka Belitung";
-            elseif($key->idProvinsi == 21)
-                $divreal = "Kep. Riau";
-            elseif($key->idProvinsi == 31)
-                $divreal = "DKI Jakarta";
-            elseif($key->idProvinsi == 32)
-                $divreal = "Jawa Barat";
-            elseif($key->idProvinsi == 33)
-                $divreal = "Jawa Tengah";
-            elseif($key->idProvinsi == 34)
-                $divreal = "DI Yogyakarta";
-            elseif($key->idProvinsi == 35)
-                $divreal = "Jawa Timur";
-            elseif($key->idProvinsi == 36)
-                $divreal = "Banten";
-            elseif($key->idProvinsi == 51)
-                $divreal = "Bali";
-            elseif($key->idProvinsi == 52)
-                $divreal = "Nusa Tenggara Barat";
-            elseif($key->idProvinsi == 53)
-                $divreal = "Nusa Tenggara Timur";
-            elseif($key->idProvinsi == 61)
-                $divreal = "Kalimantan Barat";
-            elseif($key->idProvinsi == 62)
-                $divreal = "Kalimantan Tengah";
-            elseif($key->idProvinsi == 63)
-                $divreal = "Kalimantan Selatan";
-            elseif($key->idProvinsi == 64)
-                $divreal = "Kalimantan Timur";
-            elseif($key->idProvinsi == 71)
-                $divreal = "Sulawesi Utara";
-            elseif($key->idProvinsi == 72)
-                $divreal = "Sulawesi Tengah";
-            elseif($key->idProvinsi == 73)
-                $divreal = "Sulawesi Selatan";
-            elseif($key->idProvinsi == 74)
-                $divreal = "Sulawesi Tenggara";
-            elseif($key->idProvinsi == 75)
-                $divreal = "Gorontalo";
-            elseif($key->idProvinsi == 76)
-                $divreal = "Sulawesi Barat";
-            elseif($key->idProvinsi == 81)
-                $divreal = "Maluku";
-            elseif($key->idProvinsi == 82)
-                $divreal = "Maluku Utara";
-            elseif($key->idProvinsi == 91)
-                $divreal = "Papua Barat";
-            elseif($key->idProvinsi == 94)
-                $divreal = "Papua";
+            }
+            elseif($key->idProvinsi == 21){
+                $divreal = "Kep. Riau";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 31){
+                $divreal = "DKI Jakarta";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 32){
+                $divreal = "Jawa Barat";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 33){
+                $divreal = "Jawa Tengah";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 34){
+                $divreal = "DI Yogyakarta";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 35){
+                $divreal = "Jawa Timur";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 36){
+                $divreal = "Banten";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 51){
+                $divreal = "Bali";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 52){
+                $divreal = "Nusa Tenggara Barat";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 53){
+                $divreal = "Nusa Tenggara Timur";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 61){
+                $divreal = "Kalimantan Barat";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 62){
+                $divreal = "Kalimantan Tengah";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 63){
+                $divreal = "Kalimantan Selatan";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 64){
+                $divreal = "Kalimantan Timur";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 71){
+                $divreal = "Sulawesi Utara";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 72){
+                $divreal = "Sulawesi Tengah";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 73){
+                $divreal = "Sulawesi Selatan";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 74){
+                $divreal = "Sulawesi Tenggara";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 75){
+                $divreal = "Gorontalo";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 76){
+                $divreal = "Sulawesi Barat";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 81){
+                $divreal = "Maluku";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 82){
+                $divreal = "Maluku Utara";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 91){
+                $divreal = "Papua Barat";$idProvinsi_def = $key->idProvinsi;
+            }
+            elseif($key->idProvinsi == 94){
+                $divreal = "Papua";$idProvinsi_def = $key->idProvinsi;}
               ?>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
                 <?php echo $key->nama ?>&nbsp;
@@ -180,11 +214,10 @@
                                         </div>
                                         <div class="form-group">
                                                 <label>Provinsi</label>
-                                                <select class="form-control" name="provinsi" id="provinsi" required="true">
-                                                    <option>Pilih Provinsi</option>
+                                                <select class="form-control" name="provinsi" id="provinsi" required="true" disabled>
                                                     <?php 
                                                     foreach ($provinsi->result() as $key) {
-                                                        ?><option value="<?= $key->idProvinsi?>"><?= $key->namaProvinsi ?></option><?php 
+                                                        ?><option value="<?= $key->idProvinsi?>" <?php if($key->idProvinsi == $idProvinsi_def){echo "selected";} ?>><?= $key->namaProvinsi ?></option><?php 
                                                     }
                                                     ?>
                                                 </select>
@@ -192,40 +225,14 @@
                                          <div class="form-group">
                                             <label>Kota</label>
                                             <select class="form-control" name="kota" id="kota">
-                                                <option value="" disabled selected>-- Pilih Provinsi Dahulu --</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Judul Berita</label>
-                                            <input type="text" class="form-control" name="fjudul" placeholder="Judul Berita" required/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Isi Berita</label>
-                                            <textarea class="form-control" name="fisi" id="ckeditor" placeholder="Isi Berita" required></textarea>
-                                            <!-- <span id="hitung">5000</span> Karakter tersisa -->
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Subsektor</label>
-                                            <select class="form-control" name="cmbSubsektor" id="cmbSubsektor" required>
-                                                <option value="" disabled selected>-- Pilih Subsektor --</option>
-                                                <?php foreach ($cmbsubs as $subs){
-                                                    echo "<option value='$subs[idSubsektor]'>$subs[namaSubsektor]</option>";
-                                                }?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Komoditas</label>
-                                            <select class="form-control" name="cmbKomoditas" id="cmbKomoditas">
-                                                <option value="" disabled selected>-- Pilih Subsektor Dahulu --</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Kegiatan</label>
-                                            <select class="form-control" name="cmbKegiatan" id="cmbKegiatan" required>
-                                                <option value="" disabled selected>-- Pilih Kegiatan --</option>
-                                                <?php foreach($cmbKegiatan->result() as $perdata) {?>
-                                                <option value="<?php echo $perdata->idKegiatan; ?>"><?php echo $perdata->namaKegiatan; ?></option>
-                                                <?php } ?>
+                                                <!-- <option value="" disabled selected>-- Pilih Provinsi Dahulu --</option> -->
+                                                <option value="" disabled selected>-- Pilih Kota --</option>
+                                                <?php 
+                                                // print_r($city);die();
+                                                foreach ($city as $val=>$key) {
+                                                        ?><option value="<?= $key['idCity']?>"><?= $key['cityName'] ?></option><?php 
+                                                    }
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -238,13 +245,96 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Varietas Unggul Baru (VUB)*</label>
-                                            <input type="text" class="form-control" name="fvub" placeholder="Varietas Unggul Baru (VUB)" />
-                                            *<i>Optional</i>
+                                            <label>Judul Berita</label>
+                                            <input type="text" class="form-control" name="fjudul" placeholder="Judul Berita" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label>Varietas Spesifik Lokasi*</label>
-                                            <input type="text" class="form-control" name="fvarspek" placeholder="Varietas Spesifik Lokasi" />
+                                            <label>Isi Berita</label>
+                                            <textarea class="form-control" name="fisi" id="ckeditor" placeholder="Isi Berita" required></textarea>
+                                            <!-- <span id="hitung">5000</span> Karakter tersisa -->
+                                        </div>
+                                       
+                                        <div class="form-group">
+                                            <label>Komoditas</label>
+                                            <select class="form-control" name="cmbKomoditas[]" id="cmbKomoditas" multiple="multiple">
+                                                <?php 
+                                                foreach ($cmbKomoditas as $key) {
+                                                    $komoditas[$key->namaSubsektor][] = array('idKomoditas'=>$key->idKomoditas,'namaKomoditas'=>$key->namaKomoditas);
+                                                }
+                                                foreach ($komoditas as $subs=>$value){
+                                                    echo "<optgroup label='".$subs."'>";
+                                                    foreach ($value as $keys) {
+                                                        echo "<option value='".$keys['idKomoditas']."'>".$keys['namaKomoditas']."</option>";
+                                                    }
+                                                    echo "</optgroup>";
+                                                }?>
+                                                <!-- <option value="x">Lain Lain</option> -->
+                                            </select>
+                                            <!-- <input id="tags" class="form-control" size="50"> -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kegiatan</label>
+                                            <select class="form-control" name="cmbKegiatan" id="cmbKegiatan" required>
+                                                <option value="" disabled selected>-- Pilih Kegiatan --</option>
+                                                <?php foreach($cmbKegiatan->result() as $perdata) {?>
+                                                <option value="<?php echo $perdata->idKegiatan; ?>"><?php echo $perdata->namaKegiatan; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-group" id="d_fvub">
+                                            <label>Varietas Unggul Baru (VUB)*</label>
+                                            <input type="text" class="form-control" name="fvub" id="fvub" placeholder="Varietas Unggul Baru (VUB)" />
+                                            *<i>Optional</i>
+                                        </div>
+                                        <div class="form-group" id="d_ftanam">
+                                            <label>Luas Tanam</label>
+                                            <input type="text" class="form-control" name="ftanam" id="ftanam" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                        <div class="form-group" id="d_fpanen">
+                                            <label>Luas Panen</label>
+                                            <input type="text" class="form-control" name="fpanen" id="fpanen" placeholder="Luas Panem" />
+                                            *<i>Optional</i>
+                                        </div>
+                                         <div class="form-group" id="d_fproduktivitas">
+                                            <label>Produktivitas Tanam</label>
+                                            <input type="text" class="form-control" name="fproduktivitas" id="fproduktivitas" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                         <div class="form-group" id="d_fgabah">
+                                            <label>Serap Gabah</label>
+                                            <input type="text" class="form-control" name="fgabah" id="fgabah" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                         <div class="form-group" id="d_fpengendalian">
+                                            <label>Gerakan Pengendalian OPT </label>
+                                            <input type="text" class="form-control" name="fpengendalian" id="fpengendalian" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                        <div class="form-group" id="d_fteknologi">
+                                            <label>Introduksi Teknologi Lain </label>
+                                            <input type="text" class="form-control" name="fteknologi" id="fteknologi" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                        <div class="form-group" id="d_fproduksi">
+                                            <label>Produksi </label>
+                                            <input type="text" class="form-control" name="fproduksi" id="fproduksi" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                        <div class="form-group" id="d_fdistribusi">
+                                            <label>Distribusi </label>
+                                            <input type="text" class="form-control" name="fdistribusi" id="fdistribusi" placeholder="Luas Tanam" />
+                                            *<i>Optional</i>
+                                        </div>
+                                        <div class="form-group" id="d_fvarspek">
+                                            <label>Varietas Benih Lokal*</label>
+                                            <input type="text" class="form-control" name="fvarspek" id="fvarspek" placeholder="Varietas Spesifik Lokasi" />
+                                            *Opsional
+                                        </div>
+                                        <div class="form-group" id="d_fvarspek_prod">
+                                            <label>Produksi  Benih Lokal*</label>
+                                            <input type="text" class="form-control" name="fvarspek_prod" id="fvarspek_prod" placeholder="Varietas Spesifik Lokasi" />
                                             *Opsional
                                         </div>
                                         <div class="form-group">
@@ -254,14 +344,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Unggah Gambar</label>
-                                            <input type="file" class="form-control" name="filefoto" required />
+                                            <input type="file" class="form-control" onchange="upload('gambar')" name="filefoto" id="filefoto" required/>
                                             .jpg .jpeg .png
                                         </div>
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                             <label>Unggah Berkas*</label>
-                                            <input type="file" class="form-control" name="fileberkas" />
+                                            <input type="file" class="form-control" name="fileberkas" onchange="upload('berkas')" id="fileberkas" />
                                             *Opsional | .doc .docx .pdf | Maksimal 10MB
-                                        </div> -->
+                                        </div>
                                         <button type="submit" class="btn btn-primary">Kirim</button>
                                         <!-- </form> -->
                                     </div>
@@ -277,7 +367,7 @@
             <footer class="footer">
                 <div class="container-fluid clearfix">
                     <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">
-                        Hak Cipta &copy; 2018 | Kerjasama Balai Besar Pengkajian dan Pengembangan Teknologi Pertanian dengan Program Diploma Institut Pertanian Bogor
+                        Hak Cipta &copy; 2018 | Kerjasama Balai Besar Pengkajian dan Pengembangan Teknologi Pertanian 
                     </span>
                 </div>
             </footer>
@@ -290,6 +380,7 @@
     <!-- JQUERY SCRIPTS -->
     <script src="<?php echo base_url(); ?>assets/admin/assets/js/jquery-1.10.2.js"></script>
     <!-- BOOTSTRAP SCRIPTS -->
+    
     <script src="<?php echo base_url(); ?>assets/admin/assets/js/bootstrap.min.js"></script>
     <!-- METISMENU SCRIPTS -->
     <script src="<?php echo base_url(); ?>assets/admin/assets/js/jquery.metisMenu.js"></script>
@@ -298,53 +389,109 @@
     <script src="<?php echo base_url(); ?>assets/admin/assets/js/jquery-1.7.js"></script>
     <script src="<?php echo base_url(); ?>assets/admin/assets/datepicker/js/bootstrap-datepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/assets/js/jquery-ui.js"></script>
 	   
     <script type="text/javascript">
-        $(".input-group.date").datepicker({
-            autoclose: true,
-            todayHighlight: true
-        });
-        
-        /*$(document).ready(function() {
-            $('#fisi').keyup(function(){
-                var len = this.value.length;
-                if (len >= 5000){
-                    this.value = this.value.substring(0,5000);
-                }
-                $('#hitung').text(5000 - len);
+         $(document).ready(function(){
+             $('#cmbKomoditas').select2();
+            var komoditas_data = [];
+            $(".input-group.date").datepicker({
+                autoclose: true,
+                todayHighlight: true
             });
-        });*/
 
-        $(function () {
-	    CKEDITOR.replace('ckeditor');
-		});
-        
-        $(document).ready(function(){
-
-            $("#cmbSubsektor").change(function(){
-                var cmbSubsektor = $("#cmbSubsektor").val();
-                $.ajax({
-                    type : "POST",
-                    url : "<?php echo base_url(); ?>dashboard/getKom",
-                    data : "cmbSubsektor=" + cmbSubsektor,
-                    success: function(data){
-                    $("#cmbKomoditas").html(data);
+            // $(function () {
+    	    CKEDITOR.replace('ckeditor');
+            $('#d_fvub').hide();
+            $('#d_ftanam').hide();
+            $('#d_fpanen').hide();
+            $('#d_fproduktivitas').hide();
+            $('#d_fgabah').hide();
+            $('#d_fpengendalian').hide();
+            $('#d_fteknologi').hide();
+            $('#d_fvarspek').hide();
+            $('#d_fproduksi').hide();
+            $('#d_fdistribusi').hide();
+            $('#d_fvarspek_prod').hide();
+            $('#cmbKegiatan').change(function() {
+                if ($('#cmbKegiatan').val() == 1) {
+                    $('#d_fvub').show();
+                    $('#d_ftanam').show();
+                    $('#d_fpanen').show();
+                    $('#d_fproduktivitas').show();
+                    $('#d_fgabah').show();
+                    $('#d_fpengendalian').show();
+                    $('#d_fteknologi').show();
+                    $('#d_fvarspek').show();
+                }else if($('#cmbKegiatan').val() == 2){
+                    $('#d_fvub').show();
+                    $('#d_fproduksi').show();
+                    $('#d_fdistribusi').show();
+                    $('#d_fteknologi').show();
+                    $('#d_fvarspek').show();
+                    $('#d_fvarspek_prod').show();
+                }else{
+                    $('#d_fvub').hide();
+                    $('#d_ftanam').hide();
+                    $('#d_fpanen').hide();
+                    $('#d_fproduktivitas').hide();
+                    $('#d_fgabah').hide();
+                    $('#d_fpengendalian').hide();
+                    $('#d_fteknologi').hide();
+                    $('#d_fvarspek').hide();
+                    $('#d_fvarspek_prod').hide();
                 }
-                });
-            });
-            $('#provinsi').change(function(argument) {
-                // body...
-                $.ajax({
-                    type : "GET",
-                    url : "<?php echo base_url(); ?>Json/dataKota/"+$('#provinsi').val(),
-                    // data : "cmbSubsektor=" + ,
-                    success: function(data){
-                        $("#kota").html(data);
-
-                }
-                });
             })
+    		$("#cmbSubsektor").change(function(){
+                    var cmbSubsektor = $("#cmbSubsektor").val();
+                    $.ajax({
+                        type : "POST",
+                        url : "<?php echo base_url(); ?>dashboard/getKom",
+                        data : "cmbSubsektor=" + cmbSubsektor,
+                        dataType: 'json',
+                        success: function(data){
+                            
+                            $.each(data.datas,function(key,value){
+                                komoditas_data.push(value.namaKomoditas);
+                            });
+                            console.log(komoditas_data);
+                            $("#cmbKomoditas").html(data.dropdown);
+                        }
+                    });
+                });
+                $('#provinsi').change(function(argument) {
+                    // body...
+                    $.ajax({
+                        type : "GET",
+                        url : "<?php echo base_url(); ?>Json/dataKota/"+$('#provinsi').val(),
+                        // data : "cmbSubsektor=" + ,
+                        success: function(data){
+                            $("#kota").html(data);
+
+                    }
+                    });
+                })
         });
+         function upload(type) {
+             if (type == 'gambar') {
+                var file_data = $('#filefoto').prop('files')[0]; 
+                  console.log(file_data);     
+                  if (file_data.type != 'image/jpeg' && file_data.type != 'image/png') {
+                    alert('Upload Bukti Transfer dalam format berkas .png atau .jpg atau .jpeg');$('#filefoto').val('');return false;
+                  }
+                  if (file_data.size > (1024*1000*5)) {
+                    alert('Upload Bukti Transfer dalam format berkas dengan Ukuran Maksimal 5 MB');$('#filefoto').val('');return false;
+                  }
+             }else{
+                var file_data = $('#fileberkas').prop('files')[0]; 
+                  console.log(file_data);     
+                  if (file_data.size > (1024*1000*5)) {
+                    alert('Upload Bukti Transfer dalam format berkas dengan Ukuran Maksimal 5 MB');$('#fileberkas').val('');return false;
+                  }
+             }
+         }
     </script>
 
 </body>
