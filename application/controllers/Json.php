@@ -33,4 +33,16 @@ class Json extends CI_Controller {
         // $data = array('data' => $result);
         // echo json_encode($data);
     }
+    public function dataKecamatann($value='')
+    {
+        $data = '';
+        $kom = $this->Crud_m->getAllKecamatan($value)->result_array();
+        $data .= "<option value=''>-- Pilih Kecamatan --</option>";
+        foreach ($kom as $k){
+            $data .= "<option value='$k[idKecamatan]'>$k[kecamatanName]</option>\n";
+        }
+        echo $data;
+        // $data = array('data' => $result);
+        // echo json_encode($data);
+    }
 }

@@ -212,7 +212,7 @@
                                                 <label>Tanggal</label>
                                                 <input type="text" class="form-control input-group date" name="ftanggal" data-date-format="yyyy-mm-dd" placeholder="Tanggal" required/>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-sm-4">
                                                 <label>Provinsi</label>
                                                 <select class="form-control" name="provinsi" id="provinsi" required="true" disabled>
                                                     <?php 
@@ -222,7 +222,7 @@
                                                     ?>
                                                 </select>
                                         </div>
-                                         <div class="form-group">
+                                         <div class="form-group  col-sm-4">
                                             <label>Kota</label>
                                             <select class="form-control" name="kota" id="kota">
                                                 <!-- <option value="" disabled selected>-- Pilih Provinsi Dahulu --</option> -->
@@ -235,7 +235,18 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group  col-sm-4">
+                                            <label>Kecamatan</label>
+                                            <select class="form-control" name="kecamatan" id="kecamatan">
+                                                <option value="" disabled selected>-- Pilih Kota Terlebih Dahulu --</option>
+                                               
+                                            </select>
+                                        </div>
+                                         <div class="form-group col-sm-6">
+                                            <label>Kelurahan atau Desa</label>
+                                            <input type="text" class="form-control" name="kelurahan" placeholder="Nama Kelurahan" required/>
+                                        </div>
+                                        <div class="form-group col-sm-6">
                                             <label>Prioritas</label>
                                             <select class="form-control" name="cmbPrioritas" id="cmbPrioritas" required>
                                                 <option value="" disabled selected>-- Pilih Prioritas --</option>
@@ -287,29 +298,44 @@
                                             <input type="text" class="form-control" name="fvub" id="fvub" placeholder="Varietas Unggul Baru (VUB)" />
                                             *<i>Optional</i>
                                         </div>
-                                        <div class="form-group" id="d_ftanam">
+                                        <div class="form-group col-sm-4 " id="d_ftanam">
                                             <label>Luas Tanam</label>
-                                            <input type="text" class="form-control" name="ftanam" id="ftanam" placeholder="Luas Tanam" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="ftanam" id="ftanam" placeholder="Luas Tanam" />
+                                                <span class="input-group-addon">Ha</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
-                                        <div class="form-group" id="d_fpanen">
+                                        <div class="form-group col-sm-4" id="d_fpanen">
                                             <label>Luas Panen</label>
-                                            <input type="text" class="form-control" name="fpanen" id="fpanen" placeholder="Luas Panem" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fpanen" id="fpanen" placeholder="Luas Panem" />
+                                                <span class="input-group-addon">Ha</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
-                                         <div class="form-group" id="d_fproduktivitas">
+                                         <div class="form-group col-sm-4" id="d_fproduktivitas">
                                             <label>Produktivitas Tanam</label>
-                                            <input type="text" class="form-control" name="fproduktivitas" id="fproduktivitas" placeholder="Luas Tanam" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fproduktivitas" id="fproduktivitas" placeholder="Luas Tanam" />
+                                                <span class="input-group-addon">Ton/Ha</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
                                          <div class="form-group" id="d_fgabah">
                                             <label>Serap Gabah</label>
-                                            <input type="text" class="form-control" name="fgabah" id="fgabah" placeholder="Luas Tanam" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fgabah" id="fgabah" placeholder="Luas Tanam" />
+                                                <span class="input-group-addon">Ton GKP</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
                                          <div class="form-group" id="d_fpengendalian">
                                             <label>Gerakan Pengendalian OPT </label>
-                                            <input type="text" class="form-control" name="fpengendalian" id="fpengendalian" placeholder="Luas Tanam" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fpengendalian" id="fpengendalian" placeholder="Luas Tanam" />
+                                                <span class="input-group-addon">Ha</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
                                         <div class="form-group" id="d_fteknologi">
@@ -317,24 +343,33 @@
                                             <input type="text" class="form-control" name="fteknologi" id="fteknologi" placeholder="Luas Tanam" />
                                             *<i>Optional</i>
                                         </div>
-                                        <div class="form-group" id="d_fproduksi">
+                                        <div class="form-group col-sm-6" id="d_fproduksi">
                                             <label>Produksi </label>
-                                            <input type="text" class="form-control" name="fproduksi" id="fproduksi" placeholder="Luas Tanam" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fproduksi" id="fproduksi" placeholder="Jumlah Bibit Produk" />
+                                                <span class="input-group-addon">Bibit</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
-                                        <div class="form-group" id="d_fdistribusi">
+                                        <div class="form-group col-sm-6" id="d_fdistribusi">
                                             <label>Distribusi </label>
-                                            <input type="text" class="form-control" name="fdistribusi" id="fdistribusi" placeholder="Luas Tanam" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fdistribusi" id="fdistribusi" placeholder="Jumlah Bibit Distribusi" />
+                                                <span class="input-group-addon">Bibit</span>
+                                            </div>
                                             *<i>Optional</i>
                                         </div>
-                                        <div class="form-group" id="d_fvarspek">
+                                        <div class="form-group col-sm-6" id="d_fvarspek">
                                             <label>Varietas Benih Lokal*</label>
                                             <input type="text" class="form-control" name="fvarspek" id="fvarspek" placeholder="Varietas Spesifik Lokasi" />
                                             *Opsional
                                         </div>
-                                        <div class="form-group" id="d_fvarspek_prod">
+                                        <div class="form-group col-sm-6" id="d_fvarspek_prod">
                                             <label>Produksi  Benih Lokal*</label>
-                                            <input type="text" class="form-control" name="fvarspek_prod" id="fvarspek_prod" placeholder="Varietas Spesifik Lokasi" />
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" name="fvarspek_prod" id="fvarspek_prod" placeholder="Produksi Benih Lokal" />
+                                                <span class="input-group-addon">Kilogram</span>
+                                            </div>
                                             *Opsional
                                         </div>
                                         <div class="form-group">
@@ -416,6 +451,7 @@
             $('#d_fdistribusi').hide();
             $('#d_fvarspek_prod').hide();
             $('#cmbKegiatan').change(function() {
+                console.log($('#cmbKegiatan').val());
                 if ($('#cmbKegiatan').val() == 1) {
                     $('#d_fvub').show();
                     $('#d_ftanam').show();
@@ -424,7 +460,7 @@
                     $('#d_fgabah').show();
                     $('#d_fpengendalian').show();
                     $('#d_fteknologi').show();
-                    $('#d_fvarspek').show();
+                    // $('#d_fvarspek').show();
                 }else if($('#cmbKegiatan').val() == 2){
                     $('#d_fvub').show();
                     $('#d_fproduksi').show();
@@ -432,6 +468,8 @@
                     $('#d_fteknologi').show();
                     $('#d_fvarspek').show();
                     $('#d_fvarspek_prod').show();
+                }else if($('#cmbKegiatan').val() == 9){
+                    $('#d_fvarspek').show();
                 }else{
                     $('#d_fvub').hide();
                     $('#d_ftanam').hide();
@@ -442,6 +480,8 @@
                     $('#d_fteknologi').hide();
                     $('#d_fvarspek').hide();
                     $('#d_fvarspek_prod').hide();
+                    $('#d_fproduksi').hide();
+                    $('#d_fdistribusi').hide();
                 }
             })
     		$("#cmbSubsektor").change(function(){
@@ -461,14 +501,14 @@
                         }
                     });
                 });
-                $('#provinsi').change(function(argument) {
+                $('#kota').change(function(argument) {
                     // body...
                     $.ajax({
                         type : "GET",
-                        url : "<?php echo base_url(); ?>Json/dataKota/"+$('#provinsi').val(),
+                        url : "<?php echo base_url(); ?>Json/dataKecamatann/"+$('#kota').val(),
                         // data : "cmbSubsektor=" + ,
                         success: function(data){
-                            $("#kota").html(data);
+                            $("#kecamatan").html(data);
 
                     }
                     });

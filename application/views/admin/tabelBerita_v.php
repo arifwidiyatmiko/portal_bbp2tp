@@ -180,12 +180,11 @@
                                                 <th>Tanggal</th>
                                                 <th>Judul Berita</th>
                                                 <th>Isi Berita</th>
-                                                <th>Subsektor</th>
                                                 <th>Komoditas</th>
                                                 <th>Kegiatan</th>
                                                 <th>Prioritas</th>
                                                 <th>Sumber</th>
-                                                <th>Aktor</th>
+                                                <!-- <th>Aktor</th> -->
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -200,10 +199,10 @@
                                             $tanggal=$b['tanggal'];
                                             $idProvinsi = $b['idProvinsi'];
                                             $idCity = $b['idCity'];
-                                            $idSubsektor=$b['idSubsektor'];
-                                            $namaSubsektor=$b['namaSubsektor'];
-                                            $vub=$b['vub'];
-                                            $varSpeklok=$b['varSpeklok'];
+                                            // $idSubsektor=$b['idSubsektor'];
+                                            // $namaSubsektor=$b['namaSubsektor'];
+                                            $vub=$b['fvub'];
+                                            $varSpeklok=$b['fvarspek'];
                                             // $idKomoditas=$b['idKomoditas'];
                                             // $namaKomoditas=$b['namaKomoditas'];
                                             $idKegiatan=$b['idKegiatan'];
@@ -224,12 +223,12 @@
                                                 <td><?php echo $tanggal;?></td>
                                                 <td><?php echo $judulBerita;?></td>
                                                 <td><?php echo substr($isiBerita, 0,100);?></td>
-                                                <td><?php echo $namaSubsektor;?></td>
+                                                
                                                 <td><?php echo $namaKomoditas;?></td>
                                                 <td><?php echo $namaKegiatan;?></td>
                                                 <td><?php echo $namaPrioritas;?></td>
                                                 <td><?php echo $sumber;?></td>
-                                                <td><?php echo $nama;?></td>
+                                                <!-- <td><?php echo $nama;?></td> -->
                                                 <td>
                                                     <?php //if($idAdmin == '1'){ ?>
                                                     <a href="<?php echo site_url('dashboard/aksiUpdateBerita/'.$idBerita) ?>" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>

@@ -38,14 +38,25 @@ class Crud_m extends CI_Model {
         if ($value != '') {
            $this->db->where('idProvince',$value);
         }
-        $result =  $this->db->get('t_city');
+        $result =  $this->db->get('kota');
         if  ($result->num_rows() > 0){
             return $result->result_array();
         }else{
             return array();
         }
     }
-
+    public function getAllKecamatan($value='')
+    {
+        if ($value != '') {
+           $this->db->where('idCity',$value);
+        }
+        $result =  $this->db->get('kecamatan');
+        if  ($result->num_rows() > 0){
+            return $result;
+        }else{
+            return array();
+        }
+    }
     public function getKomoditasId($id)
     {
        $this->db->where('idSubsektor', $id);
@@ -189,7 +200,7 @@ class Crud_m extends CI_Model {
     }
     
     public function getDetailBerita($kode){
-        $query =$this->db->query("SELECT * FROM berita as b INNER JOIN subsektor as s on b.idSubsektor = s.idSubsektor INNER JOIN komoditas as k ON b.idKomoditas = k.idKomoditas INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin WHERE idBerita='$kode' AND status = '1'");
+        $query =$this->db->query("SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin WHERE idBerita='$kode' AND status = '1'");
         return $query;
     }
 

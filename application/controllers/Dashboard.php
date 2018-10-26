@@ -14,6 +14,9 @@ class Dashboard extends CI_Controller {
 				parent::__construct();
 				$this->load->model('login_m');
                 $this->load->model('Crud_m');
+                if (!$this->session->userdata("idAdmin")) {
+                   redirect('Login','refresh');
+                }
     }
 
     public function index(){
@@ -68,7 +71,7 @@ class Dashboard extends CI_Controller {
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
 		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
-        // echo json_encode($data['admin']);die();
+        // print_r($data['berita']->result());die();
 		$this->load->view('admin/tabelBerita_v',$data);
 	}
     
@@ -224,17 +227,19 @@ class Dashboard extends CI_Controller {
 		 $isiBerita =$this->input->post('fisi');
 		 $sumber =$this->input->post('fsumber');
 		 $idAdmin =$this->input->post('idAdmin');
-        
+        // echo substr($tanggal, 6,4)."-".substr($tanggal, 0,2)."-".substr($tanggal, 3,2);die();
         $data= array(
 			   // "idSubsektor"=>1,
 			   // "vub"=>$vub,
                "idProvinsi"=>$this->session->userdata('idProvinsi'),
                // "idProvinsi"=>$this->input->post('provinsi'),
                "idCity"=>$this->input->post('kota'),
-			   "tanggal"=>substr($tanggal, 6,4)."-".substr($tanggal, 3,2)."-".substr($tanggal, 0,2),
+			   "tanggal"=>substr($tanggal, 6,4)."-".substr($tanggal, 0,2)."-".substr($tanggal, 3,2),
 			   // "varSpeklok"=>$varSpeklok,
 			   // "idKomoditas"=>0,
-			   // "idKegiatan"=>$idKegiatan,
+               "idKecamatan"=>$this->input->post('kecamatan'),
+               "kelurahan"=>$this->input->post('kelurahan'),
+			   "idKegiatan"=>$idKegiatan,
 			   "idPrioritas"=>$idPrioritas,
 			   "judulBerita"=>$judulBerita,
 			   "isiBerita"=>$isiBerita,
@@ -260,7 +265,10 @@ class Dashboard extends CI_Controller {
                 $data['fdistribusi'] = $this->input->post('fdistribusi');
                 $data['fvarspek'] = $this->input->post('fvarspek');
                 $data['fvarspek_prod'] = $this->input->post('fvarspek_prod');
-                // $data['fteknologi'] = $this->input->post('fteknologi');
+                $data['fteknologi'] = $this->input->post('fteknologi');
+                break;
+            case '9':
+                $data['fvarspek'] = $this->input->post('fvarspek');
                 break;
             default:
                 // echo $this->input->post('idKegiatan');die();
@@ -286,37 +294,15 @@ class Dashboard extends CI_Controller {
 		$where = array(
             'idBerita' => $id
         );
-        $query = $this->login_m->ambilData($this->tabelBerita,$where);
+        $data['berita'] = $this->login_m->ambilData($this->tabelBerita,$where)->result();
 
-        $row = $query->row();
-
-        $data = array(
-            "idBerita" => $row->idBerita,
-			"idSubsektor" => $row->idSubsektor,
-            "idProvinsi"=>$row->idProvinsi,
-            "idCity"=>$row->idCity,
-			"vub" => $row->vub,
-			"tanggal" => $row->tanggal,
-			"varSpeklok" => $row->varSpeklok,
-			"idKomoditas" => $row->idKomoditas,
-			"idKegiatan" => $row->idKegiatan,
-			"idPrioritas" => $row->idPrioritas,
-			"judulBerita" => $row->judulBerita,
-			"isiBerita" => $row->isiBerita,
-			"sumber" => $row->sumber,
-			"berkas" => $row->berkas,
-			"gambar" => $row->gambar,
-			"idAdmin" => $row->idAdmin,
-        );
-
-        
-        $data['berita'] = $this->login_m->getAllBerita();
-        $data['subsektor'] = $this->login_m->ambilSemua($this->tabelSub);
+        $data['komoditas_berita'] = $this->login_m->ambilData('komoditas_berita',$where);
         $data['komoditas'] = $this->login_m->ambilSemua($this->tabelKomoditas);
         $data['kegiatan'] = $this->login_m->ambilSemua($this->tabelKegiatan);
         $data['prioritas'] = $this->login_m->ambilSemua($this->tabelPrioritas);
+        $data['kecamatan'] = $this->Crud_m->getAllKecamatan($data['berita'][0]->idCity)->result();
         $data['provinsi'] = $this->Crud_m->getAllProvince();
-        $data['kota'] = $this->Crud_m->getAllCity($data['idProvinsi']);
+        $data['kota'] = $this->Crud_m->getAllCity($data['berita'][0]->idProvinsi);
 		$where = array(
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
@@ -325,42 +311,8 @@ class Dashboard extends CI_Controller {
         $this->load->view('admin/formEditBerita_v',$data);
     }
     
-    /* function aksiEditBerita1($id){
-        $where = array(
-            'idBerita' => $id
-        );
-        $query = $this->login_m->ambilData($this->tabelBerita,$where);
-
-        $row = $query->row();
-
-        $data = array(
-            "idBerita" => $row->idBerita,
-			"tanggal" => $row->tanggal,
-			"idSubsektor" => $row->idSubsektor,
-			"vub" => $row->vub,
-			"varSpeklok" => $row->varSpeklok,
-			"idKomoditas" => $row->idKomoditas,
-			"idKegiatan" => $row->idKegiatan,
-			"idPrioritas" => $row->idPrioritas,
-			"judulBerita" => $row->judulBerita,
-			"isiBerita" => $row->isiBerita,
-			"sumber" => $row->sumber,
-			"berkas" => $row->berkas,
-			"gambar" => $row->gambar,
-			"idAdmin" => $row->idAdmin
-        );
-
-        $data['cmbsubs']=$this->login_m->getSubsektor();
-        $data['cmbkom']=$this->login_m->ambilSemua($this->tabelKomoditas);
-        $data['berita'] = $this->login_m->getAllBerita();
-		$where = array(
-						'idAdmin' => $this->session->userdata("idAdmin")
-						);
-		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
-        $this->load->view('admin/formEditBerita_v', $data);
-    } */
-    
-    function aksiAfterEditBerita(){
+  
+    function aksiAfterEditBerita($id){
         if(!empty($_FILES['filefoto']['name'])){
                 $config['upload_path'] = './assets/upload/berita/';
                 $config['allowed_types'] = 'jpg|jpeg|png';
@@ -374,16 +326,34 @@ class Dashboard extends CI_Controller {
                     $uploadData = $this->upload->data();
                      $filefoto = base_url().'assets/upload/berita/'.$uploadData['file_name'];
                 }else{
-                    $filefoto = '';
+                    $filefoto = $this->input->post('oldfoto');
                 }
             }else{
 			$filefoto = $this->input->post('oldfoto');}
-			
-		 $idSubsektor= $this->input->post('cmbSubsektor');
+			 if(!empty($_FILES['fileberkas']['name'])){
+                $config['upload_path'] = './assets/upload/berita/berkas/';
+                $config['allowed_types'] = 'pdf|doc|docx';
+                $config['file_name'] = $_FILES['fileberkas']['name'];
+                
+                //Load upload library and initialize configuration
+                $this->load->library('upload',$config);
+                $this->upload->initialize($config);
+                
+                if($this->upload->do_upload('fileberkas')){
+                    $uploadData = $this->upload->data();
+                    $fileberkas = base_url().'assets/upload/berita/'.$uploadData['file_name'];
+                }else{
+                    $fileberkas = '';
+                }
+            }else{
+                $fileberkas = '';
+            }
+        $idKomoditas = $this->input->post('cmbKomoditas');
+		 // $idSubsektor= $this->input->post('cmbSubsektor');
 		 $vub= $this->input->post('fvub');
          $tanggal=$this->input->post('ftanggal');
 		 $varSpeklok= $this->input->post('fvarspek');
-		 $idKomoditas= $this->input->post('cmbKomoditas');
+		 // $idKomoditas= $this->input->post('cmbKomoditas');
 		 $idKegiatan =$this->input->post('cmbKegiatan');
 		 $idPrioritas =$this->input->post('cmbPrioritas');
 		 $judulBerita =$this->input->post('fjudul');
@@ -393,11 +363,11 @@ class Dashboard extends CI_Controller {
 		 $idBerita =$this->input->post('idBerita');
         
         $data = array(
-			   "idSubsektor"=>$idSubsektor,
-			   "vub"=>$vub,
+			   // "idSubsektor"=>$idSubsektor,
+			   "fvub"=>$vub,
 			   "tanggal"=>$tanggal,
-			   "varSpeklok"=>$varSpeklok,
-			   "idKomoditas"=>$idKomoditas,
+			   // "varSpeklok"=>$varSpeklok,
+			   // "idKomoditas"=>$idKomoditas,
 			   "idKegiatan"=>$idKegiatan,
 			   "idPrioritas"=>$idPrioritas,
 			   "judulBerita"=>$judulBerita,
@@ -408,11 +378,46 @@ class Dashboard extends CI_Controller {
 			   "idAdmin"=>$idAdmin
 		   );
 
+        switch ($this->input->post('cmbKegiatan') ) {
+            case '1':
+                // echo "string";die();
+                $data['ftanam'] = $this->input->post('ftanam');
+                $data['fpanen'] = $this->input->post('fpanen');
+                $data['fproduktivitas'] = $this->input->post('fproduktivitas');
+                $data['fgabah'] = $this->input->post('fgabah');
+                $data['fpengendalian'] = $this->input->post('fpengendalian');
+                $data['fteknologi'] = $this->input->post('fteknologi');
+                break;
+            case '2':
+                $data['fvub'] = $this->input->post('fvub');
+                $data['fproduksi'] = $this->input->post('fproduksi');
+                $data['fdistribusi'] = $this->input->post('fdistribusi');
+                $data['fvarspek'] = $this->input->post('fvarspek');
+                $data['fvarspek_prod'] = $this->input->post('fvarspek_prod');
+                $data['fteknologi'] = $this->input->post('fteknologi');
+                break;
+            case '9':
+                $data['fvarspek'] = $this->input->post('fvarspek');
+                break;
+            default:
+                // echo $this->input->post('idKegiatan');die();
+                break;
+        }
+
         $where = array(
-			'idBerita'=>$idBerita
+			'idBerita'=>$id
 		);
         // echo json_encode($data);die();
         $this->login_m->UpdateData($this->tabelBerita,$data,$where);
+        $this->login_m->deleteData('komoditas_berita',$where);
+        $i = 0;
+            foreach ($idKomoditas as $key => $value) {
+                $komo_berita['idKomoditas'] = $value;
+                $komo_berita['idBerita'] = $id;
+                // print_r($komo_berita);die();
+                $this->login_m->insertData('komoditas_berita',$komo_berita);
+                $i++;
+            }
         redirect('dashboard/tabelBerita');
     }
     
@@ -444,6 +449,7 @@ class Dashboard extends CI_Controller {
 		          'idBerita' => $id
 		          );
 		      $this->login_m->deleteData($this->tabelBerita,$where);
+              $this->login_m->deleteData('komoditas_berita',$where);
 		      redirect('dashboard/tabelBerita');
 		}
     
