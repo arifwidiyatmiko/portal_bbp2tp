@@ -122,13 +122,17 @@ class Crud_m extends CI_Model {
     //  PAGINATION //
     public function get_berita_count($uri='')
     {
-        $this->db->where('baseUrl', base_url());
+        if ($this->config->item('isDaerah')) {
+            $this->db->where('baseUrl', base_url());
+        }
         $this->db->where('status', '1');
         return $this->db->get('berita')->num_rows();
     }
 
     function get_berita_list($limit, $start){
-        $this->db->where('baseUrl', base_url());
+        if ($this->config->item('isDaerah')) {
+            $this->db->where('baseUrl', base_url());
+        }
         $this->db->where('status', '1');
         $this->db->order_by('idBerita','DESC');
         $query = $this->db->get('berita', $limit, $start);
@@ -141,6 +145,9 @@ class Crud_m extends CI_Model {
         $this->db->join('komoditas_berita', 'komoditas_berita.idBerita = berita.idBerita', 'INNER');
         $this->db->where('komoditas_berita.idKomoditas', $kode);
         $this->db->where('status', '1');
+        if ($this->config->item('isDaerah')) {
+            $this->db->where('baseUrl', base_url());
+        }
         $this->db->order_by('berita.idBerita','DESC');
         $query = $this->db->get('berita', $limit, $start);
         return $query->result();
@@ -150,6 +157,9 @@ class Crud_m extends CI_Model {
         $this->db->select('*');
         $this->db->where('idKegiatan', $kode);
         $this->db->where('status', '1');
+        if ($this->config->item('isDaerah')) {
+            $this->db->where('baseUrl', base_url());
+        }
         $this->db->order_by('idBerita','DESC');
         $query = $this->db->get('berita', $limit, $start);
         return $query->result();
@@ -221,7 +231,9 @@ class Crud_m extends CI_Model {
         $this->db->select('*');
         $this->db->from('berita');
         $this->db->where('status', '1');
-        $this->db->where('baseUrl', base_url());
+        if ($this->config->item('isDaerah')) {
+            $this->db->where('baseUrl', base_url());
+        }
         $this->db->like('judulBerita',$keyword);
         $this->db->or_like('isiBerita',$keyword);
         $this->db->order_by('idBerita','DESC');

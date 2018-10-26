@@ -67,10 +67,10 @@
                         <div class="col-lg-6 left-padding">
                             <?php foreach ($presiden as $p) { ?>
                             <div class="side-featured " style="background-image:url(<?php echo $p->gambar;?>); width: 530px; height: 500px;" alt="...">
-                                <a href="<?php echo base_url().'Portal/detailBerita/'.$p->idBerita;?>" class="anchor-block"></a>
+                                <a href="<?php echo $p->baseUrl.'Portal/detailBerita/'.$p->idBerita;?>" <?php if($p->baseUrl != base_url()){echo 'target="new"';}?> class="anchor-block"></a>
                                 <div class="bottom-align-text">
-                                    <a href="#" class="cat">Presiden</a>
-                                    <a href="#" class="featured"><h3><?php echo $p->judulBerita; ?></h3></a>
+                                    <a href="<?php echo $p->baseUrl.'Portal/detailBerita/'.$p->idBerita;?>" <?php if($p->baseUrl !=  base_url()){echo 'target="new"';}?> class="cat">Presiden</a>
+                                    <a href="<?php echo $p->baseUrl.'Portal/detailBerita/'.$p->idBerita;?>"<?php if($p->baseUrl !=  base_url()){echo 'target="new"';}?> class="featured"><h3><?php echo $p->judulBerita; ?></h3></a>
                                 </div>
                             </div>
                             
@@ -80,19 +80,19 @@
                             <div class="row">
                                 <?php foreach ($menteri as $m) { ?>
                             <div class="side-featured" style="background-image:url(<?php echo $m->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
-                                <a href="<?php echo base_url().'Portal/detailBerita/'.$m->idBerita;?>" class="anchor-block"></a>
+                                <a href="<?php echo $m->baseUrl.'Portal/detailBerita/'.$m->idBerita;?>" <?php if($m->baseUrl !=  base_url()){echo 'target="new"';}?> class="anchor-block"></a>
                                 <div class="bottom-align-text2">
-                                    <a href="#" class="cat">Menteri</a>
-                                    <a href="#" class="featured"><h5><?php echo $m->judulBerita; ?></h5></a>
+                                    <a href="<?php echo $m->baseUrl.'Portal/detailBerita/'.$m->idBerita;?>" <?php if($m->baseUrl!=  base_url()){echo 'target="new"';}?> href="#" class="cat">Menteri</a>
+                                    <a href="<?php echo $m->baseUrl.'Portal/detailBerita/'.$m->idBerita;?>" <?php if($m->baseUrl !=  base_url()){echo 'target="new"';}?> href="#" class="featured"><h5><?php echo $m->judulBerita; ?></h5></a>
                                 </div>
                             </div>
                                 <?php } 
                                     foreach ($gubernur as $g) { ?>
                             <div class="side-featured" style="background-image:url(<?php echo $g->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
-                                <a href="<?php echo base_url().'Portal/detailBerita/'.$g->idBerita;?>" class="anchor-block"></a>
+                                <a href="<?php echo $g->baseUrl.'Portal/detailBerita/'.$g->idBerita;?>" <?php if($g->baseUrl !=  base_url()){echo 'target="new"';}?> class="anchor-block"></a>
                                 <div class="bottom-align-text3">
-                                    <a href="#" class="cat">Gubernur</a>
-                                    <a href="#" class="featured"><h5><?php echo $g->judulBerita; ?></h5></a>
+                                    <a href="<?php echo $g->baseUrl.'Portal/detailBerita/'.$g->idBerita;?>" <?php if($g->baseUrl!=  base_url()){echo 'target="new"';}?> class="cat">Gubernur</a>
+                                    <a href="<?php echo $g->baseUrl.'Portal/detailBerita/'.$g->idBerita;?>" <?php if($g->baseUrl!=  base_url()){echo 'target="new"';}?> class="featured"><h5><?php echo $g->judulBerita; ?></h5></a>
                                 </div>
                             </div>
                             <?php } ?>
