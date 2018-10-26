@@ -176,7 +176,10 @@ class Crud_m extends CI_Model {
     }*/
     
     public function getSerambi(){
-        $query = $this->db->query("SELECT * FROM berita WHERE baseUrl = '".base_url()."' and status = '1' ORDER BY idBerita DESC LIMIT 7");
+        if ($this->config->item('isDaerah')) {
+            $query = $this->db->query("SELECT * FROM berita WHERE status = '1' AND baseUrl = '".base_url()."' ORDER BY idBerita DESC LIMIT 5");
+        }
+        $query = $this->db->query("SELECT * FROM berita WHERE status = '1' ORDER BY idBerita DESC LIMIT 5");
         return $query;
     }
     

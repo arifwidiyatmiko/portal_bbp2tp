@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>News Portal BBP2TP</title>
+    <title>News Portal BPTP</title>
 
     <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/home/img/logo-mini.png">
 
