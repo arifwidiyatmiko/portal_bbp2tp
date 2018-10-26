@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard"><img src="<?php echo base_url(); ?>assets/home/img/brandtext2.png"></a>
+                <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard"><h3>BPTP News: Input Data</h3></a>
             </div>
             <?php foreach ($admin->result() as $key) {
             $divreal;

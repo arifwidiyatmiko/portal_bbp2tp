@@ -72,7 +72,7 @@ class Login_m extends CI_Model {
             $sql = "SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin ORDER BY b.idBerita DESC";
 		      $hsl=$this->db->query($sql);
         }
-        // echo $sql;die();    
+        // echo $sql;die();        
 		return $hsl;
 	}
     

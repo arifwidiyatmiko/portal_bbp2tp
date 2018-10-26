@@ -2,20 +2,71 @@
 
     <!-- Page Content -->
     <div class="container" id="big-card">
-      <marquee behavior="scroll" bgcolor="#3e30ff" width="100%" height="40px" style="color: #fff; font-size:16pt;" direction="left">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+             
+              <?php 
+              $limit = 6;$i=1;
+              foreach ($kategori4->result() as $k) { if($i <= $limit){ ?>
+                            <li><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
+                            <?php }$i++; }
+
+              ?>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lain-lain <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <?php 
+                  $i=1;
+              foreach ($kategori4->result() as $k) { if($i > $limit){ ?>
+                            <li><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
+                            <?php }$i++; }
+                  ?>
+                </ul>
+              </li>
+            </ul>
+            <?php 
+            if(!$this->config->item('isDaerah')){
+              ?>
+              <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Export <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Excel</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Grafik</a></li>
+                </ul>
+              </li>
+            </ul>
+              <?php
+            }
+            ?>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+      <!-- <marquee behavior="scroll" bgcolor="#3e30ff" width="100%" height="40px" style="color: #fff; font-size:16pt;" direction="left">
             <?php 
             foreach ($marquee as $key) {
               ?><span><a style="underline:none;color:white;" href="<?= base_url()?>Portal/detailAgenda/<?= $key->idAgenda?>"><?= $key->judulKegiatan."/ ".$key->tanggal."/ Di ".$key->tempat."/ ".$key->judulKegiatan."/ "?></a></span><?php
             }
             ?>
-              </marquee>
-       <!-- <div class="col-md-12" id="right-side">
+              </marquee> -->
+       <div class="col-md-12" id="right-side">
                 <h5 class="heading-list2">Beria Penting Lain</h5><div class="hr-heading-list2"></div>
                     <div class="row no-gutter">
             
                         <div class="col-lg-6 left-padding">
                             <?php foreach ($presiden as $p) { ?>
-                            <div class="side-featured " style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$p->gambar;?>); width: 530px; height: 500px;" alt="...">
+                            <div class="side-featured " style="background-image:url(<?php echo $p->gambar;?>); width: 530px; height: 500px;" alt="...">
                                 <a href="<?php echo base_url().'Portal/detailBerita/'.$p->idBerita;?>" class="anchor-block"></a>
                                 <div class="bottom-align-text">
                                     <a href="#" class="cat">Presiden</a>
@@ -28,7 +79,7 @@
                         <div class="col-lg-5 " >
                             <div class="row">
                                 <?php foreach ($menteri as $m) { ?>
-                            <div class="side-featured" style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$m->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
+                            <div class="side-featured" style="background-image:url(<?php echo $m->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
                                 <a href="<?php echo base_url().'Portal/detailBerita/'.$m->idBerita;?>" class="anchor-block"></a>
                                 <div class="bottom-align-text2">
                                     <a href="#" class="cat">Menteri</a>
@@ -37,7 +88,7 @@
                             </div>
                                 <?php } 
                                     foreach ($gubernur as $g) { ?>
-                            <div class="side-featured" style="background-image:url(<?php echo base_url().'assets/upload/berita/'.$g->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
+                            <div class="side-featured" style="background-image:url(<?php echo $g->gambar;?>); width: 525.5px; height: 250px; float: left;" alt="...">
                                 <a href="<?php echo base_url().'Portal/detailBerita/'.$g->idBerita;?>" class="anchor-block"></a>
                                 <div class="bottom-align-text3">
                                     <a href="#" class="cat">Gubernur</a>
@@ -51,7 +102,7 @@
                     </div>        
 
             </div>
-         -->
+        
        
         
         <div class="row" id="content-list">
@@ -131,7 +182,7 @@
                 <hr> -->
 
             </div>
-            <<div class="col-md-12" id="right-side">
+            <div class="col-md-12" id="right-side">
                 <h5 class="heading-list2">Link BPTP Lain</h5><div class="hr-heading-list2"></div>
                   <div class="row no-gutter">
                       <table class="table table-stripped">
@@ -143,15 +194,75 @@
                           <tbody>
                               <tr>
                                   <td>SUMATERA</td>
-                                  <td><a href="http://localhost/portal_bbp2tp/">Aceh</a>, <a href="http://localhost/portal_bbp2tp/">Sumatera Barat</a>, <a href="http://localhost/portal_bbp2tp/">Sumatera Utara</a>, <a href="http://localhost/portal_bbp2tp/">Riau</a>, <a href="http://localhost/portal_bbp2tp/">Jambi</a>, <a href="http://localhost/portal_bbp2tp/">Sumatera Selatan</a>, <a href="http://localhost/portal_bbp2tp/">Lampung</a></td>
+                                  <td>
+                                    <?php 
+                                    foreach ($provinsi as $key) {
+                                      if($key->pulau == 1){
+                                        echo "<a href='".$key->url."'>".$key->namaProvinsi."</a> - ";
+                                      }
+                                    }
+                                    ?>
+                                  </td>
                               </tr>
                               <tr>
                                   <td>JAWA</td>
-                                  <td><a href="http://localhost/portal_bbp2tp/">Banten</a>, <a href="http://localhost/portal_bbp2tp/">DKI Jakarta</a>, <a href="http://localhost/portal_bbp2tp/">Jawa Barat</a>, <a href="http://localhost/portal_bbp2tp/">Jawa Tengah</a>, <a href="http://localhost/portal_bbp2tp/">Jawa Timur</a>, <a href="http://localhost/portal_bbp2tp/">Madura</a>, <a href="http://localhost/portal_bbp2tp/">Bali</a></td>
+                                  <td>
+                                    <?php 
+                                    foreach ($provinsi as $key) {
+                                      if($key->pulau == 2){
+                                        echo "<a href='".$key->url."'>".$key->namaProvinsi."</a> - ";
+                                      }
+                                    }
+                                    ?>
+                                  </td>
                               </tr>
                               <tr>
-                                  <td>Kalimantan</td>
-                                  <td>Aceh, Sumatera Utara, Sumatera Barat, Bengkulu, Riau, Kep. Riau, Jambi, Sumatera Selatan,</td>
+                                  <td>KALIMANTAN</td>
+                                  <td>
+                                    <?php 
+                                    foreach ($provinsi as $key) {
+                                      if($key->pulau == 3){
+                                        echo "<a href='".$key->url."'>".$key->namaProvinsi."</a> - ";
+                                      }
+                                    }
+                                    ?>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>NUSA TENGGARA</td>
+                                  <td>
+                                    <?php 
+                                    foreach ($provinsi as $key) {
+                                      if($key->pulau == 4){
+                                        echo "<a href='".$key->url."'>".$key->namaProvinsi."</a> - ";
+                                      }
+                                    }
+                                    ?>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>SULAWESI</td>
+                                  <td>
+                                    <?php 
+                                    foreach ($provinsi as $key) {
+                                      if($key->pulau == 5){
+                                        echo "<a href='".$key->url."'>".$key->namaProvinsi."</a> - ";
+                                      }
+                                    }
+                                    ?>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>PAPUA</td>
+                                  <td>
+                                    <?php 
+                                    foreach ($provinsi as $key) {
+                                      if($key->pulau == 6){
+                                        echo "<a href='".$key->url."'>".$key->namaProvinsi."</a> - ";
+                                      }
+                                    }
+                                    ?>
+                                  </td>
                               </tr>
                           </tbody>
                       </table>
@@ -171,7 +282,7 @@
             <div class="container">
                 <div class="row nopadding text-center">
                     <p>
-                    	Hak Cipta &copy; 2018 | Kerjasama Balai Besar Pengkajian dan Pengembangan Teknologi Pertanian dengan Program Diploma Institut Pertanian Bogor <br> Jalan Tentara Pelajar Cimanggu No. 10,Ciwaringin,Bogor Tengah,Kota Bogor,Jawa Barat 16111 <br> Telp. : (0251) 8351277 Fax : (0251) 8350928 Email : bbpengkajian2016@gmail.com <br> Contact Person Admin : (+62) 81383750033
+                    	Hak Cipta &copy; 2018 | Balai Besar Pengkajian dan Pengembangan Teknologi Pertanian<br> Jalan Tentara Pelajar Cimanggu No. 10,Ciwaringin,Bogor Tengah,Kota Bogor,Jawa Barat 16111 <br> Telp. : (0251) 8351277 Fax : (0251) 8350928 Email : bbpengkajian2016@gmail.com <br> Contact Person Admin : (+62) 81383750033
                     </p>
                 </div>
             </div>

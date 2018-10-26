@@ -26,7 +26,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard"><img src="<?php echo base_url();?>assets/home/img/brandtext2.png" style="width:100px;"> <span style="font-size: 18px;">News: Input Data</span></a> 
+                <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard"><h3>BPTP News: Input Data</h3></a> 
             </div>
             <?php foreach ($admin->result() as $key) {
             $divreal;
@@ -152,6 +152,24 @@
                      <h2>Selamat Datang, <b><?php echo $key->nama ?>!</b></h2>   
                         <h4><i>Provinsi <b><?php echo $divreal; ?></b></i></h4>
                     </div>
+                </div>
+                <div class="container">
+                    <div class="col-sm-6">
+                        <h3>Petunjuk Penggunaan</h3>
+                        <p>Menambah Berita
+                        <ol>
+                            <li>Klik Menu Formulir Berita</li>
+                            <li> Isi Kolom yang ada pada Formulir, Kemudian Klik Kirim</li>
+                            <li>[OPSIONAL] Agar berita dapat dilihat di situs portal berita, klik tombol centang berwarna hijau pada Halaman Tabel Berita</li>
+                        </ol>
+                         Menambah Agenda
+                        <ol>
+                            <li>Klik Menu Formulir Agenda</li>
+                            <li>Isi Kolom yang ada pada Formulir, Kemudian Klik Kirim</li>
+                        </ol>
+                        </p>
+                    </div>
+                    <div class="col-sm-6"></div>
                 </div>
              </div>
              <footer class="footer">

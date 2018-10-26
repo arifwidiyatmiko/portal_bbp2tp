@@ -80,15 +80,20 @@ class Crud_m extends CI_Model {
         $query = $this->db->get('berita',1,0);
         return $query->result();
     }
-    public function getKomo_berita($idBerita)
+    public function getKomo_berita($idBerita,$view='')
     {
-        $sql = "SELECT * FROM `komoditas_berita` INNER JOIN `komoditas` on komoditas_berita.idKomoditas = komoditas.idKomoditas WHERE idBerita = '".$idBerita."'";
+        $sql = "SELECT * FROM `komoditas_berita` INNER JOIN `komoditas` on komoditas_berita.idKomoditas = komoditas.idKomoditas INNER JOIN `subsektor` on subsektor.idSubsektor = komoditas.idSubsektor WHERE komoditas_berita.idBerita = '".$idBerita."'";
         $data = $this->db->query($sql)->result();
         // print_r($data);die();
         foreach ($data as $key) {
             $res[] = $key->namaKomoditas;
         }
-        return $res;
+        if ($view == 'all') {
+            return $data;
+        }else{
+            return $res;
+        }
+        
     }
 
     public function getGubernur(){
@@ -133,9 +138,10 @@ class Crud_m extends CI_Model {
     
     public function getPadi($kode, $limit, $start){
         $this->db->select('*');
-        $this->db->where('idKomoditas', $kode);
+        $this->db->join('komoditas_berita', 'komoditas_berita.idBerita = berita.idBerita', 'INNER');
+        $this->db->where('komoditas_berita.idKomoditas', $kode);
         $this->db->where('status', '1');
-        $this->db->order_by('idBerita','DESC');
+        $this->db->order_by('berita.idBerita','DESC');
         $query = $this->db->get('berita', $limit, $start);
         return $query->result();
     }

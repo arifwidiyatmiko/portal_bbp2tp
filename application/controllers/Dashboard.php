@@ -620,8 +620,8 @@ class Dashboard extends CI_Controller {
         // Panggil class PHPExcel nya
     $excel = new PHPExcel();
     // Settingan awal fil excel
-    $excel->getProperties()->setCreator('BBP2TP & Program Diploma IPB')
-                 ->setLastModifiedBy('BBP2TP & Program Diploma IPB')
+    $excel->getProperties()->setCreator('BBP2TP')
+                 ->setLastModifiedBy('BBP2TP')
                  ->setTitle("Laporan Berita")
                  ->setSubject("Berita")
                  ->setDescription("Laporan Berita")
@@ -662,45 +662,52 @@ class Dashboard extends CI_Controller {
             // Buat header tabel nya pada baris ke 3
         $excel->setActiveSheetIndex(0)->setCellValue('A4', "NO"); // Set kolom A3 dengan tulisan "NO"
         $excel->setActiveSheetIndex(0)->setCellValue('B4', "TANGGAL"); // Set kolom B3 dengan tulisan "NIS"
-        $excel->setActiveSheetIndex(0)->setCellValue('C4', "SUBSEKTOR"); // Set kolom C3 dengan tulisan "NAMA"
-        $excel->setActiveSheetIndex(0)->setCellValue('D4', "KOMODITAS"); // Set kolom C3 dengan tulisan "NAMA"
-        $excel->setActiveSheetIndex(0)->setCellValue('E4', "KEGIATAN"); // Set kolom C3 dengan tulisan "NAMA"
-        $excel->setActiveSheetIndex(0)->setCellValue('F4', "PRIORITAS"); // Set kolom C3 dengan tulisan "NAMA"
-        $excel->setActiveSheetIndex(0)->setCellValue('G4', "JUDUL BERITA"); // Set kolom C3 dengan tulisan "NAMA"
-        $excel->setActiveSheetIndex(0)->setCellValue('H4', "ISI BERITA"); // Set kolom C3 dengan tulisan "NAMA"
-        $excel->setActiveSheetIndex(0)->setCellValue('I4', "SUMBER"); // Set kolom C3 dengan tulisan "NAMA"
+        // $excel->setActiveSheetIndex(0)->setCellValue('C4', "SUBSEKTOR"); // Set kolom C3 dengan tulisan "NAMA"
+        // $excel->setActiveSheetIndex(0)->setCellValue('D4', "KOMODITAS"); // Set kolom C3 dengan tulisan "NAMA"
+        $excel->setActiveSheetIndex(0)->setCellValue('C4', "KEGIATAN"); // Set kolom C3 dengan tulisan "NAMA"
+        $excel->setActiveSheetIndex(0)->setCellValue('D4', "PRIORITAS"); // Set kolom C3 dengan tulisan "NAMA"
+        $excel->setActiveSheetIndex(0)->setCellValue('E4', "JUDUL BERITA"); // Set kolom C3 dengan tulisan "NAMA"
+        $excel->setActiveSheetIndex(0)->setCellValue('F4', "ISI BERITA"); // Set kolom C3 dengan tulisan "NAMA"
+        $excel->setActiveSheetIndex(0)->setCellValue('G4', "SUMBER"); // Set kolom C3 dengan tulisan "NAMA"
     // Apply style header yang telah kita buat tadi ke masing-masing kolom header
     $excel->getActiveSheet()->getStyle('A4')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('B4')->applyFromArray($style_col);
+    // $excel->getActiveSheet()->getStyle('C4')->applyFromArray($style_col);
+    // $excel->getActiveSheet()->getStyle('D4')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('C4')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('D4')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('E4')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('F4')->applyFromArray($style_col);
-    $excel->getActiveSheet()->getStyle('G4')->applyFromArray($style_col);
-    $excel->getActiveSheet()->getStyle('H4')->applyFromArray($style_col);
     //$excel->getActiveSheet()->getStyle('H3:H'.$excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
-    $excel->getActiveSheet()->getStyle('I4')->applyFromArray($style_col);
+    $excel->getActiveSheet()->getStyle('G4')->applyFromArray($style_col);
         
         // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
 
-		$where = array(
-            'baseUrl'=>base_url()
-		);
+		
+        if ($this->config->item('isDaerah')) {
+               $where = array(
+                'baseUrl'=>base_url(),
+            );
+               // print_r($where);die();
+               $berita = $this->login_m->getAllBerita(base_url());
+        }else{
+            $berita = $this->login_m->getAllBerita();
+        }
 
-    $berita = $this->login_m->getAllBerita('berita',$where);
-    echo json_encode($berita->result());die();
+    
+    // echo json_encode($berita->result());die();
     $no = 1; // Untuk penomoran tabel, di awal set dengan 1
     $numrow = 5; // Set baris pertama untuk isi tabel adalah baris ke 4
     foreach($berita->result() as $data){ // Lakukan looping pada variabel siswa
       $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $no);
       $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->tanggal);
-      $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->namaSubsektor);
-      $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->namaKomoditas);
-      $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->namaKegiatan);
-      $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->namaPrioritas);
-      $excel->setActiveSheetIndex(0)->setCellValue('G'.$numrow, $data->judulBerita);
-      $excel->setActiveSheetIndex(0)->setCellValue('H'.$numrow, $data->isiBerita);
-      $excel->setActiveSheetIndex(0)->setCellValue('I'.$numrow, $data->sumber);
+      // $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->namaSubsektor);
+      // $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->namaKomoditas);
+      $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->namaKegiatan);
+      $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->namaPrioritas);
+      $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->judulBerita);
+      $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->isiBerita);
+      $excel->setActiveSheetIndex(0)->setCellValue('G'.$numrow, $data->sumber);
 
       // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
       $excel->getActiveSheet()->getStyle('A'.$numrow)->applyFromArray($style_row);
@@ -710,8 +717,8 @@ class Dashboard extends CI_Controller {
       $excel->getActiveSheet()->getStyle('E'.$numrow)->applyFromArray($style_row);
       $excel->getActiveSheet()->getStyle('F'.$numrow)->applyFromArray($style_row);
       $excel->getActiveSheet()->getStyle('G'.$numrow)->applyFromArray($style_row);
-      $excel->getActiveSheet()->getStyle('H'.$numrow)->applyFromArray($style_row);
-      $excel->getActiveSheet()->getStyle('I'.$numrow)->applyFromArray($style_row);
+      // $excel->getActiveSheet()->getStyle('H'.$numrow)->applyFromArray($style_row);
+      // $excel->getActiveSheet()->getStyle('I'.$numrow)->applyFromArray($style_row);
 
       $no++; // Tambah 1 setiap kali looping
       $numrow++; // Tambah 1 setiap kali looping
@@ -719,17 +726,17 @@ class Dashboard extends CI_Controller {
         // Set width kolom
     $excel->getActiveSheet()->getColumnDimension('A')->setWidth(5); // Set width kolom A
     $excel->getActiveSheet()->getColumnDimension('B')->setWidth(25); // Set width kolom B
-    $excel->getActiveSheet()->getColumnDimension('C')->setWidth(25); // Set width kolom C
-    $excel->getActiveSheet()->getColumnDimension('D')->setWidth(15); // Set width kolom C
-    $excel->getActiveSheet()->getColumnDimension('E')->setWidth(40); // Set width kolom C
-    $excel->getActiveSheet()->getColumnDimension('F')->setWidth(30); // Set width kolom C
-    $excel->getActiveSheet()->getColumnDimension('G')->setWidth(50); // Set width kolom C
-    $excel->getActiveSheet()->getColumnDimension('H')->setWidth(150); // Set width kolom C
-    $excel->getActiveSheet()->getColumnDimension('I')->setWidth(40); // Set width kolom C
+    // $excel->getActiveSheet()->getColumnDimension('C')->setWidth(25); // Set width kolom C
+    // $excel->getActiveSheet()->getColumnDimension('D')->setWidth(15); // Set width kolom C
+    $excel->getActiveSheet()->getColumnDimension('C')->setWidth(40); // Set width kolom C
+    $excel->getActiveSheet()->getColumnDimension('D')->setWidth(30); // Set width kolom C
+    $excel->getActiveSheet()->getColumnDimension('E')->setWidth(50); // Set width kolom C
+    $excel->getActiveSheet()->getColumnDimension('F')->setWidth(150); // Set width kolom C
+    $excel->getActiveSheet()->getColumnDimension('G')->setWidth(40); // Set width kolom C
 
     // Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
     //$excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
-    $excel->getActiveSheet()->getStyle('H1:H'.$excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+    // $excel->getActiveSheet()->getStyle('H1:H'.$excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
     // Set orientasi kertas jadi LANDSCAPE
     $excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
     // Set judul file excel nya
