@@ -78,6 +78,9 @@
                             <?php } ?>
                         </ul>
                     </li>
+                    <li>
+                        <a href="<?=base_url()?>Login" id="color-me">Login</a>
+                    </li>
                     <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" id="color-me" data-toggle="dropdown" role="button" aria-expanded="false">Lain-Lain <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
