@@ -45,6 +45,12 @@ class Login_m extends CI_Model {
         return $this->db->get($tbl);
     }
     
+    public function getKecamatanAll()
+    {
+        $sql = "SELECT * FROM `kecamatan` INNER JOIN `kota` on kota.idCity = kecamatan.idCIty INNER JOIN provinsi on provinsi.idProvinsi = kota.idProvince ORDER BY `idKecamatan`  DESC";
+        return $this->db->query($sql);
+    }
+
     function simpanAgenda($jdl,$tempat,$tanggal,$peserta,$tVIP,$pj,$gambar){
 		$hsl=$this->db->query("INSERT INTO agenda (idAgenda,judulKegiatan,tempat,tanggal,peserta,tamuVIP,pjKegiatan,foto) VALUES ('NULL','$jdl','$tempat','$tanggal','$peserta','$tVIP','$pj','$gambar')");
 		return $hsl;
@@ -200,6 +206,34 @@ class Login_m extends CI_Model {
         $sql = "SELECT * FROM `komoditas` INNER JOIN `subsektor` on subsektor.idSubsektor = komoditas.idSubsektor ORDER BY subsektor.namaSubsektor";
         return $this->db->query($sql)->result();
     }
+    public function insertKomoditas($data)
+    {
+        $this->db->insert('komoditas', $data);
+    }
+    public function updateKomoditas($id,$data)
+    {
+        $this->db->where('idKomoditas', $id);
+        $this->db->update('komoditas', $data);
+    }
+    public function deleteKomoditas($id)
+    {
+        $this->db->where('idKomoditas', $id);
+        $this->db->delete('komoditas');
+    }
+    public function insertKegiatan($data)
+    {
+        $this->db->insert('kegiatan', $data);
+    }
+    public function updateKegiatan($id,$data)
+    {
+        $this->db->where('idKegiatan', $id);
+        $this->db->update('kegiatan', $data);
+    }
+    public function deleteKegiatan($id)
+    {
+        $this->db->where('idKegiatan', $id);
+        $this->db->delete('kegiatan');
+    }
     
     function getKomoditas($idSubsektor){
         $this->db->where('idSubsektor',$idSubsektor);
@@ -210,5 +244,5 @@ class Login_m extends CI_Model {
             return array();
         }
     }
-
+    
 }

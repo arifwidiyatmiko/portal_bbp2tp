@@ -111,41 +111,32 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
+                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
-                        <a href="#" class="active-menu"><i class="fa fa-edit fa-2x"></i> Formulir<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#" class="active-menu">Formulir Berita</a>
+                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/formAgenda">Formulir Agenda</a>
+                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-table fa-2x"></i> Tabel<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Tabel Berita</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelAgenda">Tabel Agenda</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
                     <!-- <li>
                         <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->
+                    </li> -->   
                 </ul>
-
+               
             </div>
-
-        </nav>
+            
+        </nav>  
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">

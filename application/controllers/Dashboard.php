@@ -44,7 +44,99 @@ class Dashboard extends CI_Controller {
         // print_r($data['city']);die();
 		$this->load->view('admin/formBerita_v',$data);
 	}
-    
+    public function komoditas($value='')
+    {
+        $where = array(
+                        'idAdmin' => $this->session->userdata("idAdmin")
+                        );
+        $data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
+        $data['provinsi'] = $this->Crud_m->getAllProvince();
+        $data['city'] = $this->Crud_m->getAllCity($this->session->userdata('idProvinsi'));
+        $data['komoditas'] = $this->login_m->getKomoditasAll();
+        $data['subsektor'] = $this->login_m->getSubsektor();
+        // print_r($data['subsektor']);die();
+        $this->load->view('admin/komoditas_tabel', $data);
+    }
+    public function add_komo()
+    {
+        $data = array('idSubsektor' => $this->input->post('subsektor'),'namaKomoditas'=>$this->input->post('komoditas') );
+        $this->login_m->insertKomoditas($data);
+        redirect('Dashboard/komoditas','refresh');
+    }
+    public function edit_komo($id)
+    {
+        // echo $id;die();
+        $data = array('namaKomoditas' => $this->input->post('komoditas') );
+        $this->login_m->updateKomoditas($id,$data);
+        redirect('Dashboard/komoditas','refresh');
+    }
+    public function delete_komo($id)
+    {
+        $this->login_m->deleteKomoditas($id);
+        redirect('Dashboard/komoditas','refresh');
+    }
+    public function kegiatan($value='')
+    {
+        $where = array(
+                        'idAdmin' => $this->session->userdata("idAdmin")
+                        );
+        $data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
+        $data['provinsi'] = $this->Crud_m->getAllProvince();
+        $data['city'] = $this->Crud_m->getAllCity($this->session->userdata('idProvinsi'));
+        $data['kegiatan'] = $this->login_m->ambilData('kegiatan')->result();
+        // print_r($data['kegiatan']);die();
+        $this->load->view('admin/kegiatan_tabel', $data);
+    }
+    public function add_kegiatan()
+    {
+        $data = array('namaKegiatan' => $this->input->post('kegiatan') );
+        $this->login_m->insertKegiatan($data);
+        redirect('Dashboard/kegiatan','refresh');
+    }
+    public function edit_kegiatan($id)
+    {
+        // echo $id;die();
+        $data = array('namaKegiatan' => $this->input->post('komoditas') );
+        $where = array('idKegiatan' => $id);
+        $this->login_m->updateData('kegiatan', $data, $where);
+        redirect('Dashboard/kegiatan','refresh');
+    }
+    public function delete_kegiatan($id)
+    {
+        $this->login_m->deleteKegiatan($id);
+        redirect('Dashboard/kegiatan','refresh');
+    }
+    public function kecamatan($value='')
+    {
+        $where = array(
+                        'idAdmin' => $this->session->userdata("idAdmin")
+                        );
+        $data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
+        $data['provinsi'] = $this->Crud_m->getAllProvince();
+        $data['city'] = $this->Crud_m->getAllCity($this->session->userdata('idProvinsi'));
+        $data['kecamatan'] = $this->login_m->getKecamatanAll()->result();
+        // print_r($data['kecamatan']);die();
+        $this->load->view('admin/kecamatan_tabel', $data);
+    }
+    public function add_kecamatan()
+    {
+        $data = array('namaKecamatan' => $this->input->post('namaKecamatan'),'idCity'=>$this->input->post('idCity') );
+        $this->login_m->insertKomoditas($data);
+        redirect('Dashboard/kegiatan','refresh');
+    }
+    public function edit_kecamatan($id)
+    {
+        // echo $id;die();
+        $data = array('namaKegiatan' => $this->input->post('komoditas') );
+        $where = array('idKegiatan' => $id);
+        $this->login_m->updateData('kegiatan', $data, $where);
+        redirect('Dashboard/kegiatan','refresh');
+    }
+    public function delete_kecamatan($id)
+    {
+        $this->login_m->deleteKomoditas($id);
+        redirect('Dashboard/kegiatan','refresh');
+    }
     public function getKom(){
         $idSubsektor = $this->input->post('cmbSubsektor');
         $kom = $this->login_m->getKomoditas($idSubsektor);
