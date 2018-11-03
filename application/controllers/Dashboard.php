@@ -37,7 +37,7 @@ class Dashboard extends CI_Controller {
         
         $data['cmbsubs']=$this->login_m->getSubsektor();
         $data['cmbKomoditas']=$this->login_m->getKomoditasAll();
-        $data['cmbKegiatan']=$this->login_m->ambilSemua($this->tabelKegiatan);
+        $data['cmbKegiatan']=$this->login_m->getKegiatan();
         $data['cmbPrioritas']=$this->login_m->ambilSemua($this->tabelPrioritas);
         $data['provinsi'] = $this->Crud_m->getAllProvince();
         $data['city'] = $this->Crud_m->getAllCity($this->session->userdata('idProvinsi'));

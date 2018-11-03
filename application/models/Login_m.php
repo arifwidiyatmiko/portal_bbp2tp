@@ -220,6 +220,11 @@ class Login_m extends CI_Model {
         $this->db->where('idKomoditas', $id);
         $this->db->delete('komoditas');
     }
+    public function getKegiatan($value='')
+    {
+        $this->db->order_by('namaKegiatan', 'ASC');
+        return $this->db->get('kegiatan');
+    }
     public function insertKegiatan($data)
     {
         $this->db->insert('kegiatan', $data);

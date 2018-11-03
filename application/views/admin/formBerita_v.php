@@ -203,11 +203,11 @@
                                         </div>
                                         <?php }?>
                                         <div class="form-group">
-                                                <label>Tanggal</label>
+                                                <label>Tanggal <span style="color: red;">(wajib)</span></label>
                                                 <input type="text" class="form-control input-group date" name="ftanggal" data-date-format="yyyy-mm-dd" placeholder="Tanggal" required/>
                                         </div>
                                         <div class="form-group col-sm-4">
-                                                <label>Provinsi</label>
+                                                <label>Provinsi  <span style="color: red;">(wajib)</span></label>
                                                 <select class="form-control" name="provinsi" id="provinsi" required="true" disabled>
                                                     <?php 
                                                     foreach ($provinsi->result() as $key) {
@@ -217,7 +217,7 @@
                                                 </select>
                                         </div>
                                          <div class="form-group  col-sm-4">
-                                            <label>Kota</label>
+                                            <label>Kota <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="kota" id="kota">
                                                 <!-- <option value="" disabled selected>-- Pilih Provinsi Dahulu --</option> -->
                                                 <option value="" disabled selected>-- Pilih Kota --</option>
@@ -230,18 +230,18 @@
                                             </select>
                                         </div>
                                         <div class="form-group  col-sm-4">
-                                            <label>Kecamatan</label>
+                                            <label>Kecamatan <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="kecamatan" id="kecamatan">
                                                 <option value="" disabled selected>-- Pilih Kota Terlebih Dahulu --</option>
                                                
                                             </select>
                                         </div>
                                          <div class="form-group col-sm-6">
-                                            <label>Kelurahan atau Desa</label>
+                                            <label>Kelurahan atau Desa <span style="color: red;">(wajib)</span></label>
                                             <input type="text" class="form-control" name="kelurahan" placeholder="Nama Kelurahan" required/>
                                         </div>
                                         <div class="form-group col-sm-6">
-                                            <label>Prioritas</label>
+                                            <label>Prioritas <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="cmbPrioritas" id="cmbPrioritas" required>
                                                 <option value="" disabled selected>-- Pilih Prioritas --</option>
                                                 <?php foreach($cmbPrioritas->result() as $perdata) {?>
@@ -250,17 +250,17 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Judul Berita</label>
+                                            <label>Judul Berita <span style="color: red;">(wajib)</span></label>
                                             <input type="text" class="form-control" name="fjudul" placeholder="Judul Berita" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label>Isi Berita</label>
+                                            <label>Isi Berita <span style="color: red;">(wajib)</span></label>
                                             <textarea class="form-control" name="fisi" id="ckeditor" placeholder="Isi Berita" required></textarea>
                                             <!-- <span id="hitung">5000</span> Karakter tersisa -->
                                         </div>
                                        
                                         <div class="form-group">
-                                            <label>Komoditas</label>
+                                            <label>Komoditas <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="cmbKomoditas[]" id="cmbKomoditas" multiple="multiple">
                                                 <?php 
                                                 foreach ($cmbKomoditas as $key) {
@@ -276,6 +276,18 @@
                                                 <!-- <option value="x">Lain Lain</option> -->
                                             </select>
                                             <!-- <input id="tags" class="form-control" size="50"> -->
+                                        </div>
+                                        <div class="form-group" id="d_fteknologi">
+                                            <label>Introduksi Teknologi Lain </label>
+                                            <input type="text" class="form-control" name="fteknologi" id="fteknologi" placeholder="Luas Tanam" />
+                                        </div>
+                                        <div class="form-group" id="d_fteknologi">
+                                            <label>Agroekosistem *</label>
+                                            <select name="fagroekosistem" id="fagroekosistem" class="form-control">
+                                                <option value="Lahan Sawah">Lahan Sawah</option>
+                                                <option value="Lahan Kering">Lahan Kering</option>
+                                                <option value="Lahan Rawa">Lahan Rawa</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Kegiatan</label>
@@ -309,9 +321,9 @@
                                             *<i>Optional</i>
                                         </div>
                                          <div class="form-group col-sm-4" id="d_fproduktivitas">
-                                            <label>Produktivitas Tanam</label>
+                                            <label>Produktivitas Panen</label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" name="fproduktivitas" id="fproduktivitas" placeholder="Luas Tanam" />
+                                                <input type="number" class="form-control" name="fproduktivitas" id="fproduktivitas" placeholder="Produktivitas Panen" />
                                                 <span class="input-group-addon">Ton/Ha</span>
                                             </div>
                                             *<i>Optional</i>
@@ -327,14 +339,9 @@
                                          <div class="form-group" id="d_fpengendalian">
                                             <label>Gerakan Pengendalian OPT </label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" name="fpengendalian" id="fpengendalian" placeholder="Luas Tanam" />
+                                                <input type="number" class="form-control" name="fpengendalian" id="fpengendalian" placeholder="Luas Pengendalian OPT" />
                                                 <span class="input-group-addon">Ha</span>
                                             </div>
-                                            *<i>Optional</i>
-                                        </div>
-                                        <div class="form-group" id="d_fteknologi">
-                                            <label>Introduksi Teknologi Lain </label>
-                                            <input type="text" class="form-control" name="fteknologi" id="fteknologi" placeholder="Luas Tanam" />
                                             *<i>Optional</i>
                                         </div>
                                         <div class="form-group col-sm-6" id="d_fproduksi">
@@ -354,12 +361,12 @@
                                             *<i>Optional</i>
                                         </div>
                                         <div class="form-group col-sm-6" id="d_fvarspek">
-                                            <label>Varietas Benih Lokal*</label>
+                                            <label>Varietas/ Nama Benih Lokal*</label>
                                             <input type="text" class="form-control" name="fvarspek" id="fvarspek" placeholder="Varietas Spesifik Lokasi" />
                                             *Opsional
                                         </div>
                                         <div class="form-group col-sm-6" id="d_fvarspek_prod">
-                                            <label>Produksi  Benih Lokal*</label>
+                                            <label>Produksi Benih Lokal*</label>
                                             <div class="input-group">
                                                 <input type="number" class="form-control" name="fvarspek_prod" id="fvarspek_prod" placeholder="Produksi Benih Lokal" />
                                                 <span class="input-group-addon">Kilogram</span>
@@ -367,12 +374,12 @@
                                             *Opsional
                                         </div>
                                         <div class="form-group">
-                                            <label>Sumber*</label>
+                                            <label>Sumber (Media Online, Situs Berita)*</label>
                                             <input type="text" class="form-control" name="fsumber" placeholder="https://"/>
                                             *Opsional
                                         </div>
                                         <div class="form-group">
-                                            <label>Unggah Gambar</label>
+                                            <label>Unggah Gambar <span style="color: red;">(wajib)</span></label>
                                             <input type="file" class="form-control" onchange="upload('gambar')" name="filefoto" id="filefoto" required/>
                                             .jpg .jpeg .png
                                         </div>
@@ -439,12 +446,23 @@
             $('#d_fproduktivitas').hide();
             $('#d_fgabah').hide();
             $('#d_fpengendalian').hide();
-            $('#d_fteknologi').hide();
+            // $('#d_fteknologi').hide();
             $('#d_fvarspek').hide();
             $('#d_fproduksi').hide();
             $('#d_fdistribusi').hide();
             $('#d_fvarspek_prod').hide();
             $('#cmbKegiatan').change(function() {
+                $('#d_fvub').hide();
+                    $('#d_ftanam').hide();
+                    $('#d_fpanen').hide();
+                    $('#d_fproduktivitas').hide();
+                    $('#d_fgabah').hide();
+                    $('#d_fpengendalian').hide();
+                    // $('#d_fteknologi').hide();
+                    $('#d_fvarspek').hide();
+                    $('#d_fvarspek_prod').hide();
+                    $('#d_fproduksi').hide();
+                    $('#d_fdistribusi').hide();
                 console.log($('#cmbKegiatan').val());
                 if ($('#cmbKegiatan').val() == 1) {
                     $('#d_fvub').show();
@@ -453,13 +471,13 @@
                     $('#d_fproduktivitas').show();
                     $('#d_fgabah').show();
                     $('#d_fpengendalian').show();
-                    $('#d_fteknologi').show();
+                    // $('#d_fteknologi').show();
                     // $('#d_fvarspek').show();
-                }else if($('#cmbKegiatan').val() == 2){
+                }else if($('#cmbKegiatan').val() == 3){
                     $('#d_fvub').show();
                     $('#d_fproduksi').show();
                     $('#d_fdistribusi').show();
-                    $('#d_fteknologi').show();
+                    // $('#d_fteknologi').show();
                     $('#d_fvarspek').show();
                     $('#d_fvarspek_prod').show();
                 }else if($('#cmbKegiatan').val() == 9){
@@ -471,7 +489,7 @@
                     $('#d_fproduktivitas').hide();
                     $('#d_fgabah').hide();
                     $('#d_fpengendalian').hide();
-                    $('#d_fteknologi').hide();
+                    // $('#d_fteknologi').hide();
                     $('#d_fvarspek').hide();
                     $('#d_fvarspek_prod').hide();
                     $('#d_fproduksi').hide();
