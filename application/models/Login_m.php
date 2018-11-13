@@ -220,6 +220,13 @@ class Login_m extends CI_Model {
         $this->db->where('idKomoditas', $id);
         $this->db->delete('komoditas');
     }
+    public function getTeknologi($id)
+    {
+        $this->db->select('*');
+        $this->db->join('teknologi', 'teknologi.idTeknologi = teknologi_berita.idTeknologi', 'right');
+        $this->db->where('teknologi_berita.idBerita', $id);
+        return $this->db->get('teknologi_berita');
+    }
     public function getKegiatan($value='')
     {
         $this->db->order_by('namaKegiatan', 'ASC');
@@ -249,5 +256,9 @@ class Login_m extends CI_Model {
             return array();
         }
     }
-    
+    public function cekTekno($value)
+    {
+        $this->db->where('teknologi', $value);
+        return $this->db->get('teknologi');
+    }
 }

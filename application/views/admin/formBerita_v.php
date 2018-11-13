@@ -278,10 +278,10 @@
                                             <!-- <input id="tags" class="form-control" size="50"> -->
                                         </div>
                                         <div class="form-group" id="d_fteknologi">
-                                            <label>Introduksi Teknologi Lain </label>
-                                            <input type="text" class="form-control" name="fteknologi" id="fteknologi" placeholder="Luas Tanam" />
+                                            <label>Introduksi Teknologi Lain </label>&nbsp;<a class="btn btn-xs btn-primary" id="add_teknologi">Tambah</a>
+                                            <input type="text" class="form-control" name="fteknologi[]" placeholder="Nama Teknologi" />
                                         </div>
-                                        <div class="form-group" id="d_fteknologi">
+                                        <div class="form-group" id="d_fagroekosistem">
                                             <label>Agroekosistem *</label>
                                             <select name="fagroekosistem" id="fagroekosistem" class="form-control">
                                                 <option value="Lahan Sawah">Lahan Sawah</option>
@@ -431,6 +431,7 @@
 	   
     <script type="text/javascript">
          $(document).ready(function(){
+            
              $('#cmbKomoditas').select2();
             var komoditas_data = [];
             $(".input-group.date").datepicker({
@@ -496,6 +497,14 @@
                     $('#d_fdistribusi').hide();
                 }
             })
+            var tech = 1;
+            $('#add_teknologi').click(function() {
+                if (tech <= 4) {
+                    $('#d_fteknologi').append('<div style="margin-top:10px;"><input type="text" class="form-control" name="fteknologi[]" placeholder="Nama Teknologi" /></div>');
+                    tech++;
+                }
+                
+            });
     		$("#cmbSubsektor").change(function(){
                     var cmbSubsektor = $("#cmbSubsektor").val();
                     $.ajax({

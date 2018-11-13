@@ -328,7 +328,7 @@ class Dashboard extends CI_Controller {
                "idCity"=>$this->input->post('kota'),
 			   "tanggal"=>substr($tanggal, 6,4)."-".substr($tanggal, 0,2)."-".substr($tanggal, 3,2),
 			   // "varSpeklok"=>$varSpeklok,
-			   // "idKomoditas"=>0,
+			   "fagroekosistem"=>$this->input->post('fagroekosistem'),
                "idKecamatan"=>$this->input->post('kecamatan'),
                "kelurahan"=>$this->input->post('kelurahan'),
 			   "idKegiatan"=>$idKegiatan,
@@ -349,7 +349,7 @@ class Dashboard extends CI_Controller {
                 $data['fproduktivitas'] = $this->input->post('fproduktivitas');
                 $data['fgabah'] = $this->input->post('fgabah');
                 $data['fpengendalian'] = $this->input->post('fpengendalian');
-                $data['fteknologi'] = $this->input->post('fteknologi');
+                // $data['fteknologi'] = $this->input->post('fteknologi');
                 break;
             case '2':
                 $data['fvub'] = $this->input->post('fvub');
@@ -357,7 +357,7 @@ class Dashboard extends CI_Controller {
                 $data['fdistribusi'] = $this->input->post('fdistribusi');
                 $data['fvarspek'] = $this->input->post('fvarspek');
                 $data['fvarspek_prod'] = $this->input->post('fvarspek_prod');
-                $data['fteknologi'] = $this->input->post('fteknologi');
+                // $data['fteknologi'] = $this->input->post('fteknologi');
                 break;
             case '9':
                 $data['fvarspek'] = $this->input->post('fvarspek');
@@ -367,7 +367,8 @@ class Dashboard extends CI_Controller {
                 break;
         }
         // echo "sdas";
-        // print_r($data);die();
+        // print_r($this->input->post('fteknologi'));die();
+
         // $idBerita = 1;
 			$idBerita = $this->login_m->insertData($this->tabelBerita,$data);
             $i = 0;
@@ -376,6 +377,21 @@ class Dashboard extends CI_Controller {
                 $komo_berita['idBerita'] = $idBerita;
                 $this->login_m->insertData('komoditas_berita',$komo_berita);
                 $i++;
+            }
+            foreach ($this->input->post('fteknologi') as $key => $val) {
+                $cekTekno = $this->login_m->cekTekno(strtoupper($val));
+                if ($cekTekno->num_rows() == 0) {
+                    if ($val != '') {
+                        $idTekno = $this->login_m->insertData('teknologi',array('teknologi'=>strtoupper($val)));
+                    }
+                }else{
+                    $idTekno = $cekTekno->result()[0]->idTeknologi;
+                }
+                $tekno_berita['idTeknologi'] = $idTekno;
+                $tekno_berita['idBerita'] = $idBerita;
+                if ($val != '') {
+                    $this->login_m->insertData('teknologi_berita',$tekno_berita);
+                }
             }
             // print_r($komo_berita);die();
         
@@ -387,10 +403,10 @@ class Dashboard extends CI_Controller {
             'idBerita' => $id
         );
         $data['berita'] = $this->login_m->ambilData($this->tabelBerita,$where)->result();
-
+        $data['teknologi_berita'] = $this->login_m->getTeknologi($id);
         $data['komoditas_berita'] = $this->login_m->ambilData('komoditas_berita',$where);
         $data['komoditas'] = $this->login_m->ambilSemua($this->tabelKomoditas);
-        $data['kegiatan'] = $this->login_m->ambilSemua($this->tabelKegiatan);
+        $data['kegiatan'] = $this->login_m->getKegiatan();
         $data['prioritas'] = $this->login_m->ambilSemua($this->tabelPrioritas);
         $data['kecamatan'] = $this->Crud_m->getAllKecamatan($data['berita'][0]->idCity)->result();
         $data['provinsi'] = $this->Crud_m->getAllProvince();
@@ -399,7 +415,7 @@ class Dashboard extends CI_Controller {
 						'idAdmin' => $this->session->userdata("idAdmin")
 						);
 		$data['admin']=$this->login_m->ambilData($this->tabelAdmin,$where);
-        // print_r($data['admin']->result());die();
+        // print_r($data['teknologi_berita']->result());die();
         $this->load->view('admin/formEditBerita_v',$data);
     }
     
@@ -459,7 +475,7 @@ class Dashboard extends CI_Controller {
 			   "fvub"=>$vub,
 			   "tanggal"=>$tanggal,
 			   // "varSpeklok"=>$varSpeklok,
-			   // "idKomoditas"=>$idKomoditas,
+			   "fagroekosistem"=>$this->input->post('fagroekosistem'),
 			   "idKegiatan"=>$idKegiatan,
 			   "idPrioritas"=>$idPrioritas,
 			   "judulBerita"=>$judulBerita,
@@ -478,7 +494,7 @@ class Dashboard extends CI_Controller {
                 $data['fproduktivitas'] = $this->input->post('fproduktivitas');
                 $data['fgabah'] = $this->input->post('fgabah');
                 $data['fpengendalian'] = $this->input->post('fpengendalian');
-                $data['fteknologi'] = $this->input->post('fteknologi');
+                // $data['fteknologi'] = $this->input->post('fteknologi');
                 break;
             case '2':
                 $data['fvub'] = $this->input->post('fvub');
@@ -486,7 +502,7 @@ class Dashboard extends CI_Controller {
                 $data['fdistribusi'] = $this->input->post('fdistribusi');
                 $data['fvarspek'] = $this->input->post('fvarspek');
                 $data['fvarspek_prod'] = $this->input->post('fvarspek_prod');
-                $data['fteknologi'] = $this->input->post('fteknologi');
+                // $data['fteknologi'] = $this->input->post('fteknologi');
                 break;
             case '9':
                 $data['fvarspek'] = $this->input->post('fvarspek');
@@ -502,6 +518,7 @@ class Dashboard extends CI_Controller {
         // echo json_encode($data);die();
         $this->login_m->UpdateData($this->tabelBerita,$data,$where);
         $this->login_m->deleteData('komoditas_berita',$where);
+        $this->login_m->deleteData('teknologi_berita',$where);
         $i = 0;
             foreach ($idKomoditas as $key => $value) {
                 $komo_berita['idKomoditas'] = $value;
@@ -509,6 +526,21 @@ class Dashboard extends CI_Controller {
                 // print_r($komo_berita);die();
                 $this->login_m->insertData('komoditas_berita',$komo_berita);
                 $i++;
+            }
+             foreach ($this->input->post('fteknologi') as $key => $val) {
+                $cekTekno = $this->login_m->cekTekno(strtoupper($val));
+                if ($cekTekno->num_rows() == 0) {
+                    if ($val != '') {
+                        $idTekno = $this->login_m->insertData('teknologi',array('teknologi'=>strtoupper($val)));
+                    }
+                }else{
+                    $idTekno = $cekTekno->result()[0]->idTeknologi;
+                }
+                $tekno_berita['idTeknologi'] = $idTekno;
+                $tekno_berita['idBerita'] = $idBerita;
+                if ($val != '') {
+                    $this->login_m->insertData('teknologi_berita',$tekno_berita);
+                }
             }
         redirect('dashboard/tabelBerita');
     }

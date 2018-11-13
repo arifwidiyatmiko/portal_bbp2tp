@@ -213,7 +213,7 @@
                                                 <td><?php echo $no;?></td>
                                                 <td><?php echo $tanggal;?></td>
                                                 <td><?php echo $judulBerita;?></td>
-                                                <td><?php echo substr($isiBerita, 0,100);?></td>
+                                                <td><?php echo $isiBerita;?></td>
                                                 
                                                 <td><?php echo $namaKomoditas;?></td>
                                                 <td><?php echo $namaKegiatan;?></td>
