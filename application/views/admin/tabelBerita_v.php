@@ -112,27 +112,34 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a <?php if($this->uri->segment(2) == '' || $this->uri->segment(2)=='index'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='formBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='tabelBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
                         <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
+                                <a href="<?php echo base_url();?>dashboard/pengguna">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
+                                <a href="<?php echo base_url();?>dashboard/komoditas">Komoditas</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kegiatan">Kegiatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kecamatan">Kecamatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/listKota">Kota</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a <?php if($this->uri->segment(2)=='grafik'){echo 'class="active-menu"';}?>  href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
-                    <!-- <li>
-                        <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->   
+                    
                 </ul>
                
             </div>
@@ -155,12 +162,39 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Advanced Tables -->
+                         <div class="form-group"> 
+                         <!--<div class="col-sm-2">-->
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" id="menu2" type="button" data-toggle="dropdown">Export Data
+                                        <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                          <li class="dropdown-header">Data Excel Intensitas Berita</li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('dashboard/export/data/2') ?>">1 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('dashboard/export/data/3') ?>">6 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('dashboard/export/data/4') ?>">12 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('dashboard/export/data/0') ?>">Seluruh Data Berita</a></li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li class="dropdown-header">Data Berita Per Teknologi</li>
+                                          <?php
+                                            foreach($teknologi->result() as $k){
+                                            ?><li role="presentation"><a role="menuitem" tabindex="-1" href="<?=base_url()?>dashboard/exportTek/<?=$k->idTeknologi?>/<?=$k->teknologi?>"><?=$k->teknologi?></a></li><?php
+                                            }
+                                          ?>
+                                          <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">1 Bulan Terakhir</a></li>-->
+                                          <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">2</a></li>-->
+                                          <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li> -->
+                                        </ul>
+                                      </div>
+                                      <!--</div>-->
+                                      
+                                    <!--<button type="button" name="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><a href="<?php echo site_url('dashboard/export') ?>" style="color: #fff;"><div class="glyphicon glyphicon-download"></div> Laporan Berita (Excel)</a></button>-->
+                                    <!--<button type="button" name="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><a href="<?php echo site_url('dashboard/export') ?>" style="color: #fff;"><div class="glyphicon glyphicon-download"></div> Laporan Berita Per Teknologi</a></button>-->
+                                 </div> 
                         <div class="panel panel-default">
-                            <h4 class="col-md-10">Tabel Berita</h4>
+                            
                             <div class="panel-heading">
-                                <div class="form form-inline ">
-                                    <button type="button" name="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><a href="<?php echo site_url('dashboard/export') ?>" style="color: #fff;"><div class="glyphicon glyphicon-download"></div> Laporan Berita (Excel)</a></button>
-                                </div><!-- <?php echo base_url(); ?>dashboard/formBerita -->
+                                
+                               <h4>Tabel Berita</h4> 
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -170,11 +204,11 @@
                                                <th>NO</th>
                                                 <th>Tanggal</th>
                                                 <th>Judul Berita</th>
-                                                <th>Isi Berita</th>
+                                                <!--<th>Isi Berita</th>-->
                                                 <th>Komoditas</th>
                                                 <th>Kegiatan</th>
                                                 <th>Prioritas</th>
-                                                <th>Sumber</th>
+                                                <th>Penyunting</th>
                                                 <!-- <th>Aktor</th> -->
                                                 <th>Aksi</th>
                                             </tr>
@@ -213,12 +247,11 @@
                                                 <td><?php echo $no;?></td>
                                                 <td><?php echo $tanggal;?></td>
                                                 <td><?php echo $judulBerita;?></td>
-                                                <td><?php echo substr($isiBerita, 0,100);?></td>
                                                 
                                                 <td><?php echo $namaKomoditas;?></td>
                                                 <td><?php echo $namaKegiatan;?></td>
                                                 <td><?php echo $namaPrioritas;?></td>
-                                                <td><?php echo $sumber;?></td>
+                                                <td><?php echo $b['nama'];?></td>
                                                 <!-- <td><?php echo $nama;?></td> -->
                                                 <td>
                                                     <?php //if($idAdmin == '1'){ ?>
@@ -269,6 +302,8 @@
     <script src="<?php echo base_url(); ?>assets/admin/assets/js/dataTables/dataTables.bootstrap.js"></script>
     <script>
         $(document).ready(function() {
+            // $("#menu1").dropdown();
+            $("#menu2").dropdown();
             $('#dataTables-example').dataTable({
                 "lengthMenu": [[5, 15, 25, -1], [5, 15, 25, "All"]],
                 "scrollX": true,

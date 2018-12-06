@@ -16,7 +16,7 @@
     <!-- CUSTOM STYLES-->
     <link href="<?php echo base_url(); ?>assets/admin/assets/css/custom.css" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/admin/assets/css/jquery-ui.css">
 
 </head>
@@ -145,27 +145,34 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a <?php if($this->uri->segment(2) == '' || $this->uri->segment(2)=='index'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='formBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='tabelBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
                         <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
+                                <a href="<?php echo base_url();?>dashboard/pengguna">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
+                                <a href="<?php echo base_url();?>dashboard/komoditas">Komoditas</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kegiatan">Kegiatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kecamatan">Kecamatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/listKota">Kota</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a <?php if($this->uri->segment(2)=='grafik'){echo 'class="active-menu"';}?>  href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
-                    <!-- <li>
-                        <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->   
+                    
                 </ul>
                
             </div>
@@ -210,9 +217,16 @@
                                                 <label>Provinsi  <span style="color: red;">(wajib)</span></label>
                                                 <select class="form-control" name="provinsi" id="provinsi" required="true" disabled>
                                                     <?php 
-                                                    foreach ($provinsi->result() as $key) {
-                                                        ?><option value="<?= $key->idProvinsi?>" <?php if($key->idProvinsi == $idProvinsi_def){echo "selected";} ?>><?= $key->namaProvinsi ?></option><?php 
+                                                    if($this->config->item('isDaerah')){
+                                                        foreach ($provinsi->result() as $key) {
+                                                            ?><option value="<?= $key->idProvinsi?>" <?php if($key->idProvinsi == $idProvinsi_def){echo "selected";} ?>><?= $key->namaProvinsi ?></option><?php 
+                                                        }
+                                                    }else{
+                                                        foreach ($provinsi->result() as $key) {
+                                                            ?><option value="<?= $key->idProvinsi?>"><?= $key->namaProvinsi ?></option><?php 
+                                                        }
                                                     }
+                                                    
                                                     ?>
                                                 </select>
                                         </div>
@@ -230,15 +244,15 @@
                                             </select>
                                         </div>
                                         <div class="form-group  col-sm-4">
-                                            <label>Kecamatan <span style="color: red;">(wajib)</span></label>
+                                            <label>Kecamatan </label>
                                             <select class="form-control" name="kecamatan" id="kecamatan">
                                                 <option value="" disabled selected>-- Pilih Kota Terlebih Dahulu --</option>
                                                
                                             </select>
                                         </div>
                                          <div class="form-group col-sm-6">
-                                            <label>Kelurahan atau Desa <span style="color: red;">(wajib)</span></label>
-                                            <input type="text" class="form-control" name="kelurahan" placeholder="Nama Kelurahan" required/>
+                                            <label>Kelurahan atau Desa </label>
+                                            <input type="text" class="form-control" name="kelurahan" placeholder="Nama Kelurahan"/>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label>Prioritas <span style="color: red;">(wajib)</span></label>
@@ -249,9 +263,12 @@
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                            <!-- <label>sdhisa</label> -->
                                             <label>Judul Berita <span style="color: red;">(wajib)</span></label>
                                             <input type="text" class="form-control" name="fjudul" placeholder="Judul Berita" required/>
+                                        </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Isi Berita <span style="color: red;">(wajib)</span></label>
@@ -278,10 +295,10 @@
                                             <!-- <input id="tags" class="form-control" size="50"> -->
                                         </div>
                                         <div class="form-group" id="d_fteknologi">
-                                            <label>Introduksi Teknologi Lain </label>
-                                            <input type="text" class="form-control" name="fteknologi" id="fteknologi" placeholder="Luas Tanam" />
+                                            <label>Introduksi Teknologi Lain </label>&nbsp;<a class="btn btn-xs btn-primary" id="add_teknologi">Tambah</a>
+                                            <input type="text" class="form-control" name="fteknologi[]" placeholder="Nama Teknologi" />
                                         </div>
-                                        <div class="form-group" id="d_fteknologi">
+                                        <div class="form-group" id="d_fagroekosistem">
                                             <label>Agroekosistem *</label>
                                             <select name="fagroekosistem" id="fagroekosistem" class="form-control">
                                                 <option value="Lahan Sawah">Lahan Sawah</option>
@@ -373,14 +390,17 @@
                                             </div>
                                             *Opsional
                                         </div>
-                                        <div class="form-group">
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                            <!-- <label>sdhisa</label> -->
                                             <label>Sumber (Media Online, Situs Berita)*</label>
                                             <input type="text" class="form-control" name="fsumber" placeholder="https://"/>
                                             *Opsional
                                         </div>
+                                    </div>
                                         <div class="form-group">
-                                            <label>Unggah Gambar <span style="color: red;">(wajib)</span></label>
-                                            <input type="file" class="form-control" onchange="upload('gambar')" name="filefoto" id="filefoto" required/>
+                                            <label>Unggah Gambar </label>
+                                            <input type="file" class="form-control" onchange="upload('gambar')" name="filefoto" id="filefoto"/>
                                             .jpg .jpeg .png
                                         </div>
                                         <div class="form-group">
@@ -431,6 +451,7 @@
 	   
     <script type="text/javascript">
          $(document).ready(function(){
+            $('#kecamatan').select2();
              $('#cmbKomoditas').select2();
             var komoditas_data = [];
             $(".input-group.date").datepicker({
@@ -496,6 +517,14 @@
                     $('#d_fdistribusi').hide();
                 }
             })
+            var tech = 1;
+            $('#add_teknologi').click(function() {
+                if (tech <= 4) {
+                    $('#d_fteknologi').append('<div style="margin-top:10px;"><input type="text" class="form-control" name="fteknologi[]" placeholder="Nama Teknologi" /></div>');
+                    tech++;
+                }
+                
+            });
     		$("#cmbSubsektor").change(function(){
                     var cmbSubsektor = $("#cmbSubsektor").val();
                     $.ajax({
@@ -513,6 +542,19 @@
                         }
                     });
                 });
+                $('#provinsi').change(function(argument) {
+                    // body...
+                    $.ajax({
+                        type : "GET",
+                        url : "<?php echo base_url(); ?>Json/dataKota/"+$('#provinsi').val(),
+                        // data : "cmbSubsektor=" + ,
+                        success: function(data){
+                            $("#kota").html(data);
+                            $("#kecamatan").html('<option selected disabled>--Pilih --</option>');
+
+                    }
+                    });
+                })
                 $('#kota').change(function(argument) {
                     // body...
                     $.ajax({
@@ -530,17 +572,17 @@
              if (type == 'gambar') {
                 var file_data = $('#filefoto').prop('files')[0]; 
                   console.log(file_data);     
-                  if (file_data.type != 'image/jpeg' && file_data.type != 'image/png') {
-                    alert('Upload Bukti Transfer dalam format berkas .png atau .jpg atau .jpeg');$('#filefoto').val('');return false;
+                  if (file_data.type != 'image/jpeg') {
+                    alert('Upload Gambar Berita dalam format berkas .png atau .jpg atau .jpeg');$('#filefoto').val('');return false;
                   }
-                  if (file_data.size > (1024*1000*5)) {
-                    alert('Upload Bukti Transfer dalam format berkas dengan Ukuran Maksimal 5 MB');$('#filefoto').val('');return false;
+                  if (file_data.size > (1024*1000*2)) {
+                    alert('Upload Gambar Berita dalam format berkas dengan Ukuran Maksimal 2 MB');$('#filefoto').val('');return false;
                   }
              }else{
                 var file_data = $('#fileberkas').prop('files')[0]; 
                   console.log(file_data);     
-                  if (file_data.size > (1024*1000*5)) {
-                    alert('Upload Bukti Transfer dalam format berkas dengan Ukuran Maksimal 5 MB');$('#fileberkas').val('');return false;
+                  if (file_data.size > (1024*1000*2)) {
+                    alert('Upload Gambar Berita dalam format berkas dengan Ukuran Maksimal 2 MB');$('#fileberkas').val('');return false;
                   }
              }
          }

@@ -17,8 +17,9 @@
              
               <?php 
               $limit = 6;$i=1;
+              if(!$this->config->item('isDaerah')){$limit = $limit-1;}
               foreach ($kategori4->result() as $k) { if($i <= $limit){ ?>
-                            <li><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
+                            <li class="<?php if($k->idKegiatan == $this->uri->segment(3) && $this->uri->segment(2) == 'kategoriK'){echo 'active';} ?>"><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
                             <?php }$i++; }
 
               ?>
@@ -41,9 +42,13 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Export <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Excel</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Grafik</a></li>
+                  <li class="dropdown-header">Data Excel Intensitas Berita</li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/2') ?>">1 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/3') ?>">6 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/4') ?>">12 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/0') ?>">Seluruh Data Berita</a></li>
+                  <!-- <li role="separator" class="divider"></li>
+                  <li><a href="#">Grafik</a></li> -->
                 </ul>
               </li>
             </ul>
@@ -61,7 +66,7 @@
             ?>
               </marquee> -->
        <div class="col-md-12" id="right-side">
-                <h5 class="heading-list2">Beria Penting Lain</h5><div class="hr-heading-list2"></div>
+                <h5 class="heading-list2">Berita Penting Lain</h5><div class="hr-heading-list2"></div>
                     <div class="row no-gutter">
             
                         <div class="col-lg-6 left-padding">

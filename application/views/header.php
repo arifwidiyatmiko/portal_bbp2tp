@@ -39,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-                <a class="navbar-brand" id="color-me" href="<?php echo base_url(); ?>" style="margin-top: -5px;">BPTP Jakarta News <h6 class="br" id="color-me">Dikembangkan oleh BBP2TP</h6></a>
+                <a class="navbar-brand" id="color-me" href="<?php echo base_url(); ?>" style="margin-top: -5px;">BPTP <?=$this->config->item('nama');?> News <h6 class="br" id="color-me">Dikembangkan oleh BBP2TP</h6></a>
                 <!-- <a class="navbar-brand" id="color-me" href="<?php echo site_url('Portal/index'); ?>"><img class="img-responsive" src="<?php echo base_url(); ?>assets/home/img/brandtext.png"></a> -->
             </div>
             

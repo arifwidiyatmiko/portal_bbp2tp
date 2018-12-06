@@ -65,19 +65,39 @@ class Login_m extends CI_Model {
 		return $hsl;
 	}
     
+    public function chartBatang_provinsi($id,$where='')
+    {
+        $sql = "SELECT berita.idProvinsi,provinsi.namaProvinsi, COUNT(berita.idBerita) as jml FROM `berita`  RIGHT JOIN provinsi on provinsi.idProvinsi=berita.idProvinsi WHERE provinsi.idProvinsi = ".$id." ".$where." ";
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function chartProvinsi_teknologi($id,$where='')
+    {
+        $sql = "SELECT berita.idProvinsi, COUNT(teknologi_berita.idTeknologi) as jml,provinsi.namaProvinsi FROM `berita`  RIGHT JOIN teknologi_berita on teknologi_berita.idBerita=berita.idBerita INNER JOIN provinsi on provinsi.idProvinsi = berita.idProvinsi WHERE berita.idProvinsi = '".$id."' ".$where." ";
+        return $this->db->query($sql)->result_array();
+    }
+    public function chartProvinsi_teknologi_drill($id,$where='')
+    {
+        $sql = "SELECT teknologi.teknologi,COUNT(teknologi_berita.idBerita) as jml,provinsi.namaProvinsi FROM `teknologi` INNER JOIN teknologi_berita on teknologi_berita.idTeknologi = teknologi.idTeknologi INNER JOIN berita on berita.idBerita = teknologi_berita.idBerita INNER JOIN provinsi on provinsi.idProvinsi = berita.idProvinsi  WHERE berita.idProvinsi = '".$id."' ".$where." GROUP BY teknologi_berita.idTeknologi";
+        return $this->db->query($sql)->result();
+    }
+
     function simpanBerita($idSubsektor,$vub,$varSpeklok,$idKomoditas,$idKegiatan,$idPrioritas,$judulBerita,$isiBerita,$sumber,$berkas,$gambar,$idAdmin,$status){
 		$hsl=$this->db->query("INSERT INTO `db_bbp2tp`.`berita` (`idBerita`, `tanggal`, `idSubsektor`, `vub`, `varSpeklok`, `idKomoditas`, `idKegiatan`, `idPrioritas`, `judulBerita`, `isiBerita`, `sumber`, `berkas`, `gambar`, `idAdmin`, `status`) VALUES (NULL, CURRENT_TIMESTAMP, '$idSubsektor', '$vub', '$varSpeklok', '$idKomoditas', '$idKegiatan', '$idPrioritas', '$judulBerita', '$isiBerita', '$sumber', '$berkas', '$gambar', '$idAdmin', '0');");
 		return $hsl;
 	}
     
-    function getAllBerita($where = ''){
+    function getAllBerita($where = '',$case=''){
         if ($where != '') {
-            $sql = "SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin WHERE b.baseUrl = '".$where."' ORDER BY b.idBerita DESC";
-            $hsl=$this->db->query($sql);
+            $sql = "SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin WHERE b.baseUrl = '".$where."' ";
+            
         }else{
-            $sql = "SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin ORDER BY b.idBerita DESC";
-		      $hsl=$this->db->query($sql);
+            $sql = "SELECT * FROM berita as b INNER JOIN kegiatan as ke ON b.idKegiatan = ke.idKegiatan INNER JOIN prioritas as p ON b.idPrioritas = p.idPrioritas INNER JOIN admin as a ON b.idAdmin = a.idAdmin ";
+		      //$hsl=$this->db->query($sql);
         }
+        $sql .= $case;
+        $sql .= "ORDER BY b.idBerita DESC";
+        $hsl=$this->db->query($sql);
         // echo $sql;die();        
 		return $hsl;
 	}
@@ -220,6 +240,31 @@ class Login_m extends CI_Model {
         $this->db->where('idKomoditas', $id);
         $this->db->delete('komoditas');
     }
+    
+    public function getBeritaTek($idTek,$url=''){
+        $this->db->select('*');
+        $this->db->join('berita','berita.idBerita = teknologi_berita.idBerita','inner');
+        $this->db->join('prioritas','prioritas.idPrioritas = berita.idPrioritas','inner');
+        $this->db->join('kegiatan','kegiatan.idKegiatan = berita.idKegiatan','inner');
+        $this->db->join('admin','admin.idAdmin = berita.idAdmin','inner');
+        $this->db->where('teknologi_berita.idTeknologi',$idTek);    
+        if($url != ''){$this->db->where('berita.baseUrl',$url);}
+        return $this->db->get('teknologi_berita');
+    }
+    public function getAllTek($where){
+        $this->db->select('*');
+        $this->db->join('teknologi', 'teknologi.idTeknologi = teknologi_berita.idTeknologi', 'right');
+        $this->db->where('teknologi_berita.idBerita', $id);
+        return $this->db->get('teknologi_berita');
+    }
+    
+    public function getTeknologi($id)
+    {
+        $this->db->select('*');
+        $this->db->join('teknologi', 'teknologi.idTeknologi = teknologi_berita.idTeknologi', 'right');
+        $this->db->where('teknologi_berita.idBerita', $id);
+        return $this->db->get('teknologi_berita');
+    }
     public function getKegiatan($value='')
     {
         $this->db->order_by('namaKegiatan', 'ASC');
@@ -249,5 +294,9 @@ class Login_m extends CI_Model {
             return array();
         }
     }
-    
+    public function cekTekno($value)
+    {
+        $this->db->where('teknologi', $value);
+        return $this->db->get('teknologi');
+    }
 }

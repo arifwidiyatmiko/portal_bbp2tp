@@ -25,6 +25,7 @@ class Login extends CI_Controller {
 			);
 
 		$hsl=$this->login_m->signin($where);
+		// print_r($hsl->result());die();
 		$cek = $this->db->get_where('admin',array('namaPengguna' => $username, 'kataSandi' => $password))->row();
 		$valid=false;
 		// print_r($hsl->result()[0]);die();

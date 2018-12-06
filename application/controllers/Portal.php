@@ -75,6 +75,160 @@ class Portal extends CI_Controller {
         $this->load->view('portal_bptp_v',$data);
     } 
 
+    public function export($type='',$case=''){
+        // Load plugin PHPExcel nya
+            include APPPATH.'appexcel/PHPExcel.php';
+                
+                // Panggil class PHPExcel nya
+            $excel = new PHPExcel();
+            // Settingan awal fil excel
+            $excel->getProperties()->setCreator('BBP2TP')
+                         ->setLastModifiedBy('BBP2TP')
+                         ->setTitle("Laporan Berita")
+                         ->setSubject("Berita")
+                         ->setDescription("Laporan Berita")
+                         ->setKeywords("Laporan erita");
+                
+                // Buat sebuah variabel untuk menampung pengaturan style dari header tabel
+            $style_col = array(
+              'font' => array('bold' => true), // Set font nya jadi bold
+              'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)88888888888888888888888888v v
+              ),
+              'borders' => array(
+                'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+                'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+                'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+                'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+              )
+            );
+                // Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
+            $style_row = array(
+              'alignment' => array(
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER, // Set text jadi di tengah secara vertical (middle)
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER
+              ),
+              'borders' => array(
+                'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+                'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+                'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+                'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+              )
+            );
+                $excel->setActiveSheetIndex(0)->setCellValue('A1', "LAPORAN BERITA"); // Set kolom A1 dengan tulisan "DATA SISWA"
+                $excel->getActiveSheet()->mergeCells('A1:I2'); // Set Merge Cell pada kolom A1 sampai E1
+                $excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE); // Set bold kolom A1
+                $excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(15); // Set font size 15 untuk kolom A1
+                $excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER); // Set text center untuk kolom A1
+                    // Buat header tabel nya pada baris ke 3
+                $excel->setActiveSheetIndex(0)->setCellValue('A4', "NO"); // Set kolom A3 dengan tulisan "NO"
+                $excel->setActiveSheetIndex(0)->setCellValue('B4', "TANGGAL"); // Set kolom B3 dengan tulisan "NIS"
+                // $excel->setActiveSheetIndex(0)->setCellValue('C4', "SUBSEKTOR"); // Set kolom C3 dengan tulisan "NAMA"
+                // $excel->setActiveSheetIndex(0)->setCellValue('D4', "KOMODITAS"); // Set kolom C3 dengan tulisan "NAMA"
+                $excel->setActiveSheetIndex(0)->setCellValue('C4', "KEGIATAN"); // Set kolom C3 dengan tulisan "NAMA"
+                $excel->setActiveSheetIndex(0)->setCellValue('D4', "PRIORITAS"); // Set kolom C3 dengan tulisan "NAMA"
+                $excel->setActiveSheetIndex(0)->setCellValue('E4', "JUDUL BERITA"); // Set kolom C3 dengan tulisan "NAMA"
+                $excel->setActiveSheetIndex(0)->setCellValue('F4', "Sumber"); // Set kolom C3 dengan tulisan "NAMA"
+                $excel->setActiveSheetIndex(0)->setCellValue('G4', "BPTP/BBP2TP"); // Set kolom C3 dengan tulisan "NAMA"
+            // Apply style header yang telah kita buat tadi ke masing-masing kolom header
+            $excel->getActiveSheet()->getStyle('A4')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('B4')->applyFromArray($style_col);
+            // $excel->getActiveSheet()->getStyle('C4')->applyFromArray($style_col);
+            // $excel->getActiveSheet()->getStyle('D4')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('C4')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('D4')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('E4')->applyFromArray($style_col);
+            $excel->getActiveSheet()->getStyle('F4')->applyFromArray($style_col);
+            //$excel->getActiveSheet()->getStyle('H3:H'.$excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+            $excel->getActiveSheet()->getStyle('G4')->applyFromArray($style_col);
+                
+                // Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
+
+                 switch ($case) {
+                     case '4':
+                        $wheres = " AND tanggal > DATE_SUB(now(), INTERVAL 12 MONTH)";
+                        break;
+                    case '2':
+                        $wheres = " AND tanggal > DATE_SUB(now(), INTERVAL 1 MONTH)";
+                        break;
+                    case '3':
+                        $wheres = " AND tanggal > DATE_SUB(now(), INTERVAL 6 MONTH)";
+                        break;
+                    
+                    default:
+                        $wheres = '';
+                        break;
+                }
+                if ($this->config->item('isDaerah')) {
+                       $where = array(
+                        'baseUrl'=>base_url(),
+                    );
+                       // print_r($where);die();
+                       $berita = $this->login_m->getAllBerita(base_url(),$wheres);
+                }else{
+                    $berita = $this->login_m->getAllBerita('',$wheres);
+                }
+            
+            $wizard = new PHPExcel_Helper_HTML;
+            // echo json_encode($berita->result());die();
+            $no = 1; // Untuk penomoran tabel, di awal set dengan 1
+            $numrow = 5; // Set baris pertama untuk isi tabel adalah baris ke 4
+            foreach($berita->result() as $data){ // Lakukan looping pada variabel siswa
+              $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $no);
+              $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->tanggal);
+              // $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->namaSubsektor);
+              // $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->namaKomoditas);
+              $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->namaKegiatan);
+              $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->namaPrioritas);
+              $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->judulBerita);
+            //   $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $wizard->toRichTextObject($data->isiBerita));
+              $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->sumber);
+              $excel->setActiveSheetIndex(0)->setCellValue('G'.$numrow, $data->nama);
+              
+
+              // Apply style row yang telah kita buat tadi ke masing-masing baris (isi tabel)
+              $excel->getActiveSheet()->getStyle('A'.$numrow)->applyFromArray($style_row);
+              $excel->getActiveSheet()->getStyle('B'.$numrow)->applyFromArray($style_row);
+              $excel->getActiveSheet()->getStyle('C'.$numrow)->applyFromArray($style_row);
+              $excel->getActiveSheet()->getStyle('D'.$numrow)->applyFromArray($style_row);
+              $excel->getActiveSheet()->getStyle('E'.$numrow)->applyFromArray($style_row);
+            //   $excel->getActiveSheet()->getStyle('F'.$numrow)->applyFromArray($style_row);
+              $excel->getActiveSheet()->getStyle('F'.$numrow)->applyFromArray($style_row);
+               $excel->getActiveSheet()->getStyle('G'.$numrow)->applyFromArray($style_row);
+              // $excel->getActiveSheet()->getStyle('I'.$numrow)->applyFromArray($style_row);
+
+              $no++; // Tambah 1 setiap kali looping
+              $numrow++; // Tambah 1 setiap kali looping
+            }
+                // Set width kolom
+            $excel->getActiveSheet()->getColumnDimension('A')->setWidth(5); // Set width kolom A
+            $excel->getActiveSheet()->getColumnDimension('B')->setWidth(25); // Set width kolom B
+            // $excel->getActiveSheet()->getColumnDimension('C')->setWidth(25); // Set width kolom C
+            // $excel->getActiveSheet()->getColumnDimension('D')->setWidth(15); // Set width kolom C
+            $excel->getActiveSheet()->getColumnDimension('C')->setWidth(40); // Set width kolom C
+            $excel->getActiveSheet()->getColumnDimension('D')->setWidth(30); // Set width kolom C
+            $excel->getActiveSheet()->getColumnDimension('E')->setWidth(50); // Set width kolom C
+            // $excel->getActiveSheet()->getColumnDimension('F')->setWidth(150); // Set width kolom C
+            $excel->getActiveSheet()->getColumnDimension('F')->setWidth(40); // Set width kolom C
+            $excel->getActiveSheet()->getColumnDimension('G')->setWidth(40); // Set width kolom C
+
+            // Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
+            //$excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
+            // $excel->getActiveSheet()->getStyle('H1:H'.$excel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true); 
+            // Set orientasi kertas jadi LANDSCAPE
+            $excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+            // Set judul file excel nya
+            $excel->getActiveSheet(0)->setTitle("Laporan Berita");
+            $excel->setActiveSheetIndex(0);
+            // Proses file excel
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="Laporan Berita.xlsx"'); // Set nama file excel nya
+            header('Cache-Control: max-age=0');
+            $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $write->save('php://output');
+    }
+    
 	public function bptp(){
 		$data['agenda'] = $this->crud_m->getAgenda();
 		$data['grid'] = $this->crud_m->getAllProvince();
@@ -169,7 +323,16 @@ class Portal extends CI_Controller {
             }
             
         }
-         // echo print_r($data['subsektor']);die();
+        $data['teknologi'] = $this->crud_m->getTeknologiBerita($val)->result();
+        // echo count($data['teknologi']);die();
+        if (count($data['teknologi']) == 0) {
+            $data['teknologis'][] = "";
+        }else{
+            foreach ($data['teknologi'] as $key ){
+               $data['teknologis'][] =  $key->teknologi;
+            }
+        }
+         // print_r($data['teknologi']);die();
         $this->load->view('header',$data);
 		$this->load->view('detail_v',$data);
 	}

@@ -19,9 +19,9 @@
             <ul class="nav navbar-nav">
              
               <?php 
-              $limit = 6;$i=1;
+              $limit = 6;$i=1;if(!$this->config->item('isDaerah')){$limit = $limit-1;}
               foreach ($kategori4->result() as $k) { if($i <= $limit){ ?>
-                            <li><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
+                            <li class="<?php if($k->idKegiatan == $this->uri->segment(3) && $this->uri->segment(2) == 'kategoriK'){echo 'active';} ?>"><a href="<?php echo base_url().'Portal/kategoriK/'.$k->idKegiatan;?>"><?php echo $k->namaKegiatan; ?></a></li>
                             <?php }$i++; }
 
               ?>
@@ -44,9 +44,13 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Export <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Excel</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Grafik</a></li>
+                  <li class="dropdown-header">Data Excel Intensitas Berita</li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/2') ?>">1 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/3') ?>">6 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/4') ?>">12 Bulan Terakhir</a></li>
+                                          <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo site_url('Portal/export/data/0') ?>">Seluruh Data Berita</a></li>
+                  <!-- <li role="separator" class="divider"></li>
+                  <li><a href="#">Grafik</a></li> -->
                 </ul>
               </li>
             </ul>
@@ -82,29 +86,14 @@
                 </div>
                 <h6>Sub Sektor : <?= implode(', ', $komoditas);?> </h6>
                 <h6>Komoditas : <?= implode(', ', $subsektor);?> </h6>
+                
                 <h6><a href="<?php echo $b['sumber']; ?>"><?php echo $b['sumber']; ?></a></h6>
 
                 
             </div>
             <div class="col-md-4" id="right-side">
                 
-                <h5 class="heading-list2">Agenda</h5><div class="hr-heading-list2"></div>
-                <?php foreach ($agenda as $a) { ?>
-                
-                <ul class="media-list news-item">
-                  <li class="media">
-                    <div class="media-left">
-                        <!-- <img class="media-object" src="<?php echo base_url().'assets/upload/agenda/'.$a->foto;?>" style="width: 120px; height: 80px;" alt="...">  --><!-- 120x80 -->
-                        <img class="media-object" src="<?php echo $a->foto;?>" style="width: 120px; height: 80px;" alt="..."> 
-                    </div>
-                    <div class="media-body">
-                      <a href="<?php echo base_url().'Portal/detailAgenda/'.$a->idAgenda;?>" class="media-heading"><?php echo $a->judulKegiatan; ?></a>
-                      <p><?php echo $a->tanggal; ?></p>
-                    </div>
-                  </li>
-                </ul>
                 <hr>
-                <?php } ?>
 
                 <h5 class="heading-list2">Serambi BBP2TP</h5><div class="hr-heading-list2"></div>
                 <ul class="media-list comment-list">

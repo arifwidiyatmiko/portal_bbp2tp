@@ -5,7 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |---
 Custom
 */
-$config['isDaerah'] = TRUE;
+$config['isDaerah'] = FALSE;
+$config['nama'] = 'JATENG';
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -28,8 +29,8 @@ $config['isDaerah'] = TRUE;
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['base_url'] = 'https://bptp-jkt.svipb.id/';
-$config['base_url'] = 'http://localhost/bptp/';
+// $config['base_url'] = 'https://jateng.bptpnews.id/';
+$config['base_url'] = 'http://localhost/jateng/';
 
 /*
 |--------------------------------------------------------------------------

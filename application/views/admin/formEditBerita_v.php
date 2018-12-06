@@ -111,27 +111,34 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a <?php if($this->uri->segment(2) == '' || $this->uri->segment(2)=='index'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='formBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='tabelBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
                         <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
+                                <a href="<?php echo base_url();?>dashboard/pengguna">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
+                                <a href="<?php echo base_url();?>dashboard/komoditas">Komoditas</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kegiatan">Kegiatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kecamatan">Kecamatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/listKota">Kota</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a <?php if($this->uri->segment(2)=='grafik'){echo 'class="active-menu"';}?>  href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
-                    <!-- <li>
-                        <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->   
+                    
                 </ul>
                
             </div>
@@ -170,12 +177,12 @@
                                         <?php }?>
                                         <input type="hidden" name="idBerita" value="<?php echo( $berita[0]->idBerita) ?>">
                                         <div class="form-group">
-                                                <label>Tanggal</label>
+                                                <label>Tanggal <span style="color: red;">(wajib)</span></label>
                                                 <input type="text" class="form-control input-group date" name="ftanggal" data-date-format="yyyy-mm-dd" value="<?php echo  $berita[0]->tanggal ?>" required/>
                                         </div>
                                    
                                         <div class="form-group col-sm-4">
-                                                <label>Provinsi</label>
+                                                <label>Provinsi <span style="color: red;">(wajib)</span></label>
                                                 <select class="form-control" name="provinsi" id="provinsi" required="true" disabled>
                                                     <?php 
                                                     foreach ($provinsi->result() as $key) {
@@ -185,7 +192,7 @@
                                                 </select>
                                         </div>
                                          <div class="form-group  col-sm-4">
-                                            <label>Kota</label>
+                                            <label>Kota <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="kota" id="kota">
                                                 <!-- <option value="" disabled selected>-- Pilih Provinsi Dahulu --</option> -->
                                                 <option value="" disabled selected>-- Pilih Kota --</option>
@@ -199,7 +206,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group  col-sm-4">
-                                            <label>Kecamatan</label>
+                                            <label>Kecamatan </label>
                                             <select class="form-control" name="kecamatan" id="kecamatan">
                                                 <option value="" disabled selected>-- Pilih Kota Terlebih Dahulu --</option>
                                                 <?php 
@@ -212,11 +219,11 @@
                                             </select>
                                         </div>
                                          <div class="form-group col-sm-6">
-                                            <label>Kelurahan atau Desa</label>
-                                            <input type="text" class="form-control" name="kelurahan" value="<?=  $berita[0]->kelurahan?>" placeholder="Nama Kelurahan" required/>
+                                            <label>Kelurahan atau Desa </label>
+                                            <input type="text" class="form-control" name="kelurahan" value="<?=  $berita[0]->kelurahan?>" placeholder="Nama Kelurahan" />
                                         </div>
                                         <div class="form-group col-sm-6">
-                                            <label>Prioritas</label>
+                                            <label>Prioritas <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="cmbPrioritas" id="cmbPrioritas" required>
                                                 <option value="" disabled selected>-- Pilih Prioritas --</option>
                                                 <?php foreach($prioritas->result() as $perdata) {?>
@@ -224,18 +231,21 @@
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Judul Berita</label>
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                            <!-- <label>sdhisa</label> -->
+                                            <label>Judul Berita <span style="color: red;">(wajib)</span></label>
                                             <input type="text" class="form-control" name="fjudul" value="<?php echo  $berita[0]->judulBerita ?>" placeholder="Judul Berita" required/>
                                         </div>
+                                    </div>
                                         <div class="form-group">
-                                            <label>Isi Berita</label>
+                                            <label>Isi Berita  <span style="color: red;">(wajib)</span></label>
                                             <textarea class="form-control" name="fisi" id="ckeditor" placeholder="Isi Berita" rows="3" required><?php echo  $berita[0]->isiBerita ?></textarea>
                                             <!-- <span id="hitung">5000</span> Karakter tersisa -->
                                         </div>
                                         
                                         <div class="form-group">
-                                            <label>Komoditas</label>
+                                            <label>Komoditas  <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="cmbKomoditas[]" id="cmbKomoditas" multiple="multiple" required>
                                                 <?php foreach($komoditas->result() as $perdata) {?>
                                                 <option value="<?php echo $perdata->idKomoditas; ?>" <?php 
@@ -248,8 +258,25 @@
                                             </select>
                                             Pilih sesuai kode subsektor
                                         </div>
+                                        <div class="form-group" id="d_fteknologi">
+                                            <label>Introduksi Teknologi Lain </label>&nbsp;<a class="btn btn-xs btn-primary" id="add_teknologi">Tambah</a>
+                                            <?php $x=1;
+                                            foreach ($teknologi_berita->result() as $key) {
+                                                ?><input type="text" class="form-control" style="margin-top:10px;" name="fteknologi[]" value="<?=$key->teknologi?>" placeholder="Nama Teknologi" /><?php
+                                                $x++;
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="form-group" id="d_fagroekosistem">
+                                            <label>Agroekosistem *</label>
+                                            <select name="fagroekosistem" id="fagroekosistem" class="form-control">
+                                                <option value="Lahan Sawah" <?php if($berita[0]->fagroekosistem == 'Lahan Sawah'){echo "Selected";}?>>Lahan Sawah</option>
+                                                <option value="Lahan Kering" <?php if($berita[0]->fagroekosistem == 'Lahan Kering'){echo "Selected";}?>>Lahan Kering</option>
+                                                <option value="Lahan Rawa" <?php if($berita[0]->fagroekosistem == 'Lahan Rawa'){echo "Selected";}?>>Lahan Rawa</option>
+                                            </select>
+                                        </div>
                                         <div class="form-group">
-                                            <label>Kegiatan</label>
+                                            <label>Kegiatan  <span style="color: red;">(wajib)</span></label>
                                             <select class="form-control" name="cmbKegiatan" id="cmbKegiatan" required>
                                                 <?php foreach($kegiatan->result() as $perdata) {?>
                                                 <option value="<?php echo $perdata->idKegiatan; ?>" <?php if($perdata->idKegiatan ==  $berita[0]->idKegiatan){echo 'selected';} ?>> <?php echo $perdata->namaKegiatan; ?></option>
@@ -301,11 +328,7 @@
                                             </div>
                                             *<i>Optional</i>
                                         </div>
-                                        <div class="form-group" id="d_fteknologi">
-                                            <label>Introduksi Teknologi Lain </label>
-                                            <input type="text" class="form-control" name="fteknologi" id="fteknologi" value="<?= $berita[0]->fteknologi?>" placeholder="Luas Tanam" />
-                                            *<i>Optional</i>
-                                        </div>
+                                        
                                         <div class="form-group col-sm-6" id="d_fproduksi">
                                             <label>Produksi </label>
                                             <div class="input-group">
@@ -335,18 +358,21 @@
                                             </div>
                                             *Opsional
                                         </div>
-                                        <div class="form-group">
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                            <!-- <label>sdhisa</label> -->
                                             <label>Sumber*</label>
                                             <input type="text" class="form-control" name="fsumber" value="<?php echo $berita[0]->sumber ?>" placeholder="Sumber"/>
                                             *Opsional
                                         </div>
+                                    </div>
                                         <!-- <div class="form-group">
                                                 <label>Unggah Gambar</label>
                                                 <input type="file" name="filefoto" required />
                                             </div> -->
                                         <img src="<?php echo $berita[0]->gambar;?>" style="width: 30%;">
                                         <div class="form-group">
-                                            <label>Unggah Gambar</label>
+                                            <label>Unggah Gambar </label>
                                             <input type="file" name="filefoto"/>
                                         </div>
                                         <!-- <div class="form-group">
@@ -442,18 +468,37 @@
            
            $(function () {
 	    CKEDITOR.replace('ckeditor');
+        var tech = <?=$x?>;
+            $('#add_teknologi').click(function() {
+                if (tech <= 4) {
+                    $('#d_fteknologi').append('<div style="margin-top:10px;"><input type="text" class="form-control" name="fteknologi[]" placeholder="Nama Teknologi" /></div>');
+                    tech++;
+                }
+                
+            });
         $('#d_fvub').hide();
             $('#d_ftanam').hide();
             $('#d_fpanen').hide();
             $('#d_fproduktivitas').hide();
             $('#d_fgabah').hide();
             $('#d_fpengendalian').hide();
-            $('#d_fteknologi').hide();
+            // $('#d_fteknologi').hide();
             $('#d_fvarspek').hide();
             $('#d_fproduksi').hide();
             $('#d_fdistribusi').hide();
             $('#d_fvarspek_prod').hide();
             $('#cmbKegiatan').change(function() {
+                $('#d_fvub').hide();
+                    $('#d_ftanam').hide();
+                    $('#d_fpanen').hide();
+                    $('#d_fproduktivitas').hide();
+                    $('#d_fgabah').hide();
+                    $('#d_fpengendalian').hide();
+                    // $('#d_fteknologi').hide();
+                    $('#d_fvarspek').hide();
+                    $('#d_fvarspek_prod').hide();
+                    $('#d_fproduksi').hide();
+                    $('#d_fdistribusi').hide();
                 console.log($('#cmbKegiatan').val());
                 if ($('#cmbKegiatan').val() == 1) {
                     $('#d_fvub').show();
@@ -462,13 +507,13 @@
                     $('#d_fproduktivitas').show();
                     $('#d_fgabah').show();
                     $('#d_fpengendalian').show();
-                    $('#d_fteknologi').show();
+                    // $('#d_fteknologi').show();
                     // $('#d_fvarspek').show();
-                }else if($('#cmbKegiatan').val() == 2){
+                }else if($('#cmbKegiatan').val() == 3){
                     $('#d_fvub').show();
                     $('#d_fproduksi').show();
                     $('#d_fdistribusi').show();
-                    $('#d_fteknologi').show();
+                    // $('#d_fteknologi').show();
                     $('#d_fvarspek').show();
                     $('#d_fvarspek_prod').show();
                 }else if($('#cmbKegiatan').val() == 9){
@@ -480,7 +525,7 @@
                     $('#d_fproduktivitas').hide();
                     $('#d_fgabah').hide();
                     $('#d_fpengendalian').hide();
-                    $('#d_fteknologi').hide();
+                    // $('#d_fteknologi').hide();
                     $('#d_fvarspek').hide();
                     $('#d_fvarspek_prod').hide();
                     $('#d_fproduksi').hide();
@@ -492,17 +537,17 @@
              if (type == 'gambar') {
                 var file_data = $('#filefoto').prop('files')[0]; 
                   console.log(file_data);     
-                  if (file_data.type != 'image/jpeg' && file_data.type != 'image/png') {
-                    alert('Upload Bukti Transfer dalam format berkas .png atau .jpg atau .jpeg');$('#filefoto').val('');return false;
+                  if (file_data.type != 'image/jpeg') {
+                    alert('Upload Gambar Berita dalam format berkas .png atau .jpg atau .jpeg');$('#filefoto').val('');return false;
                   }
-                  if (file_data.size > (1024*1000*5)) {
-                    alert('Upload Bukti Transfer dalam format berkas dengan Ukuran Maksimal 5 MB');$('#filefoto').val('');return false;
+                  if (file_data.size > (1024*1000*2)) {
+                    alert('Upload Gambar Berita dalam format berkas dengan Ukuran Maksimal 2 MB');$('#filefoto').val('');return false;
                   }
              }else{
                 var file_data = $('#fileberkas').prop('files')[0]; 
                   console.log(file_data);     
-                  if (file_data.size > (1024*1000*5)) {
-                    alert('Upload Bukti Transfer dalam format berkas dengan Ukuran Maksimal 5 MB');$('#fileberkas').val('');return false;
+                  if (file_data.size > (1024*1000*2)) {
+                    alert('Upload Gambar Berita dalam format berkas dengan Ukuran Maksimal 2 MB');$('#fileberkas').val('');return false;
                   }
              }
          }

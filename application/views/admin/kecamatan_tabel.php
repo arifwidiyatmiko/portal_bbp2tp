@@ -107,38 +107,38 @@
             </div>
         </nav>   
         <?php } ?>
-           <!-- /. NAV TOP  -->
-<nav class="navbar-default navbar-side" role="navigation">
+        <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a <?php if($this->uri->segment(2) == '' || $this->uri->segment(2)=='index'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='formBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a <?php if($this->uri->segment(2)=='tabelBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
                         <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
+                                <a href="<?php echo base_url();?>dashboard/pengguna">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
+                                <a href="<?php echo base_url();?>dashboard/komoditas">Komoditas</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/kegiatan">Kegiatan</a>
+                                <a href="<?php echo base_url();?>dashboard/kegiatan">Kegiatan</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/kecamatan">Kecamatan</a>
+                                <a href="<?php echo base_url();?>dashboard/kecamatan">Kecamatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/listKota">Kota</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a <?php if($this->uri->segment(2)=='grafik'){echo 'class="active-menu"';}?>  href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
-                    <!-- <li>
-                        <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->   
+                    
                 </ul>
                
             </div>
@@ -164,7 +164,7 @@
                             <h4 class="col-md-10">Tabel Kecamatan</h4>
                             <div class="panel-heading">
                                 <div class="form form-inline ">
-                                   <a href="" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambahKomoditas">Tambah Kecamatan</a>
+                                   <a href="" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#tambahKecamatan">Tambah Kecamatan</a>
                                 </div><!-- <?php echo base_url(); ?>dashboard/formBerita -->
                             </div>
                             <div class="panel-body">
@@ -189,16 +189,16 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo $no;?></td>
-                                                <td><?php echo $b->namaKecamatan;?></td>
+                                                <td><?php echo $b->kecamatanName;?></td>
                                                  <td><?php echo $b->cityName;?></td>
                                                   <td><?php echo $b->namaProvinsi;?></td>
                                                 <td>
-                                                    <!-- <a href="<?=base_url()?>Dashboard/delete_komo" class="btn btn-sm btn-danger">Hapus</a> -->
-                                                    <!-- <a data-nama="<?=$b->namaKecamatan?>" data-id="<?=base_url()?>Dashboard/edit_kegiatan/<?=$b->idKecamatan?>" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editKomoditas">Edit</a> -->
+                                                     <a data-nama="<?=$b->kecamatanName?>" data-id="<?=base_url()?>Dashboard/hapus_kecamatan/<?=$b->idKecamatan?>" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapusKomoditas">Hapus</a> 
+                                                     <a data-nama="<?=$b->kecamatanName?>" data-id="<?=base_url()?>Dashboard/edit_kecamatan/<?=$b->idKecamatan?>" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editKomoditas">Edit</a> 
                                                 </td>
                                             </tr>
                                             <?php 
-                                            // $no++;
+                                            $no++;
                                             endforeach;?>
                                         </tbody>
                                     </table>
@@ -246,10 +246,22 @@
                 $('#namaKomoditas_lm').text($(e.relatedTarget).data('nama'));
                 $('#form-edit').attr('action', $(e.relatedTarget).data('id'));
             });
+            $('#t_provinsi').change(function(argument) {
+                    // body...
+                    $.ajax({
+                        type : "GET",
+                        url : "<?php echo base_url(); ?>Json/dataKota/"+$('#t_provinsi').val(),
+                        // data : "cmbSubsektor=" + ,
+                        success: function(data){
+                            $("#t_city").html(data);
+
+                    }
+                    });
+            })
         });
     </script>
     <!-- Modal -->
-<div id="tambahKomoditas" class="modal fade" role="dialog">
+<div id="tambahKecamatan" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -260,11 +272,31 @@
       </div>
       <div class="modal-body">
         <!-- <div class="container"> -->
-            <form action="<?= base_url();?>Dashboard/add_komo" method="POST">
+            <form action="<?= base_url();?>Dashboard/add_kecamatan" method="POST">
                 
                 <div class="form-group">
-                    <label>Nama Kegiatan</label>
-                    <input type="text" name="kegiatan" class="form-control" placeholder="Nama Kegiatan">
+                    <label>Nama Provinsi</label>
+                    <select name="idProvinsi" id="t_provinsi" class="form-control" required="true">
+                        <option selected disabled>-- Pilih --</option>
+                        <?php 
+                        foreach ($provinsi->result() as $key) {
+                            if ($key->idProvinsi != 100) {
+                            ?><option value="<?=$key->idProvinsi?>"><?=$key->namaProvinsi?></option><?php
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nama Kota</label>
+                    <select name="idCity" id="t_city" class="form-control" required="true">
+                        <option selected disabled>-- Pilih --</option>
+                        
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nama Kecamatan </label>
+                    <input  type="text" name="kecamatan" id="kecamatan" class="form-control" placeholder="Nama Kecamatan" required="true"/>
                 </div>
                 <input type="submit" class="btn btn-primary">
             </form>
@@ -281,14 +313,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit Kegiatan : <span id="namaKomoditas_lm"></span></h4>
+        <h4 class="modal-title">Edit Kecamatan : <span id="namaKomoditas_lm"></span></h4>
       </div>
       <div class="modal-body">
         <!-- <div class="container"> -->
             <form  method="POST"  id="form-edit">
                 <div class="form-group">
-                    <label>Nama Kegiatan</label>
-                    <input type="text" name="komoditas" class="form-control" id="komoditas" placeholder="Nama Kegiatan">
+                    <label>Nama Kecamatan</label>
+                    <input type="text" name="ed_kecamatan" class="form-control" id="ed_kecamatan" placeholder="Nama Kecamatan">
                 </div>
                 <input type="submit" class="btn btn-primary">
             </form>

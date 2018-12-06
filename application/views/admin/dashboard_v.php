@@ -96,6 +96,8 @@
                 $divreal = "Papua Barat";
             elseif($key->idProvinsi == 94)
                 $divreal = "Papua";
+            else
+                $divreal ="BBP2TP";
               ?>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
                 <?php echo $key->nama ?>&nbsp;
@@ -103,32 +105,38 @@
             </div>
         </nav>   
         <?php } ?>
-           <!-- /. NAV TOP  -->
-<nav class="navbar-default navbar-side" role="navigation">
+        <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a <?php if($this->uri->segment(2) == '' || $this->uri->segment(2)=='index'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
+                    <li><a <?php if($this->uri->segment(3)=='formBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a <?php if($this->uri->segment(3)=='tabelBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
                         <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
+                                <a href="<?php echo base_url();?>dashboard/pengguna">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
+                                <a href="<?php echo base_url();?>dashboard/komoditas">Komoditas</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kegiatan">Kegiatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/kecamatan">Kecamatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/listKota">Kota</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a <?php if($this->uri->segment(3)=='grafik'){echo 'class="active-menu"';}?>  href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
-                    <!-- <li>
-                        <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->   
+                    
                 </ul>
                
             </div>

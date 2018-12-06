@@ -45,6 +45,19 @@ class Crud_m extends CI_Model {
             return array();
         }
     }
+    public function getAllCitys($value='')
+    {
+        if ($value != '') {
+           $this->db->where('idProvince',$value);
+        }
+        $this->db->join('provinsi', 'provinsi.idProvinsi = kota.idProvince', 'inner');
+        $result =  $this->db->get('kota');
+        if  ($result->num_rows() > 0){
+            return $result->result();
+        }else{
+            return array();
+        }
+    }
     public function getAllKecamatan($value='')
     {
         if ($value != '') {
@@ -85,6 +98,7 @@ class Crud_m extends CI_Model {
         $sql = "SELECT * FROM `komoditas_berita` INNER JOIN `komoditas` on komoditas_berita.idKomoditas = komoditas.idKomoditas INNER JOIN `subsektor` on subsektor.idSubsektor = komoditas.idSubsektor WHERE komoditas_berita.idBerita = '".$idBerita."'";
         $data = $this->db->query($sql)->result();
         // print_r($data);die();
+        $res = [];
         foreach ($data as $key) {
             $res[] = $key->namaKomoditas;
         }
@@ -117,6 +131,14 @@ class Crud_m extends CI_Model {
     public function getUmum(){
         $query = $this->db->query("select * from berita where idPrioritas > '4' and status = '1' order by idBerita DESC limit 1");
         return $query->result();
+    }
+
+    public function getTeknologiBerita($idBerita)
+    {
+        $this->db->select('*');
+        $this->db->join('teknologi', 'teknologi.idTeknologi = teknologi_berita.idTeknologi', 'inner');
+        $this->db->where('teknologi_berita.idBerita', $idBerita);
+        return $this->db->get('teknologi_berita');
     }
 
     //  PAGINATION //
@@ -178,8 +200,8 @@ class Crud_m extends CI_Model {
     public function getSerambi(){
         if ($this->config->item('isDaerah')) {
             $query = $this->db->query("SELECT * FROM berita WHERE status = '1' AND baseUrl = '".base_url()."' ORDER BY idBerita DESC LIMIT 5");
-        }
-        $query = $this->db->query("SELECT * FROM berita WHERE status = '1' ORDER BY idBerita DESC LIMIT 5");
+        }else{$query = $this->db->query("SELECT * FROM berita WHERE status = '1' ORDER BY idBerita DESC LIMIT 5");}
+        
         return $query;
     }
     

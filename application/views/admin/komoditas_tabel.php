@@ -105,37 +105,38 @@
         </nav>   
         <?php } ?>
            <!-- /. NAV TOP  -->
-<nav class="navbar-default navbar-side" role="navigation">
+           <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
+                        <a <?php if($this->uri->segment(2) == '' || $this->uri->segment(2)=='index'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Beranda</a>
                     </li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
-                    <li><a href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
+                    <li><a <?php if($this->uri->segment(3)=='formBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/formBerita"><i class="fa fa-edit fa-2x"></i> Formulir Berita</a></li>
+                    <li><a <?php if($this->uri->segment(3)=='tabelBerita'){echo 'class="active-menu"';}?> href="<?php echo base_url(); ?>dashboard/tabelBerita"> <i class="fa fa-table fa-2x"></i> Tabel Berita</a></li>
                     <li>
                         <a href="#"><i class="fa fa-table fa-2x"></i> Data Master<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/tabelBerita">Pengguna</a>
+                                <a href="<?php echo base_url();?>dashboard/pengguna">Pengguna</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/komoditas">Komoditas</a>
+                                <a href="<?php echo base_url();?>dashboard/komoditas">Komoditas</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/kegiatan">Kegiatan</a>
+                                <a href="<?php echo base_url();?>dashboard/kegiatan">Kegiatan</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url(); ?>dashboard/kecamatan">Kecamatan</a>
+                                <a href="<?php echo base_url();?>dashboard/kecamatan">Kecamatan</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo base_url();?>dashboard/listKota">Kota</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a   href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
+                        <a <?php if($this->uri->segment(3)=='grafik'){echo 'class="active-menu"';}?>  href="<?php echo base_url(); ?>dashboard/grafik"><i class="fa fa-bar-chart-o fa-2x"></i> Grafik</a>
                     </li>
-                    <!-- <li>
-                        <a  href="blank.html"><i class="fa fa-square-o fa-2x"></i> Blank Page</a>
-                    </li> -->   
+                    
                 </ul>
                
             </div>
@@ -187,8 +188,8 @@
                                                 <td><?php echo $b->namaKomoditas;?></td>
                                                 <td><?php echo $b->namaSubsektor;?></td>
                                                 <td>
-                                                    <!-- <a href="<?=base_url()?>Dashboard/delete_komo" class="btn btn-sm btn-danger">Hapus</a> -->
-                                                    <a data-nama="<?=$b->namaKomoditas?>" data-id="<?=base_url()?>Dashboard/edit_komo/<?=$b->idKomoditas?>" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editKomoditas">Edit</a>
+                                                    <a data-href="<?=base_url()?>Dashboard/delete_komo/<?=$b->idKomoditas?>" data-nama="<?=$b->namaKomoditas?>" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapusKomoditas">Hapus</a>
+                                                    <a data-nama="<?=$b->namaKomoditas?>" data-id="<?=base_url()?>Dashboard/edit_komo/<?=$b->idKomoditas?>" data-subsektor="<?=$b->idSubsektor?>" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editKomoditas">Edit</a>
                                                 </td>
                                             </tr>
                                             <?php 
@@ -236,13 +237,40 @@
             console.log('ready!');
             $('#dataTables-example').dataTable();
             $('#editKomoditas').on('show.bs.modal', function(e) {
-                // alert('sda');
+                console.log($(e.relatedTarget).data('subsektor'));
+                // $("#t_subsektor option[value="+$(e.relatedTarget).data('idSubsektor')+"]").attr('selected','selected');
+                $('#t_subsektor').val($(e.relatedTarget).data('subsektor')).change();
                 $('#namaKomoditas_lm').text($(e.relatedTarget).data('nama'));
+                $('#t_komoditas').val($(e.relatedTarget).data('nama'));
                 $('#form-edit').attr('action', $(e.relatedTarget).data('id'));
+            });
+            $('#hapusKomoditas').on('show.bs.modal', function(e) {
+                // alert('sda');
+                // $('#form-edit').attr('action', $(e.relatedTarget).data('href'));
+                $(this).find('.btn-ok').attr('action', $(e.relatedTarget).data('href'));
+                $('#namaKomoditas_lm0').text($(e.relatedTarget).data('nama'));
+                // $('#form-edit').attr('action', $(e.relatedTarget).data('id'));
             });
         });
     </script>
     <!-- Modal -->
+    <div id="hapusKomoditas" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Hapus Pengguna : <b><span id="namaKomoditas_lm0"></span></b></h4>
+      </div>
+       <div class="modal-footer">
+                                <a class="btn btn-danger btn-ok">Hapus</a>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Gagal</button>
+                            </div>
+    </div>
+
+  </div>
+</div>
 <div id="tambahKomoditas" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -279,6 +307,7 @@
 
   </div>
 </div>
+
 <div id="editKomoditas" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -292,8 +321,19 @@
         <!-- <div class="container"> -->
             <form  method="POST"  id="form-edit">
                 <div class="form-group">
+                    <label>Pilih Sub Sektor</label>
+                    <select name="subsektor" class="form-control" id="t_subsektor" required>
+                        <?php 
+                        // print_r($subsektor);die();
+                            foreach ($subsektor as $keys=>$key) {
+                                ?><option value="<?=$key['idSubsektor']?>"><?= $key['namaSubsektor']?></option><?php
+                            }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Nama Komoditas</label>
-                    <input type="text" name="komoditas" class="form-control" id="komoditas" placeholder="Nama Komoditas">
+                    <input type="text" name="komoditas" class="form-control" id="t_komoditas" placeholder="Nama Komoditas">
                 </div>
                 <input type="submit" class="btn btn-primary">
             </form>
